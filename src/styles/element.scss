@@ -1,0 +1,76 @@
+:root {
+  --el-color-primary: #0c67ff;
+  --el-color-primary-light-3: #2e7fd1;
+  --el-component-size: 28px;
+  --el-border-radius-base: 6px;
+  --el-menu-item-height: 42px;
+  --el-menu-sub-item-height: calc(var(--el-menu-item-height) - 6px);
+  --el-menu-base-level-padding: 15px;
+}
+
+.el-button.is-link {
+  padding: 4px;
+  margin: 0;
+}
+.el-button.el-button--text {
+  margin-left: 5px;
+}
+.el-button {
+  height: 28px;
+}
+.el-button.is-circle {
+  padding: 6px;
+}
+
+.el-pagination {
+  --el-pagination-button-width: 22px;
+  --el-pagination-button-height: 22px;
+  &.is-background .btn-next, &.is-background .btn-prev, &.is-background .el-pager li {
+    min-width: 24px !important;
+  }
+}
+
+.el-button--small {
+  font-size: 14px;
+}
+
+.el-tag {
+  --el-tag-font-size: 14px;
+}
+.el-menu-item:hover {
+  color: #0c67ff !important;
+}
+
+.el-menu-item.is-active {
+  color: #ffffff !important;
+  background-color: #0c67ff;
+}
+
+.sidebar-container {
+  background-color: #1d324d !important;
+}
+
+.sidebar-logo-container {
+  background-color: #1d324d !important;
+}
+
+.el-menu {
+  background-color: #1c2d43;
+  .el-sub-menu__title {
+    background-color: #1d324d !important;
+    font-size: 16px;
+    height: 57px !important;
+    color: #ffffff !important;
+  }
+  .el-sub-menu .el-menu-item {
+    height: 42px;
+    line-height: 42px;
+    color: #adadad;
+  }
+}
+
+.el-table th.el-table__cell {
+  font-size: 14px;
+  color: #adadad;
+  font-weight: 400;
+}
