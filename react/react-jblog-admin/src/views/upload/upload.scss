@@ -1,0 +1,15 @@
+.tree {
+  background-color: #fafafa;
+  height: 100%;
+  .title {
+    height: 55px;
+    padding-left: 10px;
+    font-size: 16px;
+    line-height: 55px;
+  }
+  .button {
+    position: absolute;
+    right: 10px;
+    top: 17px;
+  }
+}

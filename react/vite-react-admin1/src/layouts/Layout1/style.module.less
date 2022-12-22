@@ -1,0 +1,33 @@
+.layout1 {
+  // 下面的代码修复antd的一个bug，切换顶部菜单时，布局的slider长度抖动
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+
+  .menus > li > ul > li {
+    padding-left: 24px + 16px !important;
+  }
+
+  :global {
+    .ant-layout-sider {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      background: #fbfbfb;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.trigger {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  background: #fff;
+}
