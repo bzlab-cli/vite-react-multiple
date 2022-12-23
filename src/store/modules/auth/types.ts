@@ -1,4 +1,0 @@
-export enum AuthMutationTypes {
-  SET_AUTH_BUTTONS = 'SET_AUTH_BUTTONS',
-  SET_AUTH_ROUTER = 'SET_AUTH_ROUTER'
-}

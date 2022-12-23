@@ -17,6 +17,8 @@
 		"proxy": "ts-node-dev @bzlab/bz-vue-proxy use --config=build/proxy/config.json"
 	},
 	"dependencies": {
+		"@ant-design/icons": "^4.6.2",
+		"@reduxjs/toolkit": "^1.9.1",
 		"antd": "^4.22.2",
 		"axios": "^0.27.2",
 		"dayjs": "^1.10.7",

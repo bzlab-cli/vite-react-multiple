@@ -1,5 +1,0 @@
-export enum AppMutationTypes {
-  SET_TOKEN = 'SET_TOKEN',
-  SET_ASSEMBLY_SIZE = 'SET_ASSEMBLY_SIZE',
-  SET_THEME_CONFIG = 'SET_THEME_CONFIG'
-}

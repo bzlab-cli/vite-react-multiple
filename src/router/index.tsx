@@ -31,9 +31,9 @@ export const rootRouter: Array<Router.RouteRecordRaw> = [
   }
 ]
 
-const Router = () => {
-  const routes = useRoutes(rootRouter)
-  return routes
+const RenderRouter = () => {
+  const element = useRoutes(rootRouter)
+  return element
 }
 
-export default Router
+export default RenderRouter

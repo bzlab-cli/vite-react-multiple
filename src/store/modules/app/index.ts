@@ -1,34 +1,57 @@
-import { AnyAction } from 'redux'
-import produce from 'immer'
-import type { SizeType } from 'antd/lib/config-provider/SizeContext'
-import { AppMutationTypes } from './types'
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { getSidebarStatus, setSidebarStatus } from '@/utils/auth'
+import { AppThunk } from '@/store'
 
-export interface GlobalState {
-  token: string
-  userInfo: any
-  assemblySize: SizeType
+export interface AppState {
+  sidebar: {
+    opened: boolean
+    withoutAnimation: boolean
+  }
+  size: string
   language: string
 }
 
-const globalState: GlobalState = {
-  token: '',
-  userInfo: '',
-  assemblySize: 'middle',
+const initialState: AppState = {
+  sidebar: {
+    opened: getSidebarStatus() !== 'closed',
+    withoutAnimation: false
+  },
+  size: 'middle',
   language: 'zh'
 }
 
-const global = (state: GlobalState = globalState, action: AnyAction) =>
-  produce(state, state => {
-    switch (action.type) {
-      case AppMutationTypes.SET_TOKEN:
-        state.token = action.token
-        break
-      case AppMutationTypes.SET_ASSEMBLY_SIZE:
-        state.assemblySize = action.assemblySize
-        break
-      default:
-        return state
+export const appSlice = createSlice({
+  name: 'app',
+  initialState,
+  reducers: {
+    toggleSidebar(state, action: PayloadAction<boolean>) {
+      const withoutAnimation = action.payload
+      state.sidebar.opened = !state.sidebar.opened
+      state.sidebar.withoutAnimation = withoutAnimation
+      if (state.sidebar.opened) {
+        setSidebarStatus('opened')
+      } else {
+        setSidebarStatus('closed')
+      }
+    },
+    closeSidebar(state, action: PayloadAction<boolean>) {
+      const withoutAnimation = action.payload
+      state.sidebar.opened = false
+      state.sidebar.withoutAnimation = withoutAnimation
+      setSidebarStatus('closed')
     }
-  })
+  }
+})
 
-export default global
+export const incrementAsync =
+  (val: boolean): AppThunk =>
+  (dispatch, state) => {
+    console.log('incrementAsync val', val)
+    console.log('incrementAsync state', state)
+    dispatch(toggleSidebar(true))
+  }
+
+export const { toggleSidebar, closeSidebar } = appSlice.actions
+
+export default appSlice.reducer

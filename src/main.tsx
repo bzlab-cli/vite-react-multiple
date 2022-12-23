@@ -1,20 +1,21 @@
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import '@/assets/iconfont/iconfont.scss'
 import '@/styles/index.scss'
 import 'antd/dist/reset.css'
-import 'virtual:svg-icons-register'
-// import { PersistGate } from 'redux-persist/integration/react'
-import { Provider } from 'react-redux'
-import { store } from '@/store/index'
+// import 'virtual:svg-icons-register'
+// import { Provider } from 'react-redux'
+// import { store } from '@/store'
 import App from './app'
 
 const render = Component => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <Component store={store}></Component>
-    </Provider>,
-    document.getElementById('app')
-  )
+  // ReactDOM.render(
+  //   <Provider store={store}>
+  //     <Component />
+  //   </Provider>,
+  //   document.getElementById('app')
+  // )
+
+  ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<Component />)
 }
 
 render(App)

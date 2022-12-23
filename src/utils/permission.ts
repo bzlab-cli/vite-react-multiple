@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/16 18:30:29
+ * @LastEditTime: 2022/12/23 11:38:26
  */
 import { deepClone } from '@bzlab/bz-core'
 
@@ -118,6 +118,24 @@ export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = 
   for (const item of menuList) {
     result[item.path] = [...path, item]
     if (item.children) getAllBreadcrumbList(item.children, result, result[item.path])
+  }
+  return result
+}
+
+/**
+ * @description 递归查询对应的路由
+ * @param {String} path 当前访问地址
+ * @param {Array} routes 路由列表
+ * @returns array
+ */
+export const getRoute = (path: string, routes: Router.RouteRecordRaw[] = []): Router.RouteRecordRaw => {
+  let result: Router.RouteRecordRaw = {}
+  for (const item of routes) {
+    if (item.path === path) return item
+    if (item.children) {
+      const res = getRoute(path, item.children)
+      if (Object.keys(res).length) result = res
+    }
   }
   return result
 }

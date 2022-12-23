@@ -1,23 +1,34 @@
-import { legacy_createStore as createStore, combineReducers, Store, compose } from 'redux'
-import { applyMiddleware } from 'redux'
-import reduxThunk from 'redux-thunk'
-import reduxPromise from 'redux-promise'
-import global from './modules/app'
-import menu from './modules/menu'
-import tabs from './modules/tabs'
-import auth from './modules/auth'
-import breadcrumb from './modules/breadcrumb'
+import { configureStore, combineReducers, ThunkAction, Action } from '@reduxjs/toolkit'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
-const reducer = combineReducers({
-  global,
-  menu,
-  tabs,
-  auth,
-  breadcrumb
+import appReducer from './modules/app'
+import permissionReducer from './modules/permission'
+import userReducer from './modules/user'
+
+const rootReducer = combineReducers({
+  app: appReducer,
+  permission: permissionReducer,
+  user: userReducer
 })
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const middleWares = applyMiddleware(reduxThunk, reduxPromise)
-const store: Store = createStore(reducer, composeEnhancers(middleWares))
+export const store = configureStore({
+  reducer: rootReducer
+})
 
-export { store }
+export type RootDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
+
+export const useStoreDispatch = () => useDispatch<RootDispatch>()
+export const useStoreState = <T extends (state: RootState) => any>(selector: T): ReturnType<T> => useSelector(selector)
+export const getStoreState = (): RootState => store.getState()
+
+export const useAppDispatch: () => RootDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
+// 使用
+// const dispatch = useAppDispatch()
+// dispatch(toggleSidebar(false))
+
+// // 拿state
+// const { size } = useAppSelector(state => state.app)

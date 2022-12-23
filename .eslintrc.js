@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/20 14:06:45
+ * @LastEditTime: 2022/12/23 13:51:51
  */
 
 module.exports = {
@@ -68,6 +68,7 @@ module.exports = {
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-var-requires': 0,
     'react-hooks/rules-of-hooks': 'off',
-    'react-hooks/exhaustive-deps': 'off'
+    'react-hooks/exhaustive-deps': 'off',
+    'no-case-declarations': 'off'
   }
 }
