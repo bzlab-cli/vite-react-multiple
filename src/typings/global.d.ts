@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/28 22:49:45
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/20 18:18:22
+ * @LastEditTime: 2023/01/04 15:58:48
  */
 
 declare interface IResponseModel<T> {
@@ -29,6 +29,10 @@ declare interface ViteEnv {
 declare namespace Menu {
 	interface MenuOptions {
 		path: string;
+    title?: string;
+		icon?: string;
+		hidden?: boolean;
+		cache?: boolean;
 		component?: string | (() => Promise<any>);
 		name: string;
 		redirect?: string;

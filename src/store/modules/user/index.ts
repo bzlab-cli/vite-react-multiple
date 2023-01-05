@@ -31,11 +31,17 @@ const initialState: UserState = {
 //   dispatch(login({ account: '', password: '' }))
 // }, [])
 
-export const login = createAsyncThunk('user/login', async (params, thunk) => {
+// export const login = createAsyncThunk('user/login', async (params, { dispatch }) => {
+//   const { data, retCode, retMsg } = await fetchLogin(params)
+//   if (retCode !== 200) return message.error(retMsg)
+//   dispatch(userSlice.actions.login(data))
+// })
+
+export const login = params => async dispatch => {
   const { data, retCode, retMsg } = await fetchLogin(params)
   if (retCode !== 200) return message.error(retMsg)
-  thunk.dispatch(userSlice.actions.login(data))
-})
+  dispatch(userSlice.actions.login(data))
+}
 
 export const getUserInfo = createAsyncThunk('user/getUserInfo', async (params, thunk) => {
   const { data, retCode, retMsg } = await userInfo()
@@ -53,25 +59,24 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login(state, action: PayloadAction<any>) {
-      const { token } = action.payload
+    login(state, { payload }: PayloadAction<any>) {
+      console.log('1111 payload', payload)
+      const { token } = payload
       if (token) {
         setToken(token)
         state.token = token
       }
     },
-    getUserInfo(state, action: PayloadAction<any>) {
-      const data = action.payload
-      state.name = data?.account || ''
-      state.avatar = data?.headUrl || ''
-      state.userId = data?.userId || ''
-      state.roleId = data?.roleId || ''
-      state.roleName = data?.roleName || ''
+    getUserInfo(state, { payload }: PayloadAction<any>) {
+      state.name = payload?.account || ''
+      state.avatar = payload?.headUrl || ''
+      state.userId = payload?.userId || ''
+      state.roleId = payload?.roleId || ''
+      state.roleName = payload?.roleName || ''
       state.loadUserInfo = true
     },
-    getMenu(state, action: PayloadAction<any>) {
-      const data = action.payload
-      setRoutes(data)
+    getMenu(state, { payload }: PayloadAction<any>) {
+      setRoutes(payload)
     },
     loginOut(state) {
       removeToken()

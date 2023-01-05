@@ -15,7 +15,7 @@ const render = Component => {
   //   document.getElementById('app')
   // )
 
-  ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<Component />)
+  ReactDOM.createRoot(document.getElementById('app') as HTMLElement).render(<Component />)
 }
 
 render(App)

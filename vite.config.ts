@@ -5,6 +5,7 @@ import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from 'vite-plugin-compression'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // import { loadEnv } from 'vite'
+const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
@@ -65,12 +66,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       open: false,
       https: false,
       cors: true,
-      proxy: {
-        '/business-web': {
-          target: 'http://localhost:3305',
-          changeOrigin: true
-        }
-      }
+      proxy: dynamicProxy.proxy
     }
   }
 }

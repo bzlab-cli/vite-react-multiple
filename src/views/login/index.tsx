@@ -1,5 +1,4 @@
-import LoginForm from './components/login-form'
-import logo from '@/assets/images/logo.png'
+import LoginForm from './components/form'
 import './index.scss'
 
 const Login = () => {
@@ -8,8 +7,7 @@ const Login = () => {
       <div className="login-box">
         <div className="login-form">
           <div className="login-logo">
-            <img className="login-icon" src={logo} alt="logo" />
-            <span className="logo-text">后台管理</span>
+            <span className="logo-text">登录</span>
           </div>
           <LoginForm />
         </div>

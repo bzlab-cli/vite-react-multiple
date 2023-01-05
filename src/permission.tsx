@@ -1,43 +1,28 @@
 /*
  * @Author: jrucker
  * @Description: 权限
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/23 18:37:17
+ * @LastEditTime: 2023/01/04 17:56:43
  */
-
-// import { useLocation, Navigate } from 'react-router-dom'
-// import { getRoute } from '@/utils/permission'
-// import { rootRouter } from '@/router'
-// import { store } from '@/store'
-
-// const permission = (props: { children: JSX.Element }) => {
-//   const { pathname } = useLocation()
-//   const route = getRoute(pathname, rootRouter)
-//   if (!route.meta?.requiresAuth) return props.children
-
-//   const token = store.getState().user.token
-//   if (!token) return <Navigate to="/login" replace />
-
-//   const dynamicRouter = store.getState().auth.authRouter
-//   const staticRouter = ['/login', '/404']
-//   const routerList = dynamicRouter.concat(staticRouter)
-//   if (routerList.indexOf(pathname) == -1) return <Navigate to="/404" />
-
-//   // * 当前账号有权限返回 Router，正常访问页面
-//   return props.children
-// }
-
-// export default permission
-
 import { useRoutes } from 'react-router-dom'
 import { useLocation, matchRoutes, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, lazy } from 'react'
 import { routes } from './router/routes'
+import { getStoreState } from '@/store'
+import { getUserInfo } from '@/store/modules/user'
+import { HomeOutlined } from '@ant-design/icons'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
-export const ConstantRoutes: any[] = [
+const Layout = lazy(() => import('@/layout'))
+const Login = lazy(() => import('@/views/login'))
+const Dashboard = lazy(() => import('@/views/dashboard'))
+const NotFound = lazy(() => import('@/views/error/404'))
+
+export const constantRoutes: any[] = [
   { path: '/login', element: <Login /> },
-  { path: '/initAdmin', element: <InitAdmin /> }
+  { path: '/dashboard', element: <Dashboard /> }
 ]
 
 // fine-admin
@@ -49,19 +34,27 @@ export const ConstantRoutes: any[] = [
 // fine-admin
 // vite-react-admin2
 // vite-react-ts-admin
+;(window as any).store = getStoreState()
+console.log('getStoreState', getStoreState())
+console.log('routes', routes)
 
 export const createRoutesWrapper = (permissionRoutes: any[]): any[] => {
   return [
-    ...ConstantRoutes,
+    ...constantRoutes,
     {
       path: '/',
-      icon: <House />,
-      element: <BasicLayout />,
+      icon: <HomeOutlined />,
+      element: <Layout />,
       children: [
+        // {
+        //   path: '/redirect/*',
+        //   hidden: true,
+        //   element: <Redirect />
+        // },
         {
-          path: '/redirect/*',
-          hidden: true,
-          element: <Redirect />
+          path: '*',
+          element: <NotFound />,
+          hidden: true
         },
         ...permissionRoutes
       ],
@@ -70,92 +63,90 @@ export const createRoutesWrapper = (permissionRoutes: any[]): any[] => {
   ]
 }
 
-export const createAuthRoutes = (routeAuth: string[]): any[] => {
-  return routes.reduce((acc: IRoute[], route: IRoute) => {
+export const createAuthRoutes = (authRoutes: string[]): any[] => {
+  return routes.reduce((acc: any[], route: any) => {
     if (route.path == '*') {
       acc.push(route)
       return acc
     }
     if (route.children) {
-      const newChildren = route.children?.filter(i => routeAuth.includes(i.path))
-      if (newChildren.length) {
-        acc.push({ ...route, children: newChildren })
+      const children = route.children?.filter(i => authRoutes.includes(i.path))
+      if (children.length) {
+        acc.push({ ...route, children })
       }
       return acc
     }
-    if (!routeAuth.includes(route.path)) return acc
+    if (!authRoutes.includes(route.path)) return acc
     acc.push(route)
     return acc
   }, [])
 }
 
+// const getStaffByToken = async navigate => {
+//   try {
+//     const res: unknown = await StaffApi.getStaffByToken()
+//     console.log(res, '看看返回的信息，getStaffByToken')
+//     setUser(res)
+//   } catch (error) {
+//     localStorage.removeItem('accessToken')
+//     navigate('/login')
+//     console.log(error)
+//   }
+// }
+
 export const Permission = () => {
+  const store = getStoreState()
   const location = useLocation()
+  const { pathname } = location
   const navigate = useNavigate()
-  const { tags, setTags } = useTagContext()
-  const { user, setUser } = useUserContext()
 
-  const routeAuth = user?.roleInfo?.routeAuth || []
-  const username = user?.username
+  // const routeAuth = [
+  //   '/dashboard/console',
+  //   '/dashboard',
+  //   '/staff',
+  //   '/staff/staffInfo',
+  //   '/staff/roleInfo',
+  //   '/logger',
+  //   '/logger/login'
+  // ]
+  // createAuthRoutes(routeAuth)
 
-  const authRoutes = username != 'admin' ? createAuthRoutes(routeAuth) : routes
+  const authRoutes = routes
 
   const authRoutesWrapper = createRoutesWrapper(authRoutes)
-  console.log(authRoutes, authRoutesWrapper, '看看对应的路由')
-  const Element = useRoutes(authRoutesWrapper as any)
+  console.log('看看对应的路由', authRoutes, authRoutesWrapper)
 
-  const { pathname } = location
+  const element = useRoutes(authRoutesWrapper)
 
-  const getStaffByToken = async () => {
-    try {
-      const res: unknown = await StaffApi.getStaffByToken()
-      console.log(res, '看看返回的信息，getStaffByToken')
-      setUser(res)
-    } catch (error) {
-      localStorage.removeItem('accessToken')
-      navigate('/login')
-      console.log(error)
-    }
-  }
-
-  const routerBeforeEach = async () => {
+  const beforeEach = async () => {
     try {
       NProgress.start()
-
-      if (!localStorage.getItem('accessToken')) {
-        // 常量的白名单
-        if (ConstantRoutes.find(item => item.path == pathname)) {
+      if (!store.user.token) {
+        if (constantRoutes.find(item => item.path == pathname)) {
           return
         }
         return navigate('/login')
       }
-      console.log(user, '有用户信息吗')
-      if (!user._id) {
-        await getStaffByToken()
+      if (!store.user.loadUserInfo) {
+        await getUserInfo()
       }
-      const matched = matchRoutes(authRoutesWrapper as any, location)
+      const matched = matchRoutes(authRoutesWrapper, location)
       console.log('matched', matched)
       if (!matched) {
         console.log('no matched')
         return navigate('/')
       }
-
-      const matchRoute: IRoute = matched[matched.length - 1]?.route
-      if (!matchRoute.hidden && !tags.find(i => i.path == matchRoute.path)) {
-        setTags([...tags, matchRoute])
-      }
-    } catch (error) {
-      console.log(error, 1111)
+    } catch (err) {
+      console.error(err)
     } finally {
       NProgress.done()
     }
   }
 
   useEffect(() => {
-    console.log(location.pathname, 'pathname 换了')
-    routerBeforeEach()
+    console.log('pathname 换了', location.pathname)
+    beforeEach()
   }, [location.pathname])
 
-  console.log(user, 19191, 'user')
-  return Element
+  return element
 }

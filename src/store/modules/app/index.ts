@@ -25,20 +25,18 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    toggleSidebar(state, action: PayloadAction<boolean>) {
-      const withoutAnimation = action.payload
+    toggleSidebar(state, { payload }: PayloadAction<boolean>) {
       state.sidebar.opened = !state.sidebar.opened
-      state.sidebar.withoutAnimation = withoutAnimation
+      state.sidebar.withoutAnimation = payload
       if (state.sidebar.opened) {
         setSidebarStatus('opened')
       } else {
         setSidebarStatus('closed')
       }
     },
-    closeSidebar(state, action: PayloadAction<boolean>) {
-      const withoutAnimation = action.payload
+    closeSidebar(state, { payload }: PayloadAction<boolean>) {
       state.sidebar.opened = false
-      state.sidebar.withoutAnimation = withoutAnimation
+      state.sidebar.withoutAnimation = payload
       setSidebarStatus('closed')
     }
   }

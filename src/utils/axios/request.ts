@@ -3,13 +3,14 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 15:20:27
+ * @LastEditTime: 2023/01/04 17:22:26
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
-import { useUserStore } from '@/views/admin/store/modules/user'
+import { message } from 'antd'
+import { getStoreState } from '@/store'
+import { loginOut } from '@/store/modules/user'
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
@@ -43,13 +44,13 @@ export class Request {
     // 请求拦截器配置处理
     this.axiosInstance.interceptors.request.use(
       (request: AxiosRequestConfig) => {
-        const userStore = useUserStore()
-        const token = userStore.token
+        const store = getStoreState()
+        const token = store.user.token
         const hasReqToken = typeof request.token !== 'undefined'
         if (!hasReqToken) {
-          if (token) request.headers['token'] = token
+          if (token) request.headers!['token'] = token
         } else {
-          if (request.token) request.headers['token'] = token
+          if (request.token) request.headers!['token'] = token
         }
 
         return request
@@ -66,22 +67,20 @@ export class Request {
         if (res.retCode === 200) {
           return response
         } else {
-          ElMessage.error(res.retMsg || '服务器响应失败，请重试')
+          message.error(res.retMsg || '服务器响应失败，请重试')
           return Promise.reject(response)
         }
       },
       (e: AxiosError) => {
         const { response } = e
         const { status } = response as AxiosResponse
-        const userStore = useUserStore()
         if (status === 500) {
-          ElMessage.error('登录已失效，请重新登录')
-          userStore.resetToken().then(() => {
-            window.location.href = '/'
-          })
+          message.error('登录已失效，请重新登录')
+          loginOut()
+          window.location.href = '/'
         }
         if (status === 502) {
-          ElMessage.error('服务器响应失败，请重试')
+          message.error('服务器响应失败，请重试')
         }
         return Promise.reject(e)
       }

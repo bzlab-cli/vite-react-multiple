@@ -1,60 +1,53 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Layout } from 'antd'
-import { setAuthButtons } from '@/redux/modules/auth/action'
-import { updateCollapse } from '@/redux/modules/menu/action'
-import { getAuthorButtons } from '@/api/modules/login'
-import { connect } from 'react-redux'
-import LayoutMenu from './components/Menu'
-import LayoutHeader from './components/Header'
-import LayoutTabs from './components/Tabs'
-import LayoutFooter from './components/Footer'
+// import { setAuthButtons } from '@/redux/modules/auth/action'
+// import { updateCollapse } from '@/redux/modules/menu/action'
+// import { connect } from 'react-redux'
+import LayoutMenu from './components/menu'
+import LayoutHeader from './components/header'
+import LayoutFooter from './components/footer'
+import { getStoreState } from '@/store'
+import { toggleSidebar } from '@/store/modules/app'
 import './index.scss'
 
-const LayoutIndex = (props: any) => {
+const LayoutIndex = () => {
+  const store = getStoreState()
   const { Sider, Content } = Layout
-  const { isCollapse, updateCollapse, setAuthButtons } = props
+  const opened = store.app.sidebar.opened
 
-  // 获取按钮权限列表
-  const getAuthButtonsList = async () => {
-    const { data } = await getAuthorButtons()
-    setAuthButtons(data)
-  }
-
-  // 监听窗口大小变化
-  const listeningWindow = () => {
+  const addEventListenerOnResize = () => {
     window.onresize = () => {
       return (() => {
         const screenWidth = document.body.clientWidth
-        if (!isCollapse && screenWidth < 1200) updateCollapse(true)
-        if (!isCollapse && screenWidth > 1200) updateCollapse(false)
+        if (!opened && screenWidth < 1200) toggleSidebar(true)
+        if (!opened && screenWidth > 1200) toggleSidebar(false)
       })()
     }
   }
 
   useEffect(() => {
-    listeningWindow()
-    getAuthButtonsList()
+    addEventListenerOnResize()
   }, [])
 
   return (
-    // 这里不用 Layout 组件原因是切换页面时样式会先错乱然后在正常显示，造成页面闪屏效果
-    <section className="container">
-      <Sider trigger={null} collapsed={props.isCollapse} width={220} theme="dark">
+    <Layout className="container">
+      <Sider trigger={null} collapsed={opened} width={220} theme="dark">
         <LayoutMenu></LayoutMenu>
       </Sider>
-      <Layout>
+      <Layout className="site-layout">
         <LayoutHeader></LayoutHeader>
-        <LayoutTabs></LayoutTabs>
-        <Content>
+        <Content className="site-content">
           <Outlet></Outlet>
+
+          {/* <Suspense fallback={<Loading height="100%" />}>
+            <Outlet />
+          </Suspense> */}
         </Content>
         <LayoutFooter></LayoutFooter>
       </Layout>
-    </section>
+    </Layout>
   )
 }
 
-const mapStateToProps = (state: any) => state.menu
-const mapDispatchToProps = { setAuthButtons, updateCollapse }
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutIndex)
+export default LayoutIndex

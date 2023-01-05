@@ -3,9 +3,8 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/26 16:17:24
+ * @LastEditTime: 2023/01/05 09:58:58
  */
-import type { App, Plugin } from 'vue'
 interface TreeHelperConfig {
   id: string
   children: string
@@ -84,17 +83,6 @@ export const isBlank = varValue => {
     return false
   }
   return true
-}
-
-export const withInstall = <T>(component: T, alias?: string) => {
-  const comp = component as any
-  comp.install = (app: App) => {
-    app.component(comp.name || comp.displayName, component)
-    if (alias) {
-      app.config.globalProperties[alias] = component
-    }
-  }
-  return component as T & Plugin
 }
 
 /**

@@ -23,8 +23,8 @@ export const permissionSlice = createSlice({
   name: 'permission',
   initialState,
   reducers: {
-    setRoutes(state, action: PayloadAction<any[]>) {
-      const routes = action.payload
+    setRoutes(state, { payload }: PayloadAction<any[]>) {
+      const routes = payload
       const accessedCodes: any[] = []
       filter(routes, item => {
         if (item.menuType === 3 && item.grantFlag) {
@@ -56,10 +56,9 @@ export const permissionSlice = createSlice({
       console.log('dynamicRoutes', state.dynamicRoutes)
       console.log('asyncRoutes', asyncRoutes)
     },
-    removeCacheView(state, action: PayloadAction<boolean>) {
-      const view = action.payload
-      if (!view) return
-      const index = state.cachedViews.indexOf(view?.toString())
+    removeCacheView(state, { payload }: PayloadAction<boolean>) {
+      if (!payload) return
+      const index = state.cachedViews.indexOf(payload?.toString())
       index > -1 && state.cachedViews.splice(index, 1)
     }
   }

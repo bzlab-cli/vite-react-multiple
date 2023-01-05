@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/23 13:51:51
+ * @LastEditTime: 2023/01/04 15:59:50
  */
 
 module.exports = {
@@ -64,6 +64,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-namespace': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     'no-param-reassign': ['off'],
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-var-requires': 0,

@@ -3,9 +3,9 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/23 11:38:26
+ * @LastEditTime: 2023/01/04 17:04:40
  */
-import { deepClone } from '@bzlab/bz-core'
+// import { deepClone } from '@bzlab/bz-core'
 
 /**
  * 加载组件
@@ -85,27 +85,27 @@ function filterProps(item) {
  * @param {Array} menuList
  * @return array
  */
-export function flatRoutes(menuList) {
-  const newMenuList = deepClone(menuList)
-  return newMenuList.reduce((pre, current) => {
-    let flatArr = [...pre, current]
-    if (current.children) flatArr = [...flatArr, ...flatRoutes(current.children)]
-    return flatArr
-  }, [])
-}
+// export function flatRoutes(menuList) {
+//   const newMenuList = deepClone(menuList)
+//   return newMenuList.reduce((pre, current) => {
+//     let flatArr = [...pre, current]
+//     if (current.children) flatArr = [...flatArr, ...flatRoutes(current.children)]
+//     return flatArr
+//   }, [])
+// }
 
 /**
  * 递归过滤需要渲染在左侧菜单的列表
  * @param {Array} menuList
  * @return array
  * */
-export function getShowMenuList(menuList) {
-  const newMenuList = deepClone(menuList)
-  return newMenuList.filter(item => {
-    item.children?.length && (item.children = getShowMenuList(item.children))
-    return !item.meta?.hidden
-  })
-}
+// export function getShowMenuList(menuList) {
+//   const newMenuList = deepClone(menuList)
+//   return newMenuList.filter(item => {
+//     item.children?.length && (item.children = getShowMenuList(item.children))
+//     return !item.meta?.hidden
+//   })
+// }
 
 /**
  * 递归找出所有面包屑

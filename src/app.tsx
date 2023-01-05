@@ -1,16 +1,16 @@
 // import { useState, useEffect } from 'react'
 import { ConfigProvider } from 'antd'
 import { Suspense } from 'react'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import Loading from '@/components/loading'
-import { BrowserRouter as Router, useRoutes } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { Permission } from './permission'
 // import RenderRouter from '@/router'
 import { Provider } from 'react-redux'
 import { store } from '@/store'
 import zhCN from 'antd/lib/locale/zh_CN'
 
-const App = (props: any) => {
+const app = (props: any) => {
   console.log('App props', props)
 
   return (
@@ -53,6 +53,8 @@ const App = (props: any) => {
   // )
 }
 
-const mapStateToProps = (state: any) => state.app
-const mapDispatchToProps = {}
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default app
+
+// const mapStateToProps = (state: any) => state.app
+// const mapDispatchToProps = {}
+// export default connect(mapStateToProps, mapDispatchToProps)(App)

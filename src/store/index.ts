@@ -24,6 +24,7 @@ export const useStoreState = <T extends (state: RootState) => any>(selector: T):
 export const getStoreState = (): RootState => store.getState()
 
 export const useAppDispatch: () => RootDispatch = useDispatch
+// export const useAppDispatch = () => useDispatch<RootDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 // 使用
