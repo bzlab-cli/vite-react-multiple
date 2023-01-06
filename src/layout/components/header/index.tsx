@@ -26,7 +26,7 @@
 import React from 'react'
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import { Layout, Row, Col, Space } from 'antd'
-import LayoutBreadcrumb from '../breadcrumb'
+import Breadcrumb from '../breadcrumb'
 import PersonalCenter from './components/personal-center'
 import { toggleSidebar } from '@/store/modules/app'
 import HeaderButton from './components/header-button'
@@ -54,7 +54,7 @@ const LayoutHeader = () => {
               icon={React.createElement(sidebar.opened ? MenuUnfoldOutlined : MenuFoldOutlined)}
               onClick={() => dispatch(toggleSidebar(!sidebar.opened))}
             />
-            <LayoutBreadcrumb />
+            <Breadcrumb />
           </Space>
         </Col>
         <Col>

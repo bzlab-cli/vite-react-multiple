@@ -5,15 +5,6 @@
   margin: 10px 16px 6px;
 }
 
-@keyframes bgp {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: -100% 0;
-  }
-}
-
 .logo-img {
   width: 30px;
   margin: 0;
@@ -28,18 +19,5 @@
   font-size: 24px;
   list-style-type: none;
   font-weight: bold;
-  background-image: linear-gradient(
-    to right,
-    #0a98d2,
-    #1ffdc4,
-    #0a98d2,
-    orange,
-    #0a98d2,
-    #1ffdc4,
-    #0a98d2
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-background-size: 200% 100%;
-  animation: bgp 8s infinite linear;
+  color: #fff;
 }

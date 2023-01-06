@@ -51,6 +51,10 @@ export default function LayoutMenu() {
     }
   }
 
+  console.log('menuData', menuData)
+  console.log('selectKey', state.selectKey)
+  console.log('menuStatePathKeys', [...getOpenKeys(state.selectKey), state.selectKey])
+
   useBreadcrumbFromMenu(
     {
       menu: menuData,
@@ -157,7 +161,7 @@ function useMapLocationToMenuState({ menuData, setState }: { menuData: MenuItem[
 }
 
 /**
- * 自动添加菜单数据唯一key，如：menu-0 menu-1 menu-1-0 menu-1-1
+ * 添加菜单key
  * @param data
  * @param prefix
  * @returns

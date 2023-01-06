@@ -18,7 +18,7 @@ interface MenuItem {
  * @param {Array<String | {name: String; path: String}>} data
  * @returns
  */
-export default function LayoutBreadcrumb() {
+const LayoutBreadcrumb = () => {
   const { breadcrumb } = useStoreSelector(state => state.app)
   return breadcrumb.length > 0 ? (
     <Breadcrumb separator=">">
@@ -64,3 +64,5 @@ export function useBreadcrumbFromMenu(
     dispatch(setBreadcrumb(breadcrumbPath))
   }, deps)
 }
+
+export default LayoutBreadcrumb
