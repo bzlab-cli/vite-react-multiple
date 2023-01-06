@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { Button, Form, Input, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import { useAppDispatch } from '@/store'
+import { useStoreDispatch } from '@/store'
 import { login } from '@/store/modules/user'
 
 const LoginForm = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const [loading, setLoading] = useState<boolean>(false)
-  const dispatch = useAppDispatch()
+  const dispatch = useStoreDispatch()
 
   const onFinish = async form => {
     try {

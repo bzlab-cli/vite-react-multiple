@@ -3,7 +3,7 @@
  * @Description: 类型声明
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/20 10:38:47
+ * @LastEditTime: 2023/01/06 15:22:37
  */
 
 declare module '*.png'
@@ -20,4 +20,11 @@ declare module '*.svg' {
   > & { title?: string }>;
   const src: string;
   export default src;
+}
+
+type CSSModuleClasses = { readonly [key: string]: string }
+
+declare module '*.module.scss' {
+  const classes: CSSModuleClasses
+  export default classes
 }

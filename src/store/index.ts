@@ -1,5 +1,5 @@
 import { configureStore, combineReducers, ThunkAction, Action } from '@reduxjs/toolkit'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import appReducer from './modules/app'
 import permissionReducer from './modules/permission'
@@ -12,24 +12,30 @@ const rootReducer = combineReducers({
 })
 
 export const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['user/loginOut']
+      }
+    })
 })
 
-export type RootDispatch = typeof store.dispatch
-export type RootState = ReturnType<typeof store.getState>
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
+export type StoreDispatch = typeof store.dispatch
+export type StoreState = ReturnType<typeof store.getState>
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, StoreState, unknown, Action<string>>
 
-export const useStoreDispatch = () => useDispatch<RootDispatch>()
-export const useStoreState = <T extends (state: RootState) => any>(selector: T): ReturnType<T> => useSelector(selector)
-export const getStoreState = (): RootState => store.getState()
+export const useStoreDispatch = () => useDispatch<StoreDispatch>()
+export const useStoreSelector = <T extends (state: StoreState) => any>(selector: T): ReturnType<T> =>
+  useSelector(selector)
+export const getStoreState = (): StoreState => store.getState()
 
-export const useAppDispatch: () => RootDispatch = useDispatch
+// export const useAppDispatch: () => StoreDispatch = useDispatch
 // export const useAppDispatch = () => useDispatch<RootDispatch>()
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 // 使用
-// const dispatch = useAppDispatch()
+// const dispatch = useStoreDispatch()
 // dispatch(toggleSidebar(false))
 
 // // 拿state
-// const { size } = useAppSelector(state => state.app)
+// const { token } = useStoreSelector(state => state.user)

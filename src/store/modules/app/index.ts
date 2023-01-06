@@ -8,6 +8,7 @@ export interface AppState {
     opened: boolean
     withoutAnimation: boolean
   }
+  breadcrumb: string[]
   size: string
   language: string
 }
@@ -17,6 +18,7 @@ const initialState: AppState = {
     opened: getSidebarStatus() !== 'closed',
     withoutAnimation: false
   },
+  breadcrumb: [],
   size: 'middle',
   language: 'zh'
 }
@@ -38,6 +40,9 @@ export const appSlice = createSlice({
       state.sidebar.opened = false
       state.sidebar.withoutAnimation = payload
       setSidebarStatus('closed')
+    },
+    setBreadcrumb: (state, { payload }: PayloadAction<string[]>) => {
+      state.breadcrumb = payload
     }
   }
 })
@@ -50,6 +55,6 @@ export const incrementAsync =
     dispatch(toggleSidebar(true))
   }
 
-export const { toggleSidebar, closeSidebar } = appSlice.actions
+export const { toggleSidebar, closeSidebar, setBreadcrumb } = appSlice.actions
 
 export default appSlice.reducer

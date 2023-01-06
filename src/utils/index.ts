@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/05 09:58:58
+ * @LastEditTime: 2023/01/06 16:04:15
  */
 interface TreeHelperConfig {
   id: string
@@ -295,4 +295,29 @@ export function isMobile() {
 export function formatValue(callValue: any) {
   if (callValue === '') return '-'
   return callValue ?? '-'
+}
+
+/**
+ * 扁平化为数组
+ * @param data
+ * @param nodeKey
+ * @returns
+ */
+export function flatArrTree(data: object[] = [], nodeKey: string) {
+  const newData = JSON.parse(JSON.stringify(data))
+  if (!newData.length) {
+    return []
+  }
+  let arr = [] as any
+  for (const node of newData) {
+    const children = node[nodeKey]
+    if (children) {
+      const flatChild = flatArrTree(children, nodeKey)
+      delete node[nodeKey]
+      arr = [...arr, node, ...flatChild]
+    } else {
+      arr.push(node)
+    }
+  }
+  return arr
 }

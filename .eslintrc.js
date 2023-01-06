@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/04 15:59:50
+ * @LastEditTime: 2023/01/06 15:46:38
  */
 
 module.exports = {
@@ -70,6 +70,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     'react-hooks/rules-of-hooks': 'off',
     'react-hooks/exhaustive-deps': 'off',
-    'no-case-declarations': 'off'
+    'no-case-declarations': 'off',
+    'react/self-closing-comp': ['error']
   }
 }

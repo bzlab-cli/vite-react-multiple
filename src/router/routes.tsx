@@ -4,7 +4,7 @@ import { HomeOutlined } from '@ant-design/icons'
 import Layout from '@/layout'
 
 const Dashboard = lazy(() => import('@/views/dashboard'))
-const NotFound = lazy(() => import('@/views/error/404'))
+// const NotFound = lazy(() => import('@/views/error/404'))
 
 export const routes = [
   { path: '/', element: <Navigate to="/dashboard" replace />, hidden: true },
@@ -15,11 +15,11 @@ export const routes = [
     icon: <HomeOutlined />,
     children: [
       {
-        path: '/dashboard/index',
+        path: '/dashboard',
         title: '首页',
         element: <Dashboard />
       }
     ]
-  },
-  { path: '*', title: 'Not Found', hidden: true, element: <NotFound /> }
+  }
+  // { path: '*', title: 'Not Found', hidden: true, element: <NotFound /> }
 ]

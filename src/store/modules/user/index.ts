@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { login as fetchLogin, userInfo } from '@/api/auth/user'
 import { getMenuGrantByRoleId } from '@/api/auth/role'
@@ -43,24 +43,41 @@ export const login = params => async dispatch => {
   dispatch(userSlice.actions.login(data))
 }
 
-export const getUserInfo = createAsyncThunk('user/getUserInfo', async (params, thunk) => {
+export const getUserInfo = () => async dispatch => {
   const { data, retCode, retMsg } = await userInfo()
   if (retCode !== 200) return message.error(retMsg)
-  thunk.dispatch(userSlice.actions.getUserInfo(data))
-})
+  dispatch(userSlice.actions.getUserInfo(data))
+}
 
-export const getMenu = createAsyncThunk('user/getMenu', async (params, thunk) => {
+export const getMenu = params => async dispatch => {
   const { data, retCode, retMsg } = await getMenuGrantByRoleId(params)
   if (retCode !== 200) return message.error(retMsg)
-  thunk.dispatch(userSlice.actions.getMenu(data))
-})
+  dispatch(userSlice.actions.getMenu(data))
+}
+
+export const loginOut = () => async dispatch => {
+  return new Promise(resolve => {
+    dispatch(userSlice.actions.loginOut({ resolve }))
+  })
+}
+
+// export const getUserInfo = createAsyncThunk('user/getUserInfo', async (params, thunk) => {
+//   const { data, retCode, retMsg } = await userInfo()
+//   if (retCode !== 200) return message.error(retMsg)
+//   thunk.dispatch(userSlice.actions.getUserInfo(data))
+// })
+
+// export const getMenu = createAsyncThunk('user/getMenu', async (params, thunk) => {
+//   const { data, retCode, retMsg } = await getMenuGrantByRoleId(params)
+//   if (retCode !== 200) return message.error(retMsg)
+//   thunk.dispatch(userSlice.actions.getMenu(data))
+// })
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     login(state, { payload }: PayloadAction<any>) {
-      console.log('1111 payload', payload)
       const { token } = payload
       if (token) {
         setToken(token)
@@ -78,15 +95,17 @@ export const userSlice = createSlice({
     getMenu(state, { payload }: PayloadAction<any>) {
       setRoutes(payload)
     },
-    loginOut(state) {
+    loginOut(state, { payload }: PayloadAction<any>) {
+      const { resolve } = payload
       removeToken()
       state.token = ''
       state.userId = ''
       state.loadUserInfo = false
+      resolve()
     }
   }
 })
 
-export const { loginOut } = userSlice.actions
+// export const { loginOut } = userSlice.actions
 
 export default userSlice.reducer
