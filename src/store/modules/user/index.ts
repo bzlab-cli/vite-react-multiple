@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { login as fetchLogin, userInfo } from '@/api/auth/user'
-import { getMenuGrantByRoleId } from '@/api/auth/role'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { setRoutes } from '../permission'
 import { message } from 'antd'
 
 export interface UserState {
@@ -26,17 +24,6 @@ const initialState: UserState = {
   loadUserInfo: false
 }
 
-// 使用
-// useEffect(() => {
-//   dispatch(login({ account: '', password: '' }))
-// }, [])
-
-// export const login = createAsyncThunk('user/login', async (params, { dispatch }) => {
-//   const { data, retCode, retMsg } = await fetchLogin(params)
-//   if (retCode !== 200) return message.error(retMsg)
-//   dispatch(userSlice.actions.login(data))
-// })
-
 export const login = params => async dispatch => {
   const { data, retCode, retMsg } = await fetchLogin(params)
   if (retCode !== 200) return message.error(retMsg)
@@ -49,29 +36,11 @@ export const getUserInfo = () => async dispatch => {
   dispatch(userSlice.actions.getUserInfo(data))
 }
 
-export const getMenu = params => async dispatch => {
-  const { data, retCode, retMsg } = await getMenuGrantByRoleId(params)
-  if (retCode !== 200) return message.error(retMsg)
-  dispatch(userSlice.actions.getMenu(data))
-}
-
 export const loginOut = () => async dispatch => {
   return new Promise(resolve => {
     dispatch(userSlice.actions.loginOut({ resolve }))
   })
 }
-
-// export const getUserInfo = createAsyncThunk('user/getUserInfo', async (params, thunk) => {
-//   const { data, retCode, retMsg } = await userInfo()
-//   if (retCode !== 200) return message.error(retMsg)
-//   thunk.dispatch(userSlice.actions.getUserInfo(data))
-// })
-
-// export const getMenu = createAsyncThunk('user/getMenu', async (params, thunk) => {
-//   const { data, retCode, retMsg } = await getMenuGrantByRoleId(params)
-//   if (retCode !== 200) return message.error(retMsg)
-//   thunk.dispatch(userSlice.actions.getMenu(data))
-// })
 
 export const userSlice = createSlice({
   name: 'user',
@@ -92,9 +61,6 @@ export const userSlice = createSlice({
       state.roleName = payload?.roleName || ''
       state.loadUserInfo = true
     },
-    getMenu(state, { payload }: PayloadAction<any>) {
-      setRoutes(payload)
-    },
     loginOut(state, { payload }: PayloadAction<any>) {
       const { resolve } = payload
       removeToken()
@@ -102,10 +68,9 @@ export const userSlice = createSlice({
       state.userId = ''
       state.loadUserInfo = false
       resolve()
+      window.location.href = '/'
     }
   }
 })
-
-// export const { loginOut } = userSlice.actions
 
 export default userSlice.reducer

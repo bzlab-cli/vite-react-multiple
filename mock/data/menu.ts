@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/11/15 21:54:50
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 18:34:05
+ * @LastEditTime: 2023/01/09 11:49:34
  */
 
 export const menuList = [
@@ -36,10 +36,10 @@ export const menuList = [
         menuName: '用户管理',
         menuType: 2,
         menuSort: 0,
-        menuComponents: 'system/user/index.vue',
+        menuComponents: 'admin/system/user/index.vue',
         menuCode: '',
-        menuUrl: 'user',
-        menuRoute: 'user',
+        menuUrl: '/system/user',
+        menuRoute: 'system-user',
         menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
@@ -85,10 +85,10 @@ export const menuList = [
         menuName: '菜单管理',
         menuType: 2,
         menuSort: 1,
-        menuComponents: 'system/menu/index.vue',
+        menuComponents: 'admin/system/menu/index.vue',
         menuCode: '',
-        menuUrl: 'menu',
-        menuRoute: 'menu',
+        menuUrl: '/system/menu',
+        menuRoute: 'system-menu',
         menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
@@ -134,10 +134,10 @@ export const menuList = [
         menuName: '角色管理',
         menuType: 2,
         menuSort: 2,
-        menuComponents: 'system/role/index.vue',
+        menuComponents: 'admin/system/role/index.vue',
         menuCode: '',
-        menuUrl: 'role',
-        menuRoute: 'role',
+        menuUrl: '/system/role',
+        menuRoute: 'system-role',
         menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
@@ -183,10 +183,10 @@ export const menuList = [
         menuName: '组织管理',
         menuType: 2,
         menuSort: 3,
-        menuComponents: 'system/org/index.vue',
+        menuComponents: 'admin/system/org/index.vue',
         menuCode: '',
-        menuUrl: 'org',
-        menuRoute: 'org',
+        menuUrl: '/system/org',
+        menuRoute: 'system-org',
         menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,

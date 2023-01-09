@@ -45,7 +45,7 @@ Object.keys(constantFiles).forEach(key => {
   constantModules = constantModules.concat(constantFiles[key].default)
 })
 
-const asyncFiles = import.meta.globEager('./async-modules/*.ts')
+const asyncFiles = import.meta.globEager('./async-modules/*.tsx')
 let permissionModules = []
 
 Object.keys(asyncFiles).forEach(key => {
@@ -55,3 +55,5 @@ Object.keys(asyncFiles).forEach(key => {
 export const constantRoutes = [...constantModules]
 
 export const asyncRoutes = [...permissionModules]
+
+export const routes = [...constantModules, ...permissionModules]

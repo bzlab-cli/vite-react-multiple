@@ -3,14 +3,15 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/06 14:34:15
+ * @LastEditTime: 2023/01/09 14:58:14
  */
 import { lazy } from 'react'
+const Login = lazy(() => import('@/views/login'))
 
 const LoginRouter = [
   {
     path: '/login',
-    element: lazy(() => import('@/views/login')),
+    element: <Login />,
     meta: {
       title: '登录',
       hidden: true

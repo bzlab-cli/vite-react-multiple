@@ -3,7 +3,7 @@
  * @Description: 数据
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/11/22 18:37:05
+ * @LastEditTime: 2023/01/09 11:45:49
  */
 
 export const menuGrantByRole = [
@@ -37,8 +37,8 @@ export const menuGrantByRole = [
         menuSort: 0,
         menuComponents: 'system/user/index.vue',
         menuCode: '',
-        menuUrl: 'user',
-        menuRoute: 'user',
+        menuUrl: '/system/user',
+        menuRoute: 'system-user',
         menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
@@ -84,8 +84,8 @@ export const menuGrantByRole = [
         menuSort: 1,
         menuComponents: 'system/menu/index.vue',
         menuCode: '',
-        menuUrl: 'menu',
-        menuRoute: 'menu',
+        menuUrl: '/system/menu',
+        menuRoute: 'system-menu',
         menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
@@ -131,8 +131,8 @@ export const menuGrantByRole = [
         menuSort: 2,
         menuComponents: 'system/role/index.vue',
         menuCode: '',
-        menuUrl: 'role',
-        menuRoute: 'role',
+        menuUrl: '/system/role',
+        menuRoute: 'system-role',
         menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,
@@ -178,8 +178,8 @@ export const menuGrantByRole = [
         menuSort: 3,
         menuComponents: 'system/org/index.vue',
         menuCode: '',
-        menuUrl: 'org',
-        menuRoute: 'org',
+        menuUrl: '/system/org',
+        menuRoute: 'system-org',
         menuIcon: 'Menu',
         menuSource: 1,
         hiddenFlag: 1,

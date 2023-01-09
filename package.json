@@ -18,6 +18,7 @@
 	},
 	"dependencies": {
 		"@ant-design/icons": "^4.6.2",
+		"@ant-design/pro-components": "^2.3.51",
 		"@reduxjs/toolkit": "^1.9.1",
 		"ahooks": "^3.7.4",
 		"antd": "^5.1.2",

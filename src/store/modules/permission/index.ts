@@ -2,6 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { filter } from '@/utils'
 import { filterAsyncRouter } from '@/utils/permission'
+import { getMenuGrantByRoleId } from '@/api/auth/role'
+import { message } from 'antd'
+import { useStoreSelector } from '@/store'
 // import { constantRoutes, asyncRoutes } from '@/router'
 // import Layout from '@/layout/index.vue'
 
@@ -17,6 +20,13 @@ const initialState: PermissionState = {
   routes: [],
   dynamicRoutes: [],
   cachedViews: []
+}
+
+export const getMenu = () => async dispatch => {
+  const { roleId } = useStoreSelector(state => state.user)
+  const { data, retCode, retMsg } = await getMenuGrantByRoleId({ roleId })
+  if (retCode !== 200) return message.error(retMsg)
+  dispatch(permissionSlice.actions.setRoutes(data))
 }
 
 export const permissionSlice = createSlice({

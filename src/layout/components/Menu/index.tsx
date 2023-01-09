@@ -2,13 +2,15 @@ import { useNavigate, useLocation, matchPath, matchRoutes, Location, To } from '
 import { Menu, message } from 'antd'
 import { useEffect, useState, useRef } from 'react'
 import { ItemType } from 'antd/es/menu/hooks/useItems'
-import { routes } from '@/router/routes'
 import DynamicIcons, { DynamicIconKeys } from '@/components/icons'
 import { useBreadcrumbFromMenu } from '../breadcrumb'
 import { useSetState } from 'ahooks'
 import { flatArrTree } from '@/utils'
 import type { SetState } from 'ahooks/es/useSetState'
 import { getMenuGrantByRoleId } from '@/api/auth/role'
+// import { useStoreSelector } from '@/store'
+
+const routes = []
 
 interface MenuItem {
   key?: string
@@ -23,7 +25,7 @@ interface State {
   selectKey: string
 }
 
-export default function LayoutMenu() {
+const LayoutMenu = () => {
   const navigate = useNavigate()
   const menuData = useMenuData()
 
@@ -80,6 +82,14 @@ export default function LayoutMenu() {
     />
   )
 }
+
+// const LayoutMenu = () => {
+//   const { pathname } = useLocation()
+//   const { sidebar } = useStoreSelector(state => state.app)
+
+//   const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname])
+//   const [openKeys, setOpenKeys] = useState<string[]>([])
+// }
 
 /**
  * 菜单配置数据生成Menu组件用数据
@@ -221,3 +231,5 @@ function useMenuData() {
 
   return menuData
 }
+
+export default LayoutMenu
