@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/04 17:04:40
+ * @LastEditTime: 2023/01/10 13:55:16
  */
 // import { deepClone } from '@bzlab/bz-core'
 
@@ -12,7 +12,47 @@
  * @param {*} view
  * @returns
  */
-const modules = import.meta.glob('/src/views/**/*.vue')
+import { lazy, createElement } from 'react'
+// const modules = import.meta.glob('/src/views/**/*.vue')
+const Layout = lazy(() => import('@/layout'))
+import lazyLoad from '@/utils/lazy-load'
+
+export const filterAsyncRouter = routers => {
+  console.log('routers', routers)
+
+  return routers.filter(item => {
+    item.path = item.menuUrl
+    const menuComponents = item.menuComponents
+    if (menuComponents === 'Layout') {
+      // item.element = <Navigate to={item.redirect} replace={true} />
+      item.redirect = 'noredirect'
+    }
+
+    item.meta = {
+      title: item.menuName,
+      icon: item.menuIcon,
+      hidden: item.hiddenFlag === 0
+    }
+
+    if (menuComponents) {
+      if (menuComponents === 'Layout') {
+        // item.element = Layout
+        item.element = createElement(Layout)
+      } else {
+        // item.name = item.menuRoute
+        // item.element = modules['/src/views/' + item.menuComponents]
+        item.element = lazyLoad(menuComponents)
+      }
+    }
+
+    if (item.childTreeList && item.childTreeList.length) {
+      item.children = filterAsyncRouter(item.childTreeList)
+    }
+
+    filterProps(item)
+    return true
+  })
+}
 
 /**
  * 过滤显示菜单路由
@@ -20,38 +60,42 @@ const modules = import.meta.glob('/src/views/**/*.vue')
  * @param {*} isRewrite
  * @returns
  */
-export const filterAsyncRouter = (routers, layout) => {
-  // 遍历后台传来的路由字符串，转换为组件对象
-  return routers.filter(item => {
-    item.path = item.menuUrl
-    if (item.menuComponents === 'Layout') {
-      item.redirect = 'noredirect'
-    }
+// export const filterAsyncRouter = routers => {
+//   console.log('routers', routers)
 
-    item.meta = {
-      title: item.menuName,
-      icon: item.menuIcon,
-      breadcrumb: item.breadcrumb,
-      hidden: item.hiddenFlag === 0
-    }
+//   return routers.filter(item => {
+//     item.path = item.menuUrl
+//     const menuComponents = item.menuComponents
+//     if (menuComponents === 'Layout') {
+//       // item.element = <Navigate to={item.redirect} replace={true} />
+//       item.redirect = 'noredirect'
+//     }
 
-    if (item.menuComponents) {
-      if (item.menuComponents === 'Layout') {
-        item.component = layout
-      } else {
-        item.name = item.menuRoute
-        item.component = modules['/src/views/' + item.menuComponents]
-      }
-    }
+//     item.meta = {
+//       title: item.menuName,
+//       icon: item.menuIcon,
+//       hidden: item.hiddenFlag === 0
+//     }
 
-    if (item.childTreeList && item.childTreeList.length) {
-      item.children = filterAsyncRouter(item.childTreeList, layout)
-    }
+//     if (menuComponents) {
+//       if (menuComponents === 'Layout') {
+//         // item.element = Layout
+//         item.element = createElement(Layout)
+//       } else {
+//         // item.name = item.menuRoute
+//         // item.element = modules['/src/views/' + item.menuComponents]
+//         item.element = lazyLoad(menuComponents)
+//       }
+//     }
 
-    filterProps(item)
-    return true
-  })
-}
+//     if (item.childTreeList && item.childTreeList.length) {
+//       item.children = filterAsyncRouter(item.childTreeList)
+//     }
+
+//     filterProps(item)
+//     return true
+//   })
+// }
 
 /**
  * 过滤不需要的属性

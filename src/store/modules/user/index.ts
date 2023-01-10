@@ -68,7 +68,7 @@ export const userSlice = createSlice({
       state.userId = ''
       state.loadUserInfo = false
       resolve()
-      window.location.href = '/'
+      // window.location.href = '/'
     }
   }
 })

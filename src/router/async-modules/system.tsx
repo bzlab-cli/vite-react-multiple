@@ -3,13 +3,13 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/09 15:04:35
+ * @LastEditTime: 2023/01/09 18:32:05
  */
 import { lazy } from 'react'
 import { HomeOutlined } from '@ant-design/icons'
 
 const Layout = lazy(() => import('@/layout'))
-const User = lazy(() => import('@/views/dashboard'))
+const User = lazy(() => import('@/views/system/user'))
 
 const SystemRouter = [
   {
