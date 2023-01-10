@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/10 13:55:16
+ * @LastEditTime: 2023/01/10 16:52:02
  */
 // import { deepClone } from '@bzlab/bz-core'
 
@@ -12,10 +12,28 @@
  * @param {*} view
  * @returns
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { lazy, createElement } from 'react'
 // const modules = import.meta.glob('/src/views/**/*.vue')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { constantRoutes, asyncRoutes } from '@/router'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Layout = lazy(() => import('@/layout'))
 import lazyLoad from '@/utils/lazy-load'
+
+// const lazyLoad = (path: string) => {
+//   const Comp = React.lazy(() => import(`@/page/${path}`))
+//   return (
+//     <React.Suspense fallback={<>加载中</>}>
+//       <Comp />
+//     </React.Suspense>
+//   )
+// }
+
+// const lazyLoad = (moduleName: string) => {
+//   const Module = lazy(() => import(`views/${moduleName}`));
+//   return <Module />;
+// };
 
 export const filterAsyncRouter = routers => {
   console.log('routers', routers)

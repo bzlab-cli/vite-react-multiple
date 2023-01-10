@@ -3,14 +3,15 @@
  * @Description: 权限
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/09 15:17:05
+ * @LastEditTime: 2023/01/10 14:19:36
  */
 import { useRoutes } from 'react-router-dom'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { getStoreState, useStoreDispatch } from '@/store'
 import { getUserInfo, loginOut } from '@/store/modules/user'
-// import { getMenu } from '@/store/modules/permission'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { getMenu } from '@/store/modules/permission'
 import { message } from 'antd'
 import { whiteList, whiteNameList } from '@/config/whitelist'
 import NProgress from 'nprogress'
@@ -59,6 +60,10 @@ export const Permission = () => {
 
   const element = useRoutes(routes)
   const beforeEach = async () => {
+    dispatch(getMenu())
+
+    // console.log('routes', store.permission.routes)
+
     try {
       NProgress.start()
       if (whiteList.indexOf(pathname) !== -1 || whiteNameList.indexOf(pathname) !== -1) {
@@ -67,6 +72,7 @@ export const Permission = () => {
         if (store.user.token) {
           if (!store.user.loadUserInfo) {
             await dispatch(getUserInfo())
+
             // await dispatch(getMenu())
           } else {
             navigate(pathname)

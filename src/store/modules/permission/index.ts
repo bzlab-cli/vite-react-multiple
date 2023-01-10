@@ -1,11 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter } from '@/utils'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filterAsyncRouter } from '@/utils/permission'
 import { getMenuGrantByRoleId } from '@/api/auth/role'
 import { message } from 'antd'
-import { useStoreSelector } from '@/store'
-// import { constantRoutes, asyncRoutes } from '@/router'
+import { getStoreState } from '@/store'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { constantRoutes, asyncRoutes } from '@/router'
 // import Layout from '@/layout/index.vue'
 
 export interface PermissionState {
@@ -23,7 +26,8 @@ const initialState: PermissionState = {
 }
 
 export const getMenu = () => async dispatch => {
-  const { roleId } = useStoreSelector(state => state.user)
+  const store = getStoreState()
+  const roleId = store.user.roleId
   const { data, retCode, retMsg } = await getMenuGrantByRoleId({ roleId })
   if (retCode !== 200) return message.error(retMsg)
   dispatch(permissionSlice.actions.setRoutes(data))
@@ -33,6 +37,7 @@ export const permissionSlice = createSlice({
   name: 'permission',
   initialState,
   reducers: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setRoutes(state, { payload }: PayloadAction<any[]>) {
       const routes = payload
       const accessedCodes: any[] = []
@@ -54,13 +59,15 @@ export const permissionSlice = createSlice({
         }
         return cache
       })
-      const accessedRoutes = filterAsyncRouter(filterRoutes, Layout)
-      accessedRoutes.push({ path: '/:pathMatch(.*)', redirect: '/404', meta: { hidden: true } })
+      const accessedRoutes = filterAsyncRouter(filterRoutes)
+      console.log('accessedRoutes', accessedRoutes)
+
+      // accessedRoutes.push({ path: '/:pathMatch(.*)', redirect: '/404', meta: { hidden: true } })
 
       state.routes = constantRoutes.concat(accessedRoutes) // 路由菜单
-      state.dynamicRoutes = accessedRoutes // 动态路由
-      state.accessedCodes = accessedCodes // 按钮权限
-      state.cachedViews = cachedViews // 缓存路由
+      // state.dynamicRoutes = accessedRoutes // 动态路由
+      // state.accessedCodes = accessedCodes // 按钮权限
+      // state.cachedViews = cachedViews // 缓存路由
 
       console.log('routes', state.routes)
       console.log('dynamicRoutes', state.dynamicRoutes)
