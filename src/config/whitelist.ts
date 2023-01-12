@@ -3,10 +3,10 @@
  * @Description: 白名单
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/26 11:16:26
+ * @LastEditTime: 2023/01/12 17:33:34
  */
 
-const whiteList: string[] = ['/login', '/auth-redirect']
+const whitePathList: string[] = ['/login']
 const whiteNameList: string[] = []
 
-export { whiteList, whiteNameList }
+export { whitePathList, whiteNameList }

@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/12 16:57:55
+ * @LastEditTime: 2023/01/12 17:33:45
  */
 import { lazy } from 'react'
 import { HomeOutlined } from '@ant-design/icons'
@@ -23,6 +23,7 @@ const SystemRouter = [
     children: [
       {
         path: '/system/user',
+        name: 'system-user',
         element: <User />,
         meta: {
           title: '用户管理',

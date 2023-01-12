@@ -24,6 +24,7 @@ export type RouteObjectWithMiddleware = MergeRouteObject<
   {
     middleware?: MiddlewareType[]
     children?: RouteObjectWithMiddleware[]
+    name: string
     meta?: {
       title?: string
       icon?: any

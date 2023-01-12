@@ -21,33 +21,5 @@ export const asyncRoutes = [...asyncModules]
 export const routes = [...constantModules, ...asyncModules]
 
 export const RouterMiddleware = () => {
-  // const routes: RouteObjectWithMiddleware[] = [
-  //   {
-  //     element: <Layout />,
-  //     middleware: [interceptLogin, interceptRouter] as MiddlewareType[],
-  //     meta: {
-  //       title: '2222'
-  //     },
-  //     children: [
-  //       {
-  //         path: '/dashboard',
-  //         element: <Dashboard />
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     path: '/',
-  //     element: <Navigate to="/dashboard" replace />
-  //   },
-  //   {
-  //     path: '/login',
-  //     element: <Login />
-  //   },
-  //   {
-  //     path: '/404',
-  //     element: <NotFound />
-  //   }
-  // ]
-
   return useRoutesWithMiddleware(routes)
 }

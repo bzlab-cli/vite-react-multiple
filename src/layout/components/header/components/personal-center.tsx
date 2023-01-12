@@ -3,7 +3,6 @@ import { Dropdown, Row, Col, Avatar } from 'antd'
 import type { MenuProps } from 'antd'
 import { useStoreSelector, useStoreDispatch } from '@/store'
 import { loginOut } from '@/store/modules/user'
-import { PoweroffOutlined } from '@ant-design/icons'
 
 const enum PersonalCenterMenuKeys {
   Logout = 'LOGOUT'
@@ -14,9 +13,7 @@ export default function PersonalCenterEntry() {
   const items: MenuProps['items'] = [
     {
       key: PersonalCenterMenuKeys.Logout,
-      danger: true,
-      label: '退出登录',
-      icon: <PoweroffOutlined />
+      label: '退出登录'
     }
   ]
   const { name } = useStoreSelector(state => state.user)
@@ -44,10 +41,10 @@ export default function PersonalCenterEntry() {
           padding: '0 10px'
         }}
       >
+        <Col>{name}</Col>
         <Col>
           <Avatar size="default" icon={<UserOutlined />} />
         </Col>
-        <Col>{name}</Col>
       </Row>
     </Dropdown>
   )

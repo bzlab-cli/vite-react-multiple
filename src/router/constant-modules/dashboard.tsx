@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2023/01/12 17:00:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/12 17:00:45
+ * @LastEditTime: 2023/01/12 18:20:08
  */
 import { lazy } from 'react'
 import { HomeOutlined } from '@ant-design/icons'
@@ -15,6 +15,7 @@ const Dashboard = lazy(() => import('@/views/dashboard'))
 const DashboardRouter = [
   {
     element: <Layout />,
+    name: 'Layout',
     middleware: [interceptLogin, interceptRouter] as MiddlewareType[],
     meta: {
       title: '首页',
@@ -23,6 +24,8 @@ const DashboardRouter = [
     children: [
       {
         path: '/dashboard',
+        name: 'dashboard',
+        // isExact: true,
         element: <Dashboard />,
         meta: {
           title: '首页',
