@@ -43,13 +43,9 @@ export const searchRoute = (path: string, routes: any[] = []) => {
   return result
 }
 
-export const matchCurrentPageRoute = pathname => {
+export const matchCurrentRoute = pathname => {
   const matchResult = matchRoutes(routes, pathname)
-
-  if (!matchResult) {
-    throw new Error(`匹配 (${pathname}) 路由信息异常`)
-  }
-
+  if (!matchResult) return null
   return matchResult.at(-1)
 }
 
@@ -60,7 +56,7 @@ export const interceptLogin = ({ children }: MiddlewareWithType) => {
   const navigate = useNavigate()
   const { pathname } = location
 
-  console.log('matchRoutes', matchCurrentPageRoute(pathname))
+  console.log('matchRoutes', matchCurrentRoute(pathname))
 
   const [searchParams] = useSearchParams()
   console.log('useSearchParams id', searchParams.get('id'))
