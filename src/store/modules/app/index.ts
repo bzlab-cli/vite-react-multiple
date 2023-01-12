@@ -55,6 +55,7 @@ export const incrementAsync =
     dispatch(toggleSidebar(true))
   }
 
-export const { toggleSidebar, closeSidebar, setBreadcrumb } = appSlice.actions
+const { actions, reducer } = appSlice
 
-export default appSlice.reducer
+export const { toggleSidebar, closeSidebar, setBreadcrumb } = actions
+export default reducer

@@ -3,9 +3,18 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/10 16:52:02
+ * @LastEditTime: 2023/01/12 11:43:12
  */
 // import { deepClone } from '@bzlab/bz-core'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useLayoutEffect, useEffect, useState } from 'react'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useLocation, useNavigate } from 'react-router-dom'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { getUserInfo } from '@/store/modules/user'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { getStoreState, useStoreDispatch } from '@/store'
+import { Modal } from 'antd'
 
 /**
  * 加载组件
@@ -200,4 +209,85 @@ export const getRoute = (path: string, routes: Router.RouteRecordRaw[] = []): Ro
     }
   }
   return result
+}
+
+export function RouteListener({ onChange }: { onChange?: () => void } = {}) {
+  const location = useLocation()
+  useLayoutEffect(() => {
+    if (onChange) onChange()
+  }, [location, onChange])
+  return <></>
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const onRouteChange = () => {
+  fetch(`/version.json?t=${Date.now()}`)
+    .then(res => res.json())
+    .then(res => {
+      try {
+        const data = res || {},
+          lastVersion = window.localStorage.getItem('buildVersion')
+        if (lastVersion == null) return window.localStorage.setItem('buildVersion', data.version)
+        if (data.version === lastVersion) return
+        window.localStorage.setItem('buildVersion', data.version)
+        Modal.confirm({
+          title: '系统已更新，请刷新页面后访问！',
+          okText: '刷新页面',
+          onOk: () => location.reload(),
+          cancelButtonProps: { style: { display: 'none' } }
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    })
+}
+
+// RouteListener(onRouteChange)
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function interceptLogin({ children }: any) {
+  const store = getStoreState()
+  const location = useLocation()
+  console.log('store', store)
+  const dispatch = useStoreDispatch()
+  const { pathname } = location
+  const navigate = useNavigate()
+  const [next, setNext] = useState(false)
+
+  const beforeEach = async () => {
+    if (store.user.token) {
+      if (!store.user.loadUserInfo) {
+        await dispatch(getUserInfo())
+        setNext(true)
+      } else {
+        setNext(true)
+      }
+    } else {
+      navigate('/login')
+    }
+  }
+
+  useEffect(() => {
+    beforeEach()
+  }, [pathname])
+
+  return next ? children : null
+  // return children
+}
+
+export function interceptRole({ children }: any) {
+  // const store = getStoreState()
+  // const navigate = useNavigate()
+  // const isAdmin = store.user.roleId === 'ad'
+
+  // useEffect(() => {
+  //   if (!isAdmin) {
+  //     navigate('/', {
+  //       replace: true
+  //     })
+  //   }
+  // }, [isAdmin])
+
+  // return isAdmin ? children : null
+  return children
 }

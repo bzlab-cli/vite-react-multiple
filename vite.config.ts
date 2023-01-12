@@ -1,5 +1,6 @@
 import type { UserConfig, ConfigEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import fs from 'fs'
 import path from 'path'
 import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from 'vite-plugin-compression'
@@ -7,6 +8,10 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // import { loadEnv } from 'vite'
 const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
+
+if (process.env.NODE_ENV === 'production') {
+  fs.writeFileSync(path.join(__dirname, './public/version.json'), JSON.stringify({ version: `${Date.now()}` }))
+}
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   // const env = loadEnv(mode, process.cwd());

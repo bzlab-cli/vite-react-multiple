@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/09 14:25:54
+ * @LastEditTime: 2023/01/12 14:51:26
  */
 import { lazy } from 'react'
 const NotFound = lazy(() => import('@/views/error/404'))
@@ -20,7 +20,10 @@ const ErrorRouter = [
   {
     path: '*',
     element: <NotFound />,
-    hidden: true
+    meta: {
+      title: '404',
+      hidden: true
+    }
   }
 ]
 export default ErrorRouter

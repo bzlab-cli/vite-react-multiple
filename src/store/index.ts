@@ -27,13 +27,3 @@ export const useStoreDispatch = () => useDispatch<StoreDispatch>()
 export const useStoreSelector = <T extends (state: StoreState) => any>(selector: T): ReturnType<T> =>
   useSelector(selector)
 export const getStoreState = (): StoreState => store.getState()
-
-// export const useAppDispatch: () => StoreDispatch = useDispatch
-// export const useAppDispatch = () => useDispatch<RootDispatch>()
-
-// 使用
-// const dispatch = useStoreDispatch()
-// dispatch(toggleSidebar(false))
-
-// // 拿state
-// const { token } = useStoreSelector(state => state.user)

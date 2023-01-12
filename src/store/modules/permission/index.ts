@@ -8,7 +8,7 @@ import { getMenuGrantByRoleId } from '@/api/auth/role'
 import { message } from 'antd'
 import { getStoreState } from '@/store'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { constantRoutes, asyncRoutes } from '@/router'
+// import { constantRoutes, asyncRoutes } from '@/router'
 // import Layout from '@/layout/index.vue'
 
 export interface PermissionState {
@@ -30,7 +30,7 @@ export const getMenu = () => async dispatch => {
   const roleId = store.user.roleId
   const { data, retCode, retMsg } = await getMenuGrantByRoleId({ roleId })
   if (retCode !== 200) return message.error(retMsg)
-  dispatch(permissionSlice.actions.setRoutes(data))
+  dispatch(actions.setRoutes(data))
 }
 
 export const permissionSlice = createSlice({
@@ -81,6 +81,7 @@ export const permissionSlice = createSlice({
   }
 })
 
-export const { setRoutes, removeCacheView } = permissionSlice.actions
+const { actions, reducer } = permissionSlice
 
-export default permissionSlice.reducer
+export const { setRoutes, removeCacheView } = actions
+export default reducer

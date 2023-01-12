@@ -1,23 +1,24 @@
 /*
  * @Description: 登录路由
  * @Author: jrucker
- * @Date: 2022-10-21 18:04:55
+ * @Date: 2023/01/12 17:00:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/09 15:04:30
+ * @LastEditTime: 2023/01/12 17:00:45
  */
 import { lazy } from 'react'
 import { HomeOutlined } from '@ant-design/icons'
-
+import { MiddlewareType } from '@/middleware'
+import { interceptLogin, interceptRouter } from '@/middleware/intercept'
 const Layout = lazy(() => import('@/layout'))
 const Dashboard = lazy(() => import('@/views/dashboard'))
 
 const DashboardRouter = [
   {
     element: <Layout />,
+    middleware: [interceptLogin, interceptRouter] as MiddlewareType[],
     meta: {
       title: '首页',
-      icon: <HomeOutlined />,
-      hidden: true
+      icon: <HomeOutlined />
     },
     children: [
       {
@@ -25,11 +26,11 @@ const DashboardRouter = [
         element: <Dashboard />,
         meta: {
           title: '首页',
-          icon: <HomeOutlined />,
-          hidden: true
+          icon: <HomeOutlined />
         }
       }
     ]
   }
 ]
+
 export default DashboardRouter

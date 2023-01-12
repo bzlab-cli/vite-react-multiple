@@ -14,6 +14,24 @@ export interface UserState {
   loadUserInfo: boolean
 }
 
+export const login = params => async dispatch => {
+  const { data, retCode, retMsg } = await fetchLogin(params)
+  if (retCode !== 200) return message.error(retMsg)
+  dispatch(actions.setLogin(data))
+}
+
+export const getUserInfo = () => async dispatch => {
+  const { data, retCode, retMsg } = await userInfo()
+  if (retCode !== 200) return message.error(retMsg)
+  dispatch(actions.setUserInfo(data))
+}
+
+export const loginOut = () => async dispatch => {
+  return new Promise(resolve => {
+    dispatch(actions.setLoginOut({ resolve }))
+  })
+}
+
 const initialState: UserState = {
   token: getToken() || '',
   userId: '',
@@ -24,36 +42,18 @@ const initialState: UserState = {
   loadUserInfo: false
 }
 
-export const login = params => async dispatch => {
-  const { data, retCode, retMsg } = await fetchLogin(params)
-  if (retCode !== 200) return message.error(retMsg)
-  dispatch(userSlice.actions.login(data))
-}
-
-export const getUserInfo = () => async dispatch => {
-  const { data, retCode, retMsg } = await userInfo()
-  if (retCode !== 200) return message.error(retMsg)
-  dispatch(userSlice.actions.getUserInfo(data))
-}
-
-export const loginOut = () => async dispatch => {
-  return new Promise(resolve => {
-    dispatch(userSlice.actions.loginOut({ resolve }))
-  })
-}
-
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login(state, { payload }: PayloadAction<any>) {
+    setLogin(state, { payload }: PayloadAction<any>) {
       const { token } = payload
       if (token) {
         setToken(token)
         state.token = token
       }
     },
-    getUserInfo(state, { payload }: PayloadAction<any>) {
+    setUserInfo(state, { payload }: PayloadAction<any>) {
       state.name = payload?.account || ''
       state.avatar = payload?.headUrl || ''
       state.userId = payload?.userId || ''
@@ -61,16 +61,19 @@ export const userSlice = createSlice({
       state.roleName = payload?.roleName || ''
       state.loadUserInfo = true
     },
-    loginOut(state, { payload }: PayloadAction<any>) {
+    setLoginOut(state, { payload }: PayloadAction<any>) {
       const { resolve } = payload
       removeToken()
       state.token = ''
       state.userId = ''
       state.loadUserInfo = false
       resolve()
-      // window.location.href = '/'
+      window.location.href = '/'
     }
   }
 })
 
-export default userSlice.reducer
+const { actions, reducer } = userSlice
+
+export const { setLoginOut } = actions
+export default reducer

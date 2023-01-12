@@ -144,8 +144,17 @@ const User = () => {
       cardBordered
       request={async (params = {}, sort, filter) => {
         console.log(sort, filter)
-        return request('https://proapi.azurewebsites.net/github/issues', {
+
+        const res = await request('https://proapi.azurewebsites.net/github/issues', {
           params
+        })
+        const { data, success, total } = res.data
+        console.log('11111', data)
+
+        return Promise.resolve({
+          data,
+          success,
+          total
         })
       }}
       editable={{
