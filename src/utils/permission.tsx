@@ -3,17 +3,13 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/12 11:43:12
+ * @LastEditTime: 2023/01/13 10:25:12
  */
 // import { deepClone } from '@bzlab/bz-core'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useLayoutEffect, useEffect, useState } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useLocation, useNavigate } from 'react-router-dom'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { getUserInfo } from '@/store/modules/user'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { getStoreState, useStoreDispatch } from '@/store'
+import { useLocation, useNavigate, matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
 
 /**
@@ -194,29 +190,61 @@ export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = 
 }
 
 /**
- * @description 递归查询对应的路由
+ * @description 匹配路由
  * @param {String} path 当前访问地址
  * @param {Array} routes 路由列表
  * @returns array
  */
-export const getRoute = (path: string, routes: Router.RouteRecordRaw[] = []): Router.RouteRecordRaw => {
+export const getMatchRoute = (path: string, routes: Router.RouteRecordRaw[] = []) => {
+  const matchResult = matchRoutes(routes, path)
+  if (!matchResult) return null
+  return matchResult.at(-1)?.route
+}
+
+/**
+ * @description 递归查询对应路由
+ * @param {String} path 当前访问地址
+ * @param {Array} routes 路由列表
+ * @returns array
+ */
+export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = []): Router.RouteRecordRaw => {
   let result: Router.RouteRecordRaw = {}
   for (const item of routes) {
     if (item.path === path) return item
     if (item.children) {
-      const res = getRoute(path, item.children)
+      const res = getPathRoute(path, item.children)
       if (Object.keys(res).length) result = res
     }
   }
   return result
 }
 
-export function RouteListener({ onChange }: { onChange?: () => void } = {}) {
+export const RouteListener = ({ onChange }: { onChange?: () => void } = {}) => {
   const location = useLocation()
   useLayoutEffect(() => {
     if (onChange) onChange()
   }, [location, onChange])
   return <></>
+}
+
+/**
+ * @description 查询路由参数
+ * @param {string} key 键值
+ * @returns any
+ */
+export const getSearchParams = key => {
+  const [searchParams] = useSearchParams()
+  return searchParams.get(key)
+}
+
+/**
+ * @description 查询动态路由参数
+ * @param {string} key 键值
+ * @returns any
+ */
+export const getParams = key => {
+  const params = useParams()
+  return params[key]
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -243,51 +271,3 @@ const onRouteChange = () => {
 }
 
 // RouteListener(onRouteChange)
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function interceptLogin({ children }: any) {
-  const store = getStoreState()
-  const location = useLocation()
-  console.log('store', store)
-  const dispatch = useStoreDispatch()
-  const { pathname } = location
-  const navigate = useNavigate()
-  const [next, setNext] = useState(false)
-
-  const beforeEach = async () => {
-    if (store.user.token) {
-      if (!store.user.loadUserInfo) {
-        await dispatch(getUserInfo())
-        setNext(true)
-      } else {
-        setNext(true)
-      }
-    } else {
-      navigate('/login')
-    }
-  }
-
-  useEffect(() => {
-    beforeEach()
-  }, [pathname])
-
-  return next ? children : null
-  // return children
-}
-
-export function interceptRole({ children }: any) {
-  // const store = getStoreState()
-  // const navigate = useNavigate()
-  // const isAdmin = store.user.roleId === 'ad'
-
-  // useEffect(() => {
-  //   if (!isAdmin) {
-  //     navigate('/', {
-  //       replace: true
-  //     })
-  //   }
-  // }, [isAdmin])
-
-  // return isAdmin ? children : null
-  return children
-}

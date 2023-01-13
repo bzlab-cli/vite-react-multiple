@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2023/01/12 17:00:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/12 18:20:08
+ * @LastEditTime: 2023/01/13 10:26:53
  */
 import { lazy } from 'react'
 import { HomeOutlined } from '@ant-design/icons'
@@ -25,7 +25,6 @@ const DashboardRouter = [
       {
         path: '/dashboard',
         name: 'dashboard',
-        // isExact: true,
         element: <Dashboard />,
         meta: {
           title: '首页',

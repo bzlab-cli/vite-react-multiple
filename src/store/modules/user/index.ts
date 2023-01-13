@@ -75,5 +75,5 @@ export const userSlice = createSlice({
 
 const { actions, reducer } = userSlice
 
-export const { setLoginOut } = actions
+export const { setUserInfo, setLoginOut } = actions
 export default reducer

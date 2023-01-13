@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { MiddlewareWithType } from './index'
-import { useNavigate, useLocation, useParams, matchRoutes, useSearchParams } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { getStoreState, useStoreDispatch } from '@/store'
 import { getUserInfo } from '@/store/modules/user'
 import { whitePathList, whiteNameList } from '@/config/whitelist'
 import { routes } from '@/router'
+import { getMatchRoute } from '@/utils/permission'
 
 export const interceptWhiteList = ({ children, item }: MiddlewareWithType) => {
   const location = useLocation()
@@ -25,30 +26,6 @@ export const interceptWhiteList = ({ children, item }: MiddlewareWithType) => {
   return next ? children : null
 }
 
-/**
- * @description 递归查询对应的路由
- * @param {String} path 当前访问地址
- * @param {Array} routes 路由列表
- * @returns array
- */
-export const searchRoute = (path: string, routes: any[] = []) => {
-  let result = {}
-  for (const item of routes) {
-    if (item.path === path) return item
-    if (item.children) {
-      const res = searchRoute(path, item.children)
-      if (Object.keys(res).length) result = res
-    }
-  }
-  return result
-}
-
-export const matchCurrentRoute = pathname => {
-  const matchResult = matchRoutes(routes, pathname)
-  if (!matchResult) return null
-  return matchResult.at(-1)
-}
-
 export const interceptLogin = ({ children }: MiddlewareWithType) => {
   const store = getStoreState()
   const location = useLocation()
@@ -56,16 +33,8 @@ export const interceptLogin = ({ children }: MiddlewareWithType) => {
   const navigate = useNavigate()
   const { pathname } = location
 
-  console.log('matchRoutes', matchCurrentRoute(pathname))
-
-  const [searchParams] = useSearchParams()
-  console.log('useSearchParams id', searchParams.get('id'))
-
-  console.log('useParams', useParams())
+  console.log('matchRoutes1', getMatchRoute(pathname, routes))
   console.log('location', location)
-
-  const route = searchRoute(pathname, routes)
-  console.log('route', route)
 
   const [next, setNext] = useState(false)
 
@@ -91,18 +60,27 @@ export const interceptLogin = ({ children }: MiddlewareWithType) => {
 
 export const interceptRouter = ({ children }: MiddlewareWithType) => {
   const store = getStoreState()
-  const navigate = useNavigate()
-  const isAdmin = store.user.roleId === 'ad'
+  // const navigate = useNavigate()
+  const [next, setNext] = useState(false)
 
   // const isAdmin = item.name === 'dashboard'
 
-  useEffect(() => {
-    if (!isAdmin) {
-      navigate('/404', {
-        replace: true
-      })
+  const beforeEach = () => {
+    if (store.user.roleId === 'ad') {
+      setNext(true)
+    } else {
+      // store.permission.accessedCodes
     }
-  }, [isAdmin])
+  }
 
-  return isAdmin ? children : null
+  useEffect(() => {
+    beforeEach()
+    // if (!isAdmin) {
+    //   navigate('/404', {
+    //     replace: true
+    //   })
+    // }
+  }, [])
+
+  return next ? children : null
 }
