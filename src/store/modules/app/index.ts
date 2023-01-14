@@ -3,12 +3,14 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { getCollapsed, setCollapsed } from '@/utils/auth'
 import { AppThunk } from '@/store'
 
+export type Theme = 'dark' | 'light'
 export interface AppState {
   collapsed: boolean
   selectedKeys: string
   openKeys: string[]
   breadcrumb: string[]
   size: string
+  theme: Theme
   language: string
 }
 
@@ -18,6 +20,7 @@ const initialState: AppState = {
   openKeys: ['dashboard'],
   breadcrumb: [],
   size: 'middle',
+  theme: 'dark',
   language: 'zh'
 }
 
@@ -26,7 +29,7 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     toggleCollapsed(state, { payload }: PayloadAction<boolean>) {
-      state.collapsed = !state.collapsed
+      state.collapsed = payload
       setCollapsed(payload ? 'collapsed' : 'opened')
     },
     setSelectedKeys: (state, { payload }: PayloadAction<string>) => {

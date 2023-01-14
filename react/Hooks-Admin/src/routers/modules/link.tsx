@@ -1,6 +1,7 @@
 import React from "react";
 import lazyLoad from "@/routers/utils/lazyLoad";
-import { LayoutIndex } from "@/routers/constant";
+// import { LayoutIndex } from "@/routers/constant";
+import LayoutIndex from "@/layouts/index";
 import { RouteObject } from "@/routers/interface";
 
 // 外部链接模块

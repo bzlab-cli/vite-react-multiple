@@ -5,18 +5,68 @@ import { useEffect, useState } from 'react'
 // import { useSetState } from 'ahooks'
 // import { flatArrTree } from '@/utils'
 // import type { SetState } from 'ahooks/es/useSetState'
-
+import Logo from '../logo'
 import { useStoreSelector, useStoreDispatch } from '@/store'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { setSelectedKeys, setOpenKeys } from '@/store/modules/app'
-import { routes } from '@/router'
+import { setSelectedKeys, setOpenKeys, setBreadcrumb } from '@/store/modules/app'
+// import { routes } from '@/router'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { getOpenMenuKeys, getShowMenuList, splitPath, getMatchRoute, getPathRoute } from '@/utils/permission'
+import {
+  getOpenMenuKeys,
+  getShowMenuList,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  splitPath,
+  getMatchRoute,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getPathRoute,
+  getAllBreadcrumbList
+} from '@/utils/permission'
 import type { MenuProps } from 'antd'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
 const LayoutMenu = () => {
+  // console.log('routes', routes)
+
+  const routes = [
+    {
+      path: '/dashboard',
+      redirect: 'noredirect',
+      meta: {
+        title: '首页',
+        icon: 'HomeOutlined'
+      },
+      children: [
+        {
+          path: '/dashboard/index',
+          name: 'dashboard-index',
+          meta: {
+            title: '首页',
+            icon: 'HomeOutlined'
+          }
+        }
+      ]
+    },
+    {
+      path: '/system',
+      redirect: 'noredirect',
+      meta: {
+        title: '系统管理',
+        icon: 'HomeOutlined'
+      },
+      children: [
+        {
+          path: '/system/user',
+          name: 'system-user',
+          meta: {
+            title: '用户管理',
+            icon: 'HomeOutlined'
+          }
+        }
+      ]
+    }
+  ]
+
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const dispatch = useStoreDispatch()
@@ -24,7 +74,7 @@ const LayoutMenu = () => {
   const [menuList, setMenuList] = useState<MenuItem[]>([])
   const [openKeys, setOpenKeys] = useState<string[]>([])
 
-  const getParentRoute = () => {
+  const getSubRoute = () => {
     const route = getMatchRoute(pathname, routes) || {}
     return (
       routes.find((item: any) => {
@@ -33,13 +83,10 @@ const LayoutMenu = () => {
     )
   }
 
-  console.log('getParentRoute', getParentRoute())
+  console.log('getParentRoute', getSubRoute())
 
   useEffect(() => {
     console.log('pathname', pathname)
-    console.log('collapsed', collapsed)
-
-    console.log('getPathRoute', getPathRoute(pathname, routes))
 
     if (!collapsed) {
       const openKey = getOpenMenuKeys(pathname)
@@ -55,6 +102,14 @@ const LayoutMenu = () => {
     console.log('menus', menus)
 
     setMenuList(menus || [])
+
+    const breadcrumbList = getAllBreadcrumbList(routes)
+    const route = getMatchRoute(pathname, routes) || {}
+    const matched = route?.path || ''
+    const matchedList = breadcrumbList[matched]
+
+    dispatch(setBreadcrumb(matchedList))
+    console.log('breadcrumbList', breadcrumbList, matched, matchedList)
   }, [pathname])
 
   const onMenuClick = ({ key }: { key: string }) => {
@@ -120,16 +175,18 @@ const LayoutMenu = () => {
   console.log('openKeys', openKeys)
 
   return (
-    <Menu
-      id="custom-menu-popup"
-      theme="dark"
-      mode="inline"
-      selectedKeys={[selectedKeys]}
-      onClick={onMenuClick}
-      openKeys={openKeys}
-      onOpenChange={onOpenChange}
-      items={menuList}
-    />
+    <div className="menu">
+      <Logo />
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={[selectedKeys]}
+        onClick={onMenuClick}
+        defaultOpenKeys={openKeys}
+        onOpenChange={onOpenChange}
+        items={menuList}
+      />
+    </div>
   )
 }
 

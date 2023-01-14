@@ -3,10 +3,10 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/14 11:30:09
+ * @LastEditTime: 2023/01/14 17:57:16
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useLayoutEffect, useEffect, useState } from 'react'
+// import { useLayoutEffect, useEffect, useState } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useLocation, useNavigate, matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
@@ -18,12 +18,12 @@ import DynamicIcons from '@/components/icons'
  * @returns
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { lazy, createElement } from 'react'
+// import { lazy, createElement } from 'react'
 // const modules = import.meta.glob('/src/views/**/*.vue')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { constantRoutes, asyncRoutes } from '@/router'
+// import { constantRoutes, asyncRoutes } from '@/router'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Layout = lazy(() => import('@/layout'))
+// const Layout = lazy(() => import('@/layout'))
 // import lazyLoad from '@/utils/lazy-load'
 
 // const lazyLoad = (path: string) => {
@@ -99,6 +99,43 @@ export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = 
   }
   return result
 }
+
+interface BreadcrumbItem {
+  path?: string
+  title: string
+}
+
+// 根据pathname找出面包屑路径
+export const getAllBreadcrumbList3 = (
+  menuList: Menu.MenuOptions[],
+  pathname: string,
+  breadcrumbs: BreadcrumbItem[] = []
+) => {
+  let breadcrumbList: BreadcrumbItem[] = []
+  let end = false
+  const forEach = (menuList, pathname, breadcrumbs) => {
+    for (const menu of menuList) {
+      const list: BreadcrumbItem[] = []
+      if (!end) {
+        list.push({
+          path: menu.path,
+          title: menu.meta.title
+        })
+        if (menu.path == pathname) {
+          breadcrumbList = breadcrumbs.concat(list)
+          end = true
+          break
+        } else if (menu.children) {
+          forEach(menu.children, pathname, breadcrumbs.concat(list))
+        }
+      }
+    }
+  }
+  forEach(menuList, pathname, breadcrumbs)
+  return breadcrumbList
+}
+
+// getAllBreadcrumbList3(menuList, '/order-list')
 
 /**
  * @description 匹配路由
@@ -201,6 +238,22 @@ export interface BreadcrumbType {
   title: string
   path: string
 }
+
+/**
+ * @description 双重递归 找出所有 面包屑 生成对象存到 redux 中，就不用每次都去递归查找了
+ * @param {String} menuList 当前菜单列表
+ * @returns object
+ */
+// export const findAllBreadcrumbList = (menuList: Menu.MenuOptions[]): { [key: string]: any } => {
+//   const handleBreadcrumbList: any = {}
+//   const loop = (menuItem: Menu.MenuOptions) => {
+//     // 下面判断代码解释 *** !item?.children?.length   ==>   (item.children && item.children.length > 0)
+//     if (menuItem?.children?.length) menuItem.children.forEach(item => loop(item))
+//     else handleBreadcrumbList[menuItem.path] = getBreadcrumbList(menuItem.path, menuList)
+//   }
+//   menuList.forEach(item => loop(item))
+//   return handleBreadcrumbList
+// }
 
 /**
  * @description 获取面包屑对应的数组

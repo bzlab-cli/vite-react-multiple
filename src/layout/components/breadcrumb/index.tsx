@@ -3,12 +3,12 @@ import { Breadcrumb } from 'antd'
 import { Link } from 'react-router-dom'
 import { useStoreSelector, useStoreDispatch } from '@/store'
 import { setBreadcrumb } from '@/store/modules/app'
-import { DynamicIconKeys } from '@/components/icons'
+import { DynamicIconsType } from '@/components/icons'
 
 interface MenuItem {
   key?: string
   label: string
-  icon?: DynamicIconKeys
+  icon?: DynamicIconsType
   route?: string
   children?: MenuItem[]
 }
@@ -23,14 +23,14 @@ const LayoutBreadcrumb = () => {
   return breadcrumb.length > 0 ? (
     <Breadcrumb separator=">">
       {breadcrumb.map((item: any, index) => {
-        if (typeof item === 'object') {
-          return (
-            <Breadcrumb.Item key={index}>
-              <Link to={item.path}>{item.name}</Link>
-            </Breadcrumb.Item>
-          )
+        if (item.redirect === 'noredirect' || index === breadcrumb.length - 1) {
+          return <Breadcrumb.Item key={index}>{item.meta.title}</Breadcrumb.Item>
         }
-        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+        return (
+          <Breadcrumb.Item key={index}>
+            <Link to={item.path}>{item.meta.title}</Link>
+          </Breadcrumb.Item>
+        )
       })}
     </Breadcrumb>
   ) : (

@@ -2,22 +2,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px 16px 6px;
+  height: 55px;
 }
 
 .logo-img {
   width: 30px;
-  margin: 0;
 }
 
-.logo-text {
-  padding-left: 12px;
-  white-space: nowrap;
-  margin-bottom: 0;
-  text-align: center;
-  line-height: 28px;
-  font-size: 24px;
-  list-style-type: none;
+.logo-name {
+  font-size: 20px;
   font-weight: bold;
-  color: #fff;
+  color: #dadada;
+  h1 {
+    margin-bottom: 0;
+    margin-left: 5px;
+    white-space: nowrap;
+  }
 }

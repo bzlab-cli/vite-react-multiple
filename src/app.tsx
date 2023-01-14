@@ -3,29 +3,18 @@ import { Suspense } from 'react'
 import Loading from '@/components/loading'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { RouterMiddleware } from '@/router'
-import { Provider } from 'react-redux'
-import { store } from '@/store'
 import zhCN from 'antd/lib/locale/zh_CN'
 
-const app = () => {
+function App() {
   return (
-    <Provider store={store}>
-      <ConfigProvider locale={zhCN} input={{ autoComplete: 'off' }}>
+    <Router>
+      <ConfigProvider locale={zhCN}>
         <Suspense fallback={<Loading />}>
-          <Router>
-            <RouterMiddleware />
-          </Router>
+          <RouterMiddleware />
         </Suspense>
       </ConfigProvider>
-    </Provider>
-    // <Provider store={store}>
-    //   <Router>
-    //     <ConfigProvider locale={zhCN}>
-    //       <RouterMiddleware />
-    //     </ConfigProvider>
-    //   </Router>
-    // </Provider>
+    </Router>
   )
 }
 
-export default app
+export default App

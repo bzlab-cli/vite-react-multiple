@@ -7,9 +7,7 @@ export default function Logo() {
   return (
     <div className={styles.logo}>
       <img className={styles['logo-img']} src={logo} />
-      <div style={{ width: !collapsed ? 141 : 0, transition: 'width 0.3s' }}>
-        <h1 className={styles['logo-text']}>后台管理</h1>
-      </div>
+      <div className={styles['logo-name']}>{!collapsed && <h1 className={styles['logo-text']}>后台管理</h1>}</div>
     </div>
   )
 }

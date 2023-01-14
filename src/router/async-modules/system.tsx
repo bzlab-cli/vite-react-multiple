@@ -3,19 +3,20 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/14 13:51:31
+ * @LastEditTime: 2023/01/14 18:16:22
  */
 import { lazy } from 'react'
-// import { interceptLogin, interceptRouter } from '@/middleware/intercept'
-// import { MiddlewareType } from '@/middleware'
-const Layout = lazy(() => import('@/layout'))
-const User = lazy(() => import('@/views/system/user'))
+import { interceptLogin, interceptRouter } from '@/middleware/intercept'
+import { MiddlewareType } from '@/middleware'
+import Layout from '@/layout'
+import lazyComponent from '@/utils/lazy'
 
 const SystemRouter = [
   {
     path: '/system',
     element: <Layout />,
-    // middleware: [interceptLogin, interceptRouter] as MiddlewareType[],
+    redirect: 'noredirect',
+    middleware: [interceptLogin, interceptRouter] as MiddlewareType[],
     meta: {
       title: '系统管理',
       icon: 'HomeOutlined'
@@ -24,7 +25,7 @@ const SystemRouter = [
       {
         path: '/system/user',
         name: 'system-user',
-        element: <User />,
+        element: lazyComponent(lazy(() => import('@/views/system/user'))),
         meta: {
           title: '用户管理',
           icon: 'HomeOutlined'

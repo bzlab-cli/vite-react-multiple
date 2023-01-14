@@ -35,16 +35,15 @@ import { useStoreSelector, useStoreDispatch } from '@/store'
 const { Header } = Layout
 
 const LayoutHeader = () => {
-  const isDarkMode = false
   const dispatch = useStoreDispatch()
-  const { collapsed } = useStoreSelector(state => state.app)
+  const { collapsed, theme } = useStoreSelector(state => state.app)
   return (
     <Header
       style={{
         height: 48,
         lineHeight: '48px',
         padding: '0 12px',
-        backgroundColor: !isDarkMode ? '#fff' : undefined
+        backgroundColor: theme === 'dark' ? '#fff' : undefined
       }}
     >
       <Row justify="space-between" align="middle">

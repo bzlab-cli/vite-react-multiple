@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/12 14:52:10
+ * @LastEditTime: 2023/01/14 15:05:29
  */
 import { lazy } from 'react'
 const Login = lazy(() => import('@/views/login'))
@@ -18,4 +18,5 @@ const LoginRouter = [
     }
   }
 ]
+
 export default LoginRouter

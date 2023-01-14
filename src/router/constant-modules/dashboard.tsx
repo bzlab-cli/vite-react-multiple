@@ -3,19 +3,19 @@
  * @Author: jrucker
  * @Date: 2023/01/12 17:00:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/14 11:29:10
+ * @LastEditTime: 2023/01/14 18:17:14
  */
 import { lazy } from 'react'
 // import { MiddlewareType } from '@/middleware'
 // import { interceptLogin, interceptRouter } from '@/middleware/intercept'
-const Layout = lazy(() => import('@/layout'))
-const Dashboard = lazy(() => import('@/views/dashboard'))
+import Layout from '@/layout'
+import lazyComponent from '@/utils/lazy'
 
 const DashboardRouter = [
   {
     path: '/dashboard',
     element: <Layout />,
-    name: 'Layout',
+    redirect: 'noredirect',
     // middleware: [interceptLogin, interceptRouter] as MiddlewareType[],
     meta: {
       title: '首页',
@@ -25,7 +25,7 @@ const DashboardRouter = [
       {
         path: '/dashboard/index',
         name: 'dashboard-index',
-        element: <Dashboard />,
+        element: lazyComponent(lazy(() => import('@/views/dashboard'))),
         meta: {
           title: '首页',
           icon: 'HomeOutlined'
