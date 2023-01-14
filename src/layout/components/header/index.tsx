@@ -28,7 +28,7 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import { Layout, Row, Col, Space } from 'antd'
 import Breadcrumb from '../breadcrumb'
 import PersonalCenter from './components/personal-center'
-import { toggleSidebar } from '@/store/modules/app'
+import { toggleCollapsed } from '@/store/modules/app'
 import HeaderButton from './components/header-button'
 import { useStoreSelector, useStoreDispatch } from '@/store'
 
@@ -37,7 +37,7 @@ const { Header } = Layout
 const LayoutHeader = () => {
   const isDarkMode = false
   const dispatch = useStoreDispatch()
-  const { sidebar } = useStoreSelector(state => state.app)
+  const { collapsed } = useStoreSelector(state => state.app)
   return (
     <Header
       style={{
@@ -51,8 +51,8 @@ const LayoutHeader = () => {
         <Col>
           <Space>
             <HeaderButton
-              icon={React.createElement(sidebar.opened ? MenuUnfoldOutlined : MenuFoldOutlined)}
-              onClick={() => dispatch(toggleSidebar(!sidebar.opened))}
+              icon={React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+              onClick={() => dispatch(toggleCollapsed(!collapsed))}
             />
             <Breadcrumb />
           </Space>

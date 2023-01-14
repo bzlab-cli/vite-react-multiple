@@ -12,6 +12,8 @@ import { FloatButton } from "antd"
 export default function BasicLayout() {
   const [showDrawer, setShowDrawer] = useState(false)
   const { theme, setTheme } = useThemeContext()
+  console.log('theme', theme);
+
 
   const fullscreenRef = useRef(null)
   const [isFullscreen, { enterFullscreen, exitFullscreen }] = useFullscreen(fullscreenRef, {

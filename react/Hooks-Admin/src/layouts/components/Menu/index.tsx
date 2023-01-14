@@ -21,11 +21,17 @@ const LayoutMenu = (props: any) => {
 	// 刷新页面菜单保持高亮
 	useEffect(() => {
 		setSelectedKeys([pathname]);
+
+		console.log("pathname", pathname);
+		console.log("getOpenKeys(pathname)", getOpenKeys(pathname));
+
 		isCollapse ? null : setOpenKeys(getOpenKeys(pathname));
 	}, [pathname, isCollapse]);
 
 	// 设置当前展开的 subMenu
 	const onOpenChange = (openKeys: string[]) => {
+		console.log("openKeys", openKeys);
+
 		if (openKeys.length === 0 || openKeys.length === 1) return setOpenKeys(openKeys);
 		const latestOpenKey = openKeys[openKeys.length - 1];
 		if (latestOpenKey.includes(openKeys[0])) return setOpenKeys(openKeys);

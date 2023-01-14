@@ -13,11 +13,11 @@
     "prettier": "prettier --check . ",
     "prettier:fix": "prettier --write .",
     "pretty": "pretty-quick --staged",
-    "prepare": "husky install",
     "release": "release-it"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.2",
+    "@dnd-kit/core": "^6.0.7",
     "@dnd-kit/modifiers": "^6.0.0",
     "@dnd-kit/sortable": "^7.0.0",
     "ahooks": "^3.7.2",

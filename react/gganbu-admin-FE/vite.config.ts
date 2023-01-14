@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [react(), viteCompression(), isDev && visualizer()].filter(Boolean) as any,
   esbuild: {
     // pure: ["console.log"],
-    drop: ["console", "debugger"],
+    // drop: ["console", "debugger"],
   },
   build: {
     sourcemap: true,
@@ -26,7 +26,7 @@ export default defineConfig({
 })
 
 /***
- * 
+ *
  * (!) Some chunks are larger than 500 KiB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/guide/en/#outputmanualchunks

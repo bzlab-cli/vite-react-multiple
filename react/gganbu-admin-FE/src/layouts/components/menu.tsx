@@ -10,9 +10,12 @@ export default function Menu(props: MenuProps) {
   const { user } = useUserContext()
   const { theme } = useThemeContext()
   const { menuStyle, layout, isMobile } = theme
-
   const routeAuth = user?.roleInfo?.routeAuth || []
   const authRoutes = user?.username != "admin" ? createAuthRoutes(routeAuth) : routes
+  console.log('authRoutes', authRoutes);
+  console.log('getMenuItems(authRoutes)', getMenuItems(authRoutes));
+
+
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -25,6 +28,12 @@ export default function Menu(props: MenuProps) {
   // highlight the selected menu item
   const [selectedKeys, setSelectedKeys] = useState([route.path])
   const [openKeys, setOpenKeys] = useState([subRoute.path])
+
+  console.log('routes', routes);
+  console.log('pathname', pathname);
+  console.log('subRoute', subRoute);
+  console.log('openKeys', openKeys);
+
 
   useEffect(() => {
     const { collapsed } = theme

@@ -1,18 +1,17 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { toggleSidebar } from '@/store/modules/app'
-import { getStoreState } from '@/store'
+import { toggleCollapsed } from '@/store/modules/app'
+import { useStoreSelector } from '@/store'
 
 const CollapseIcon = () => {
-  const store = getStoreState()
-  const opened = store.app.sidebar.opened
+  const { collapsed } = useStoreSelector(state => state.app)
   return (
     <div
       className="collapsed"
       onClick={() => {
-        toggleSidebar(!opened)
+        toggleCollapsed(!collapsed)
       }}
     >
-      {opened ? <MenuUnfoldOutlined id="isCollapse" /> : <MenuFoldOutlined id="isCollapse" />}
+      {collapsed ? <MenuUnfoldOutlined id="isCollapse" /> : <MenuFoldOutlined id="isCollapse" />}
     </div>
   )
 }

@@ -18,6 +18,13 @@ const app = () => {
         </Suspense>
       </ConfigProvider>
     </Provider>
+    // <Provider store={store}>
+    //   <Router>
+    //     <ConfigProvider locale={zhCN}>
+    //       <RouterMiddleware />
+    //     </ConfigProvider>
+    //   </Router>
+    // </Provider>
   )
 }
 

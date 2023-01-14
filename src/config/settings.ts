@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/26 11:12:45
+ * @LastEditTime: 2023/01/14 11:44:58
  */
 
 export enum RouterMode {
@@ -12,7 +12,7 @@ export enum RouterMode {
 }
 
 export class Keys {
-  static sidebarStatusKey = 'sidebarStatusKey'
+  static collapsedKey = 'collapsedKey'
   static tokenKey = 'nzf-token'
   static projectId = 'projectId'
 }

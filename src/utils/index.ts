@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/12 17:52:59
+ * @LastEditTime: 2023/01/13 15:27:03
  */
 interface TreeHelperConfig {
   id: string
@@ -26,6 +26,7 @@ export function deepClone(source: IObjModel) {
   const targetObj: any = source.constructor === Array ? [] : {}
   Object.keys(source).forEach(keys => {
     if (source[keys] && typeof source[keys] === 'object') {
+      targetObj[keys] = source[keys].constructor === Array ? [] : {}
       targetObj[keys] = deepClone(source[keys])
     } else {
       targetObj[keys] = source[keys]

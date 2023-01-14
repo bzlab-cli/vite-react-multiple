@@ -3,7 +3,7 @@
  * @Description: 权限
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/10 14:19:36
+ * @LastEditTime: 2023/01/13 16:04:29
  */
 import { useRoutes } from 'react-router-dom'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -41,8 +41,7 @@ import { routes } from '@/router'
 export const Permission = () => {
   const store = getStoreState()
   const dispatch = useStoreDispatch()
-  const location = useLocation()
-  const { pathname } = location
+  const { pathname } = useLocation()
   const navigate = useNavigate()
 
   console.log('pathname', pathname)

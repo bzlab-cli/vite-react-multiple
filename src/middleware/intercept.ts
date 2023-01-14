@@ -3,13 +3,13 @@ import { MiddlewareWithType } from './index'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { getStoreState, useStoreDispatch } from '@/store'
 import { getUserInfo } from '@/store/modules/user'
+import { getMenu } from '@/store/modules/permission'
 import { whitePathList, whiteNameList } from '@/config/whitelist'
 import { routes } from '@/router'
 import { getMatchRoute } from '@/utils/permission'
 
 export const interceptWhiteList = ({ children, item }: MiddlewareWithType) => {
-  const location = useLocation()
-  const { pathname } = location
+  const { pathname } = useLocation()
   const name = item.name
   const [next, setNext] = useState(false)
 
@@ -26,22 +26,18 @@ export const interceptWhiteList = ({ children, item }: MiddlewareWithType) => {
   return next ? children : null
 }
 
-export const interceptLogin = ({ children }: MiddlewareWithType) => {
+export function interceptLogin({ children }: MiddlewareWithType) {
   const store = getStoreState()
-  const location = useLocation()
   const dispatch = useStoreDispatch()
+  const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { pathname } = location
-
-  console.log('matchRoutes1', getMatchRoute(pathname, routes))
-  console.log('location', location)
-
   const [next, setNext] = useState(false)
 
   const beforeEach = async () => {
     if (store.user.token) {
       if (!store.user.loadUserInfo) {
         await dispatch(getUserInfo())
+        await dispatch(getMenu())
         setNext(true)
       } else {
         setNext(true)
@@ -58,29 +54,32 @@ export const interceptLogin = ({ children }: MiddlewareWithType) => {
   return next ? children : null
 }
 
-export const interceptRouter = ({ children }: MiddlewareWithType) => {
+export function interceptRouter({ children }: MiddlewareWithType) {
   const store = getStoreState()
-  // const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
   const [next, setNext] = useState(false)
 
-  // const isAdmin = item.name === 'dashboard'
-
-  const beforeEach = () => {
+  const beforeEach = async () => {
     if (store.user.roleId === 'ad') {
       setNext(true)
     } else {
-      // store.permission.accessedCodes
+      const routeCodes = store.permission.routeCodes
+      const match = getMatchRoute(pathname, routes) as any
+      const name = match.name ?? ''
+      if (routeCodes.includes(name)) {
+        setNext(true)
+      } else {
+        navigate('/404', {
+          replace: true
+        })
+      }
     }
   }
 
   useEffect(() => {
     beforeEach()
-    // if (!isAdmin) {
-    //   navigate('/404', {
-    //     replace: true
-    //   })
-    // }
-  }, [])
+  }, [pathname])
 
   return next ? children : null
 }

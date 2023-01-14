@@ -1,23 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { getSidebarStatus, setSidebarStatus } from '@/utils/auth'
+import { getCollapsed, setCollapsed } from '@/utils/auth'
 import { AppThunk } from '@/store'
 
 export interface AppState {
-  sidebar: {
-    opened: boolean
-    withoutAnimation: boolean
-  }
+  collapsed: boolean
+  selectedKeys: string
+  openKeys: string[]
   breadcrumb: string[]
   size: string
   language: string
 }
 
 const initialState: AppState = {
-  sidebar: {
-    opened: getSidebarStatus() !== 'closed',
-    withoutAnimation: false
-  },
+  collapsed: getCollapsed() === 'collapsed',
+  selectedKeys: 'dashboard',
+  openKeys: ['dashboard'],
   breadcrumb: [],
   size: 'middle',
   language: 'zh'
@@ -27,19 +25,15 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    toggleSidebar(state, { payload }: PayloadAction<boolean>) {
-      state.sidebar.opened = !state.sidebar.opened
-      state.sidebar.withoutAnimation = payload
-      if (state.sidebar.opened) {
-        setSidebarStatus('opened')
-      } else {
-        setSidebarStatus('closed')
-      }
+    toggleCollapsed(state, { payload }: PayloadAction<boolean>) {
+      state.collapsed = !state.collapsed
+      setCollapsed(payload ? 'collapsed' : 'opened')
     },
-    closeSidebar(state, { payload }: PayloadAction<boolean>) {
-      state.sidebar.opened = false
-      state.sidebar.withoutAnimation = payload
-      setSidebarStatus('closed')
+    setSelectedKeys: (state, { payload }: PayloadAction<string>) => {
+      state.selectedKeys = payload
+    },
+    setOpenKeys: (state, { payload }: PayloadAction<string[]>) => {
+      state.openKeys = payload
     },
     setBreadcrumb: (state, { payload }: PayloadAction<string[]>) => {
       state.breadcrumb = payload
@@ -52,10 +46,10 @@ export const incrementAsync =
   (dispatch, state) => {
     console.log('incrementAsync val', val)
     console.log('incrementAsync state', state)
-    dispatch(toggleSidebar(true))
+    dispatch(toggleCollapsed(true))
   }
 
 const { actions, reducer } = appSlice
 
-export const { toggleSidebar, closeSidebar, setBreadcrumb } = actions
+export const { toggleCollapsed, setSelectedKeys, setOpenKeys, setBreadcrumb } = actions
 export default reducer

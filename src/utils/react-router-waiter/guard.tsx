@@ -25,8 +25,7 @@ function Guard({
 }) {
   meta = meta || {}
 
-  const location = useLocation()
-  const { pathname } = location
+  const { pathname } = useLocation()
 
   const navigate = useNavigate()
 

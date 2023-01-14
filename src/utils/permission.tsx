@@ -3,14 +3,14 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/13 10:25:12
+ * @LastEditTime: 2023/01/14 11:30:09
  */
-// import { deepClone } from '@bzlab/bz-core'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useLayoutEffect, useEffect, useState } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useLocation, useNavigate, matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
+import DynamicIcons from '@/components/icons'
 
 /**
  * 加载组件
@@ -24,7 +24,7 @@ import { lazy, createElement } from 'react'
 import { constantRoutes, asyncRoutes } from '@/router'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Layout = lazy(() => import('@/layout'))
-import lazyLoad from '@/utils/lazy-load'
+// import lazyLoad from '@/utils/lazy-load'
 
 // const lazyLoad = (path: string) => {
 //   const Comp = React.lazy(() => import(`@/page/${path}`))
@@ -40,113 +40,6 @@ import lazyLoad from '@/utils/lazy-load'
 //   return <Module />;
 // };
 
-export const filterAsyncRouter = routers => {
-  console.log('routers', routers)
-
-  return routers.filter(item => {
-    item.path = item.menuUrl
-    const menuComponents = item.menuComponents
-    if (menuComponents === 'Layout') {
-      // item.element = <Navigate to={item.redirect} replace={true} />
-      item.redirect = 'noredirect'
-    }
-
-    item.meta = {
-      title: item.menuName,
-      icon: item.menuIcon,
-      hidden: item.hiddenFlag === 0
-    }
-
-    if (menuComponents) {
-      if (menuComponents === 'Layout') {
-        // item.element = Layout
-        item.element = createElement(Layout)
-      } else {
-        // item.name = item.menuRoute
-        // item.element = modules['/src/views/' + item.menuComponents]
-        item.element = lazyLoad(menuComponents)
-      }
-    }
-
-    if (item.childTreeList && item.childTreeList.length) {
-      item.children = filterAsyncRouter(item.childTreeList)
-    }
-
-    filterProps(item)
-    return true
-  })
-}
-
-/**
- * 过滤显示菜单路由
- * @param {*} routers
- * @param {*} isRewrite
- * @returns
- */
-// export const filterAsyncRouter = routers => {
-//   console.log('routers', routers)
-
-//   return routers.filter(item => {
-//     item.path = item.menuUrl
-//     const menuComponents = item.menuComponents
-//     if (menuComponents === 'Layout') {
-//       // item.element = <Navigate to={item.redirect} replace={true} />
-//       item.redirect = 'noredirect'
-//     }
-
-//     item.meta = {
-//       title: item.menuName,
-//       icon: item.menuIcon,
-//       hidden: item.hiddenFlag === 0
-//     }
-
-//     if (menuComponents) {
-//       if (menuComponents === 'Layout') {
-//         // item.element = Layout
-//         item.element = createElement(Layout)
-//       } else {
-//         // item.name = item.menuRoute
-//         // item.element = modules['/src/views/' + item.menuComponents]
-//         item.element = lazyLoad(menuComponents)
-//       }
-//     }
-
-//     if (item.childTreeList && item.childTreeList.length) {
-//       item.children = filterAsyncRouter(item.childTreeList)
-//     }
-
-//     filterProps(item)
-//     return true
-//   })
-// }
-
-/**
- * 过滤不需要的属性
- * @param {*} item
- */
-function filterProps(item) {
-  const filterPropsList = [
-    'childTreeList',
-    'id',
-    'menuSort',
-    'createUser',
-    'menuComponents',
-    'menuIcon',
-    'menuName',
-    'menuRoute',
-    'menuSource',
-    'menuUrl',
-    'parentId',
-    'remarks',
-    'createTime',
-    'updateTime',
-    'updateUser'
-  ]
-  filterPropsList.map(name => {
-    delete item[name]
-  })
-}
-
 /**
  * 扁平化路由数组对象
  * @param {Array} menuList
@@ -161,18 +54,36 @@ function filterProps(item) {
 //   }, [])
 // }
 
+// export function getShowMenuList(menus: Menu.MenuOptions[]) {
+//   const menuList = updateMenuKeys(menus, 'menu')
+//   const result = [] as any
+//   menuList.forEach((item: Menu.MenuOptions) => {
+//     if (!item?.children?.length) {
+//       return !item.meta.hidden && result.push(getItem(item.meta.title, item.path, addIcon(item.meta.icon!)))
+//     }
+//     !item.meta.hidden &&
+//       result.push(getItem(item.meta.title, item.path, addIcon(item.meta.icon!), getShowMenuList(item.children)))
+//   })
+//   return result
+// }
+
 /**
  * 递归过滤需要渲染在左侧菜单的列表
- * @param {Array} menuList
+ * @param {Array} routes
  * @return array
- * */
-// export function getShowMenuList(menuList) {
-//   const newMenuList = deepClone(menuList)
-//   return newMenuList.filter(item => {
-//     item.children?.length && (item.children = getShowMenuList(item.children))
-//     return !item.meta?.hidden
-//   })
-// }
+ */
+export function getShowMenuList(routes: Menu.MenuOptions[]) {
+  const menuList = routes.map(item => {
+    if (item.meta.hidden) return
+    return {
+      key: item?.path,
+      icon: <DynamicIcons icon={item?.meta?.icon} />,
+      children: item?.children?.length ? getShowMenuList(item.children) : null,
+      label: item?.meta?.title
+    }
+  })
+  return menuList.filter(item => item)
+}
 
 /**
  * 递归找出所有面包屑
@@ -196,9 +107,9 @@ export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = 
  * @returns array
  */
 export const getMatchRoute = (path: string, routes: Router.RouteRecordRaw[] = []) => {
-  const matchResult = matchRoutes(routes, path)
-  if (!matchResult) return null
-  return matchResult.at(-1)?.route
+  const match = matchRoutes(routes, path)
+  if (!match) return null
+  return match.at(-1)?.route
 }
 
 /**
@@ -219,13 +130,13 @@ export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = [])
   return result
 }
 
-export const RouteListener = ({ onChange }: { onChange?: () => void } = {}) => {
-  const location = useLocation()
-  useLayoutEffect(() => {
-    if (onChange) onChange()
-  }, [location, onChange])
-  return <></>
-}
+// export const RouteListener = ({ onChange }: { onChange?: () => void } = {}) => {
+//   const location = useLocation()
+//   useLayoutEffect(() => {
+//     if (onChange) onChange()
+//   }, [location, onChange])
+//   return <></>
+// }
 
 /**
  * @description 查询路由参数
@@ -271,3 +182,129 @@ const onRouteChange = () => {
 }
 
 // RouteListener(onRouteChange)
+
+/**
+ * @description 筛选有权限的菜单
+ * @param routes 路由数据
+ * @returns
+ */
+export const filterAuthMenuItem = routes => {
+  const getMenuChild = menuList =>
+    menuList.reduce((total, cur) => total.concat(Array.isArray(cur.children) ? getMenuChild(cur.children) : cur), [])
+  return getMenuChild(routes).find(item => item.auth)
+}
+
+/**
+ * 面包屑类型
+ */
+export interface BreadcrumbType {
+  title: string
+  path: string
+}
+
+/**
+ * @description 获取面包屑对应的数组
+ * @param pathname 路由地址
+ * @param routes 路由数据
+ * @returns
+ */
+export const getBreadcrumbRoutes = (pathname: string, jsonRoutesData): BreadcrumbType[] => {
+  const route = jsonRoutesData[pathname] || {}
+  if (!route.path) {
+    return []
+  }
+
+  if (!route.meta?.breadcrumb) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const parentPath = route.meta?.parentPath || []
+    // const routes = getPathsTheRoutes(parentPath, jsonRoutesData)
+    const routes = [] as any
+    const bread: BreadcrumbType[] = []
+
+    for (let index = 0; index < routes.length; index++) {
+      const element = routes[index]
+      bread.push({
+        title: element.meta?.title || '',
+        path: element.path
+      })
+    }
+
+    if (route.meta?.breadcrumb === false) {
+      return bread
+    }
+
+    bread.push({
+      title: route.meta?.title || '',
+      path: route.path
+    })
+
+    return bread
+  }
+
+  return route.meta.breadcrumb
+}
+
+/**
+ * @description 分割路径
+ * @param path 路径
+ */
+export function splitPath(path: string): string[] {
+  if (!path || typeof path !== 'string') return []
+  const result = path?.split('/') || []
+  if (result?.[0] === '') result.shift()
+  return result
+}
+
+/**
+ * @description 获取展开菜单数组
+ * @param {String} path 当前访问地址
+ * @returns array
+ */
+export function getOpenMenuKeys1(path: string): string[] {
+  const arr = splitPath(path)
+  const result: string[] = []
+  if (arr.length === 1) return []
+  if (arr.length === 2) result.push('/' + arr[0])
+  if (arr.length > 2) {
+    let str = '/' + arr[0]
+    for (let i = 1; i < arr.length - 1; i++) {
+      str += '/' + arr[i]
+      result.push(str)
+    }
+  }
+  return result
+}
+
+/**
+ * @description 获取展开菜单数组
+ * @param {String} path 当前访问地址
+ * @returns array
+ */
+export function getOpenMenuKeys(path: string) {
+  let str: string = ''
+  const result: string[] = []
+  const arr = path.split('/').map(i => '/' + i)
+  for (let i = 1; i < arr.length - 1; i++) {
+    str += arr[i]
+    result.push(str)
+  }
+  return result
+}
+
+/**
+ * @description 更新菜单键值
+ * @param routes
+ * @param prefix
+ * @returns
+ */
+export function updateMenuKeys(routes, prefix: string) {
+  const menu = [] as any
+  routes.forEach((item, index) => {
+    const key = prefix + '-' + index
+    if (item.children) {
+      item.children = updateMenuKeys(item.children, key)
+    }
+    menu.push({ ...item, key })
+  })
+  return menu
+}
