@@ -1,9 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { isExternal } from '@/utils/validate'
-
-export interface ALinkProps {
+export interface LinkProps {
   children: React.ReactNode
   to: any
   replace?: boolean
@@ -12,18 +10,14 @@ export interface ALinkProps {
   className?: string
 }
 
-const ALink: React.FC<ALinkProps> = props => {
+const LinkComponent: React.FC<LinkProps> = props => {
   const { children, to, ...attr } = props
 
-  return isExternal(to) ? (
-    <a href={to} {...attr} target="_blank" rel="noreferrer">
-      {children}
-    </a>
-  ) : (
+  return (
     <Link to={to} {...attr}>
       {children}
     </Link>
   )
 }
 
-export default ALink
+export default LinkComponent

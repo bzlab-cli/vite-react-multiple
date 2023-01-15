@@ -1,42 +1,14 @@
-// import { Layout } from 'antd'
-// import AvatarIcon from './components/avatar'
-// import CollapseIcon from './components/collapse'
-// import BreadcrumbNav from './components/breadcrumb'
-// import './index.scss'
-
-// const LayoutHeader = () => {
-//   const { Header } = Layout
-
-//   return (
-//     <Header>
-//       <div className="header-lf">
-//         <CollapseIcon />
-//         <BreadcrumbNav />
-//       </div>
-//       <div className="header-ri">
-//         <span className="username">admin</span>
-//         <AvatarIcon />
-//       </div>
-//     </Header>
-//   )
-// }
-
-// export default LayoutHeader
-
-import React from 'react'
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import { Layout, Row, Col, Space } from 'antd'
-import Breadcrumb from '../breadcrumb'
-import PersonalCenter from './components/personal-center'
-import { toggleCollapsed } from '@/store/modules/app'
-import HeaderButton from './components/header-button'
-import { useStoreSelector, useStoreDispatch } from '@/store'
+import Breadcrumb from './components/breadcrumb'
+import Avatar from './components/avatar'
+import Collapse from './components/collapse'
+import { useStoreSelector } from '@/store'
+import './index.scss'
 
 const { Header } = Layout
 
 const LayoutHeader = () => {
-  const dispatch = useStoreDispatch()
-  const { collapsed, theme } = useStoreSelector(state => state.app)
+  const { theme } = useStoreSelector(state => state.app)
   return (
     <Header
       style={{
@@ -49,16 +21,13 @@ const LayoutHeader = () => {
       <Row justify="space-between" align="middle">
         <Col>
           <Space>
-            <HeaderButton
-              icon={React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
-              onClick={() => dispatch(toggleCollapsed(!collapsed))}
-            />
+            <Collapse />
             <Breadcrumb />
           </Space>
         </Col>
         <Col>
           <Space>
-            <PersonalCenter />
+            <Avatar />
           </Space>
         </Col>
       </Row>

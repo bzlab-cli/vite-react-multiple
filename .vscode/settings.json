@@ -1,11 +1,7 @@
 {
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "stylelint.validate": [
-    "css",
-    "postcss",
-    "scss",
-    "sass"
-  ]
+  "stylelint.validate": ["css", "postcss", "scss", "sass"]
 }

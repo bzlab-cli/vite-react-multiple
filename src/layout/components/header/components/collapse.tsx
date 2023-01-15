@@ -1,18 +1,23 @@
+import React from 'react'
+import { Button } from 'antd'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { toggleCollapsed } from '@/store/modules/app'
-import { useStoreSelector } from '@/store'
+import { useStoreSelector, useStoreDispatch } from '@/store'
 
 const CollapseIcon = () => {
   const { collapsed } = useStoreSelector(state => state.app)
+  const dispatch = useStoreDispatch()
+  const btnProps = {
+    icon: React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined),
+    onClick: () => dispatch(toggleCollapsed(!collapsed))
+  }
   return (
-    <div
-      className="collapsed"
-      onClick={() => {
-        toggleCollapsed(!collapsed)
-      }}
-    >
-      {collapsed ? <MenuUnfoldOutlined id="isCollapse" /> : <MenuFoldOutlined id="isCollapse" />}
-    </div>
+    <Button
+      shape="circle"
+      style={{ border: 'none', backgroundColor: 'transparent', fontSize: 14 }}
+      block
+      {...btnProps}
+    />
   )
 }
 

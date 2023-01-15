@@ -1,23 +1,25 @@
 import { Breadcrumb } from 'antd'
-// import { useLocation } from 'react-router-dom'
+import Link from './link'
+import { useStoreSelector } from '@/store'
 
-const BreadcrumbNav = () => {
-  // const { pathname } = useLocation()
-  // const { themeConfig } = props.global
-  // const breadcrumbList = props.breadcrumb.breadcrumbList[pathname] || []
-
-  const breadcrumbList = []
-
-  return (
-    <>
-      <Breadcrumb>
-        <Breadcrumb.Item href={`#/`}>首页</Breadcrumb.Item>
-        {breadcrumbList.map((item: string) => {
-          return <Breadcrumb.Item key={item}>{item !== '首页' ? item : null}</Breadcrumb.Item>
-        })}
-      </Breadcrumb>
-    </>
+const LayoutBreadcrumb = () => {
+  const { breadcrumb } = useStoreSelector(state => state.app)
+  return breadcrumb.length > 0 ? (
+    <Breadcrumb separator=">">
+      {breadcrumb.map((item: any, index) => {
+        if (item.redirect === 'noredirect' || index === breadcrumb.length - 1) {
+          return <Breadcrumb.Item key={index}>{item.meta.title}</Breadcrumb.Item>
+        }
+        return (
+          <Breadcrumb.Item key={index}>
+            <Link to={item.path}>{item.meta.title}</Link>
+          </Breadcrumb.Item>
+        )
+      })}
+    </Breadcrumb>
+  ) : (
+    <div style={{ height: 16 }} />
   )
 }
 
-export default BreadcrumbNav
+export default LayoutBreadcrumb
