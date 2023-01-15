@@ -1,18 +1,25 @@
 import { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { Layout } from 'antd'
 import LayoutMenu from './components/menu/index-copy'
 import LayoutHeader from './components/header'
-import { useStoreSelector } from '@/store'
+import { useStoreSelector, useStoreDispatch } from '@/store'
+import { setOpenKeys } from '@/store/modules/app'
+import { getOpenMenuKeys } from '@/utils/permission'
 import resize from './resize'
 import './index.scss'
 
 const LayoutIndex = () => {
+  const { pathname } = useLocation()
+  const dispatch = useStoreDispatch()
   const { collapsed, theme } = useStoreSelector(state => state.app)
   const { addEventListenerOnResize, resizeMounted, removeEventListenerResize } = resize()
   const { Sider, Content } = Layout
 
   useEffect(() => {
+    const openKeys = getOpenMenuKeys(pathname)
+    dispatch(setOpenKeys(openKeys))
+
     resizeMounted()
     addEventListenerOnResize()
     return () => {

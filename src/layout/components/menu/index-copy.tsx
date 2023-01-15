@@ -12,6 +12,7 @@ import { setSelectedKeys, setOpenKeys, setBreadcrumb } from '@/store/modules/app
 // import { routes } from '@/router'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getOpenMenuKeys,
   getShowMenuList,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -70,29 +71,28 @@ const LayoutMenu = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const dispatch = useStoreDispatch()
-  const { selectedKeys, collapsed } = useStoreSelector(state => state.app)
+  const { selectedKeys, openKeys, collapsed } = useStoreSelector(state => state.app)
   const [menuList, setMenuList] = useState<MenuItem[]>([])
-  const [openKeys, setOpenKeys] = useState<string[]>([])
+  // const [openKeys, setOpenKeys] = useState<string[]>([])
 
-  const getSubRoute = () => {
-    const route = getMatchRoute(pathname, routes) || {}
-    return (
-      routes.find((item: any) => {
-        return item.path == route?.path || item?.children?.find(c => c.path == route?.path)
-      }) || {}
-    )
-  }
+  // const getSubRoute = () => {
+  //   const route = getMatchRoute(pathname, routes) || {}
+  //   return (
+  //     routes.find((item: any) => {
+  //       return item.path == route?.path || item?.children?.find(c => c.path == route?.path)
+  //     }) || {}
+  //   )
+  // }
 
-  console.log('getParentRoute', getSubRoute())
+  // console.log('getSubRoute', getSubRoute())
 
   useEffect(() => {
     console.log('pathname', pathname)
 
     if (!collapsed) {
-      const openKey = getOpenMenuKeys(pathname)
-      console.log('openKey', openKey)
-
-      setOpenKeys(openKey)
+      // const openKey = getOpenMenuKeys(pathname)
+      // console.log('openKey', openKey)
+      // setOpenKeys(openKey)
       // dispatch(setOpenKeys(openKey))
     }
 
