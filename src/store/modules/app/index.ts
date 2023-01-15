@@ -6,7 +6,7 @@ import { AppThunk } from '@/store'
 export type Theme = 'dark' | 'light'
 export interface AppState {
   collapsed: boolean
-  selectedKeys: string
+  selectedKeys: string[]
   openKeys: string[]
   breadcrumb: string[]
   size: string
@@ -16,8 +16,8 @@ export interface AppState {
 
 const initialState: AppState = {
   collapsed: getCollapsed() === 'collapsed',
-  selectedKeys: 'dashboard',
-  openKeys: ['dashboard'],
+  selectedKeys: [],
+  openKeys: [],
   breadcrumb: [],
   size: 'middle',
   theme: 'dark',
@@ -32,7 +32,7 @@ export const appSlice = createSlice({
       state.collapsed = payload
       setCollapsed(payload ? 'collapsed' : 'opened')
     },
-    setSelectedKeys: (state, { payload }: PayloadAction<string>) => {
+    setSelectedKeys: (state, { payload }: PayloadAction<string[]>) => {
       state.selectedKeys = payload
     },
     setOpenKeys: (state, { payload }: PayloadAction<string[]>) => {

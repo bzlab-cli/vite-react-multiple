@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/14 17:57:16
+ * @LastEditTime: 2023/01/15 16:47:35
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // import { useLayoutEffect, useEffect, useState } from 'react'
@@ -346,8 +346,8 @@ export function getOpenMenuKeys(path: string) {
 
 /**
  * @description 更新菜单键值
- * @param routes
- * @param prefix
+ * @param routes 路由数据
+ * @param prefix 键值前缀
  * @returns
  */
 export function updateMenuKeys(routes, prefix: string) {
@@ -360,4 +360,20 @@ export function updateMenuKeys(routes, prefix: string) {
     menu.push({ ...item, key })
   })
   return menu
+}
+
+/**
+ * @description 设置展开单个菜单
+ * @param menus 菜单数据
+ * @param keys 展开key
+ * @returns string[]
+ */
+export function getSingleOpenChangeKeys(menus, keys) {
+  const rootKeys = menus.filter(item => item.children && item.children.length > 0).map(item => item.path)
+  const latestOpenKey = keys.length > 0 ? keys[keys.length - 1] : undefined
+  if (latestOpenKey && rootKeys.includes(latestOpenKey)) {
+    return [latestOpenKey]
+  } else {
+    return keys
+  }
 }
