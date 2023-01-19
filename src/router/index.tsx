@@ -1,6 +1,3 @@
-// import { useRoutesWithMiddleware } from '@/middleware'
-// import { useRoutes } from 'react-router-dom'
-
 const constantFiles = import.meta.globEager('./constant-modules/*.tsx')
 let constantModules = []
 
@@ -24,7 +21,3 @@ export const routes = [...constantModules, ...asyncModules]
 export const addRouteMiddleware = routes => {
   return [...constantModules, ...routes]
 }
-
-// export const RouterMiddleware = () => {
-//   return useRoutes(routes)
-// }

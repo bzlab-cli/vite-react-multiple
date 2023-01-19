@@ -72,7 +72,7 @@ export const RouterMiddleware = () => {
   return useRoutes(routeMiddleware)
 }
 
-const Auth = (props: { children: JSX.Element }) => {
+const Permission = (props: { children: JSX.Element }) => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const dispatch = useStoreDispatch()
@@ -106,4 +106,4 @@ const Auth = (props: { children: JSX.Element }) => {
   return next ? props.children : null
 }
 
-export default Auth
+export default Permission
