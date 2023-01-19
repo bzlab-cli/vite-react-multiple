@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/13 15:27:03
+ * @LastEditTime: 2023/01/19 23:14:30
  */
 interface TreeHelperConfig {
   id: string
@@ -38,6 +38,19 @@ export function deepClone(source: IObjModel) {
 export const isValidUsername = (str: string) => ['admin', 'editor'].indexOf(str.trim()) >= 0
 export const isExternal = (path: string) => /^(https?:|mailto:|tel:)/.test(path)
 
+/**
+ * 对象数组排序
+ * @param key 键值
+ * @param type 降序
+ * @returns
+ */
+export const sort = (key, type = 'down') => {
+  return function (m, n) {
+    const a = m[key]
+    const b = n[key]
+    return type === 'down' ? b - a : a - b
+  }
+}
 /**
  * 是否数组
  * @param o

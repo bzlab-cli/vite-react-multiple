@@ -1,9 +1,9 @@
 /*
- * @Description: 登录路由
+ * @Description: 路由菜单
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/14 15:05:29
+ * @LastEditTime: 2023/01/19 22:17:00
  */
 import { lazy } from 'react'
 const Login = lazy(() => import('@/views/login'))

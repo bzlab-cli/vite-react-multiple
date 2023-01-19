@@ -36,6 +36,16 @@ const LayoutMenu = () => {
     const route = getMatchRoute(pathname, routes) || {}
     const matched = route?.path ?? ''
     const matchedList = breadcrumbList[matched]
+    if (matchedList?.length > 1) {
+      const last = matchedList[matchedList.length - 1]
+      const lastSecond = matchedList[matchedList.length - 2]
+      if (last?.meta?.hidden) {
+        dispatch(setSelectedKeys([lastSecond?.path]))
+      } else {
+        dispatch(setSelectedKeys([last?.path]))
+      }
+    }
+
     dispatch(setBreadcrumb(matchedList))
   }
 

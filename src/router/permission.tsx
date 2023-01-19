@@ -8,45 +8,6 @@ import { getMatchRoute, filterAuthRoutes } from '@/utils/permission'
 import { addRouteMiddleware, asyncRoutes } from '@/router'
 import { useRoutes } from 'react-router-dom'
 
-// const routes = [
-//   {
-//     path: '/dashboard',
-//     redirect: 'noredirect',
-//     meta: {
-//       title: '首页',
-//       icon: 'HomeOutlined'
-//     },
-//     children: [
-//       {
-//         path: '/dashboard/index',
-//         name: 'dashboard-index',
-//         meta: {
-//           title: '首页',
-//           icon: 'HomeOutlined'
-//         }
-//       }
-//     ]
-//   },
-//   {
-//     path: '/system',
-//     redirect: 'noredirect',
-//     meta: {
-//       title: '系统管理',
-//       icon: 'HomeOutlined'
-//     },
-//     children: [
-//       {
-//         path: '/system/user',
-//         name: 'system-user',
-//         meta: {
-//           title: '用户管理',
-//           icon: 'HomeOutlined'
-//         }
-//       }
-//     ]
-//   }
-// ]
-
 // interface Route extends RouteObject {
 //   path?: string
 //   element?: ReactNode
@@ -68,8 +29,16 @@ export const RouterMiddleware = () => {
   const store = getStoreState()
   const routeCodes = store.permission.routeCodes
   const authRoutes = filterAuthRoutes(routeCodes, asyncRoutes)
-  const routeMiddleware = addRouteMiddleware(authRoutes)
-  return useRoutes(routeMiddleware)
+  // 权限路由
+  // const routeMiddleware = addRouteMiddleware(authRoutes)
+
+  // 本地路由
+  const routeMiddleware = addRouteMiddleware(asyncRoutes)
+
+  console.log('authRoutes', authRoutes)
+  console.log('routeMiddleware', routeMiddleware)
+
+  return useRoutes(routeMiddleware) // 权限路由
 }
 
 const Permission = (props: { children: JSX.Element }) => {

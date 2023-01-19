@@ -1,13 +1,11 @@
 /*
- * @Description: 登录路由
+ * @Description: 路由菜单
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/14 18:16:22
+ * @LastEditTime: 2023/01/19 22:53:18
  */
 import { lazy } from 'react'
-import { interceptLogin, interceptRouter } from '@/middleware/intercept'
-import { MiddlewareType } from '@/middleware'
 import Layout from '@/layout'
 import lazyComponent from '@/utils/lazy'
 
@@ -16,7 +14,6 @@ const SystemRouter = [
     path: '/system',
     element: <Layout />,
     redirect: 'noredirect',
-    middleware: [interceptLogin, interceptRouter] as MiddlewareType[],
     meta: {
       title: '系统管理',
       icon: 'HomeOutlined'
@@ -29,8 +26,30 @@ const SystemRouter = [
         meta: {
           title: '用户管理',
           icon: 'HomeOutlined'
-        }
+        },
+        children: [
+          {
+            path: '/system/user/detail',
+            name: 'system-user-detail',
+            element: lazyComponent(lazy(() => import('@/views/dashboard'))),
+            meta: {
+              title: '用户管理详情',
+              icon: 'HomeOutlined',
+              hidden: true
+            }
+          }
+        ]
       }
+      // {
+      //   path: '/system/user/detail',
+      //   name: 'system-user-detail',
+      //   element: lazyComponent(lazy(() => import('@/views/dashboard'))),
+      //   meta: {
+      //     title: '用户管理详情',
+      //     icon: 'HomeOutlined',
+      //     hidden: true
+      //   }
+      // }
     ]
   }
 ]

@@ -3,73 +3,59 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/19 16:56:45
+ * @LastEditTime: 2023/01/19 20:36:25
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { useLayoutEffect, useEffect, useState } from 'react'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useLocation, useNavigate, matchRoutes, useSearchParams, useParams } from 'react-router-dom'
+import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
 import DynamicIcons from '@/components/icons'
+import { deepClone } from '@/utils'
 
 /**
- * 加载组件
- * @param {*} view
- * @returns
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { lazy, createElement } from 'react'
-// const modules = import.meta.glob('/src/views/**/*.vue')
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { constantRoutes, asyncRoutes } from '@/router'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// const Layout = lazy(() => import('@/layout'))
-// import lazyLoad from '@/utils/lazy-load'
-
-// const lazyLoad = (path: string) => {
-//   const Comp = React.lazy(() => import(`@/page/${path}`))
-//   return (
-//     <React.Suspense fallback={<>加载中</>}>
-//       <Comp />
-//     </React.Suspense>
-//   )
-// }
-
-// const lazyLoad = (moduleName: string) => {
-//   const Module = lazy(() => import(`views/${moduleName}`));
-//   return <Module />;
-// };
-
-/**
- * 扁平化路由数组对象
+ * 扁平化数组对象
  * @param {Array} menuList
  * @return array
  */
-// export function flatRoutes(menuList) {
-//   const newMenuList = deepClone(menuList)
-//   return newMenuList.reduce((pre, current) => {
-//     let flatArr = [...pre, current]
-//     if (current.children) flatArr = [...flatArr, ...flatRoutes(current.children)]
-//     return flatArr
-//   }, [])
-// }
+export function flatRoutes(menuList) {
+  const newMenuList = deepClone(menuList)
+  return newMenuList.reduce((pre, current) => {
+    let flatArr = [...pre, current]
+    if (current.children) flatArr = [...flatArr, ...flatRoutes(current.children)]
+    return flatArr
+  }, [])
+}
 
 /**
- * 递归过滤需要渲染在左侧菜单的列表
+ * 过滤渲染在左侧菜单的列表
  * @param {Array} routes
  * @return array
  */
 export function getShowMenuList(routes: Menu.MenuOptions[]) {
-  const menuList = routes.map(item => {
-    if (item.meta.hidden) return
-    return {
-      key: item?.path,
-      icon: <DynamicIcons icon={item?.meta?.icon} />,
-      children: item?.children?.length ? getShowMenuList(item.children) : null,
-      label: item?.meta?.title
-    }
-  })
-  return menuList.filter(item => item)
+  const filterMenuList = (routes: Menu.MenuOptions[]) => {
+    const menuList = routes.map(item => {
+      if (item.meta.hidden) return
+      return {
+        key: item?.path,
+        icon: <DynamicIcons icon={item?.meta?.icon} />,
+        children: item?.children?.length ? filterMenuList(item.children) : null,
+        label: item?.meta?.title
+      }
+    })
+    return menuList.filter(item => item)
+  }
+  const list = filterMenuList(routes)
+  const treeDone = data => {
+    data.forEach(item => {
+      if (item.children && item.children.length) {
+        item = treeDone(item.children)
+      } else {
+        delete item.children
+      }
+      return item
+    })
+    return data
+  }
+  const tree = treeDone(list)
+  return tree
 }
 
 /**
@@ -296,24 +282,6 @@ export function getOpenMenuKeys(path: string) {
     result.push(str)
   }
   return result
-}
-
-/**
- * @description 更新菜单键值
- * @param routes 路由数据
- * @param prefix 键值前缀
- * @returns
- */
-export function updateMenuKeys(routes, prefix: string) {
-  const menu = [] as any
-  routes.forEach((item, index) => {
-    const key = prefix + '-' + index
-    if (item.children) {
-      item.children = updateMenuKeys(item.children, key)
-    }
-    menu.push({ ...item, key })
-  })
-  return menu
 }
 
 /**
