@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/15 16:47:35
+ * @LastEditTime: 2023/01/19 16:56:45
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // import { useLayoutEffect, useEffect, useState } from 'react'
@@ -52,19 +52,6 @@ import DynamicIcons from '@/components/icons'
 //     if (current.children) flatArr = [...flatArr, ...flatRoutes(current.children)]
 //     return flatArr
 //   }, [])
-// }
-
-// export function getShowMenuList(menus: Menu.MenuOptions[]) {
-//   const menuList = updateMenuKeys(menus, 'menu')
-//   const result = [] as any
-//   menuList.forEach((item: Menu.MenuOptions) => {
-//     if (!item?.children?.length) {
-//       return !item.meta.hidden && result.push(getItem(item.meta.title, item.path, addIcon(item.meta.icon!)))
-//     }
-//     !item.meta.hidden &&
-//       result.push(getItem(item.meta.title, item.path, addIcon(item.meta.icon!), getShowMenuList(item.children)))
-//   })
-//   return result
 // }
 
 /**
@@ -167,6 +154,20 @@ export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = [])
   return result
 }
 
+/**
+ * 获取子路由父级
+ * @param path 当前访问地址
+ * @param routes 路由列表
+ * @returns
+ */
+export const getSubRoute = (path, routes) => {
+  const route = getMatchRoute(path, routes) || {}
+  return (
+    routes.find((item: any) => {
+      return item.path == route?.path || item?.children?.find(c => c.path == route?.path)
+    }) || {}
+  )
+}
 // export const RouteListener = ({ onChange }: { onChange?: () => void } = {}) => {
 //   const location = useLocation()
 //   useLayoutEffect(() => {
@@ -240,22 +241,6 @@ export interface BreadcrumbType {
 }
 
 /**
- * @description 双重递归 找出所有 面包屑 生成对象存到 redux 中，就不用每次都去递归查找了
- * @param {String} menuList 当前菜单列表
- * @returns object
- */
-// export const findAllBreadcrumbList = (menuList: Menu.MenuOptions[]): { [key: string]: any } => {
-//   const handleBreadcrumbList: any = {}
-//   const loop = (menuItem: Menu.MenuOptions) => {
-//     // 下面判断代码解释 *** !item?.children?.length   ==>   (item.children && item.children.length > 0)
-//     if (menuItem?.children?.length) menuItem.children.forEach(item => loop(item))
-//     else handleBreadcrumbList[menuItem.path] = getBreadcrumbList(menuItem.path, menuList)
-//   }
-//   menuList.forEach(item => loop(item))
-//   return handleBreadcrumbList
-// }
-
-/**
  * @description 获取面包屑对应的数组
  * @param pathname 路由地址
  * @param routes 路由数据
@@ -295,37 +280,6 @@ export const getBreadcrumbRoutes = (pathname: string, jsonRoutesData): Breadcrum
   }
 
   return route.meta.breadcrumb
-}
-
-/**
- * @description 分割路径
- * @param path 路径
- */
-export function splitPath(path: string): string[] {
-  if (!path || typeof path !== 'string') return []
-  const result = path?.split('/') || []
-  if (result?.[0] === '') result.shift()
-  return result
-}
-
-/**
- * @description 获取展开菜单数组
- * @param {String} path 当前访问地址
- * @returns array
- */
-export function getOpenMenuKeys1(path: string): string[] {
-  const arr = splitPath(path)
-  const result: string[] = []
-  if (arr.length === 1) return []
-  if (arr.length === 2) result.push('/' + arr[0])
-  if (arr.length > 2) {
-    let str = '/' + arr[0]
-    for (let i = 1; i < arr.length - 1; i++) {
-      str += '/' + arr[i]
-      result.push(str)
-    }
-  }
-  return result
 }
 
 /**
@@ -376,4 +330,25 @@ export function getSingleOpenChangeKeys(menus, keys) {
   } else {
     return keys
   }
+}
+
+/**
+ * 过滤权限路由
+ * @param auth
+ * @param routes
+ * @returns
+ */
+export const filterAuthRoutes = (auth: string[], routes) => {
+  return routes.reduce((total: any, cur) => {
+    if (cur.children) {
+      const children = cur.children?.filter(i => auth.includes(i.name))
+      if (children.length) {
+        total.push({ ...cur, children })
+      }
+      return total
+    }
+    if (!auth.includes(cur.name)) return total
+    total.push(cur)
+    return total
+  }, [])
 }

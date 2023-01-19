@@ -2,7 +2,8 @@ import { ConfigProvider } from 'antd'
 import { Suspense } from 'react'
 import Loading from '@/components/loading'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { RouterMiddleware } from '@/router'
+// import { RouterMiddleware } from '@/router'
+import Auth, { RouterMiddleware } from '@/router/auth'
 import zhCN from 'antd/lib/locale/zh_CN'
 
 function App() {
@@ -10,7 +11,9 @@ function App() {
     <Router>
       <ConfigProvider locale={zhCN}>
         <Suspense fallback={<Loading />}>
-          <RouterMiddleware />
+          <Auth>
+            <RouterMiddleware />
+          </Auth>
         </Suspense>
       </ConfigProvider>
     </Router>

@@ -43,7 +43,7 @@ export default function AvatarComponent() {
     >
       <div className="avatar-dropdown">
         <Avatar size="default" icon={<UserOutlined />} />
-        <span className="name">{name}13575356945</span>
+        <span className="name">{name}</span>
       </div>
     </Dropdown>
   )
