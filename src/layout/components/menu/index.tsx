@@ -5,7 +5,13 @@ import Logo from '../logo'
 import { useStoreSelector, useStoreDispatch } from '@/store'
 import { setSelectedKeys, setOpenKeys, setBreadcrumb } from '@/store/modules/app'
 import { routes } from '@/router'
-import { getOpenMenuKeys, getShowMenuList, getMatchRoute, getAllBreadcrumbList } from '@/utils/permission'
+import {
+  getOpenMenuKeys,
+  getShowMenuList,
+  getMatchRoute,
+  getAllBreadcrumbList,
+  routeListener
+} from '@/utils/permission'
 import type { MenuProps } from 'antd'
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -19,6 +25,7 @@ const LayoutMenu = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    routeListener()
     if (!collapsed) {
       const keys = getOpenMenuKeys(pathname)
       dispatch(setOpenKeys(keys))

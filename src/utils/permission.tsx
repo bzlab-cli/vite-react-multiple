@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/19 20:36:25
+ * @LastEditTime: 2023/01/19 23:52:56
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
@@ -11,7 +11,7 @@ import DynamicIcons from '@/components/icons'
 import { deepClone } from '@/utils'
 
 /**
- * 扁平化数组对象
+ * @description 扁平化数组对象
  * @param {Array} menuList
  * @return array
  */
@@ -25,7 +25,7 @@ export function flatRoutes(menuList) {
 }
 
 /**
- * 过滤渲染在左侧菜单的列表
+ * @description 过滤渲染在左侧菜单的列表
  * @param {Array} routes
  * @return array
  */
@@ -59,7 +59,7 @@ export function getShowMenuList(routes: Menu.MenuOptions[]) {
 }
 
 /**
- * 递归找出所有面包屑
+ * @description 递归找出所有面包屑
  * @param {Array} menuList
  * @param {Object} result
  * @param {String} path
@@ -78,15 +78,21 @@ interface BreadcrumbItem {
   title: string
 }
 
-// 根据pathname找出面包屑路径
-export const getAllBreadcrumbList3 = (
+/**
+ * @description 根据路由地址查找面包屑
+ * @param menuList 菜单数据
+ * @param path 路由地址
+ * @param breadcrumbs 面包屑
+ * @returns
+ */
+export const getPathBreadcrumbList = (
   menuList: Menu.MenuOptions[],
-  pathname: string,
+  path: string,
   breadcrumbs: BreadcrumbItem[] = []
 ) => {
   let breadcrumbList: BreadcrumbItem[] = []
   let end = false
-  const forEach = (menuList, pathname, breadcrumbs) => {
+  const forEach = (menuList, path, breadcrumbs) => {
     for (const menu of menuList) {
       const list: BreadcrumbItem[] = []
       if (!end) {
@@ -94,21 +100,19 @@ export const getAllBreadcrumbList3 = (
           path: menu.path,
           title: menu.meta.title
         })
-        if (menu.path == pathname) {
+        if (menu.path == path) {
           breadcrumbList = breadcrumbs.concat(list)
           end = true
           break
         } else if (menu.children) {
-          forEach(menu.children, pathname, breadcrumbs.concat(list))
+          forEach(menu.children, path, breadcrumbs.concat(list))
         }
       }
     }
   }
-  forEach(menuList, pathname, breadcrumbs)
+  forEach(menuList, path, breadcrumbs)
   return breadcrumbList
 }
-
-// getAllBreadcrumbList3(menuList, '/order-list')
 
 /**
  * @description 匹配路由
@@ -141,7 +145,7 @@ export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = [])
 }
 
 /**
- * 获取子路由父级
+ * @description 获取子路由父级
  * @param path 当前访问地址
  * @param routes 路由列表
  * @returns
@@ -154,13 +158,6 @@ export const getSubRoute = (path, routes) => {
     }) || {}
   )
 }
-// export const RouteListener = ({ onChange }: { onChange?: () => void } = {}) => {
-//   const location = useLocation()
-//   useLayoutEffect(() => {
-//     if (onChange) onChange()
-//   }, [location, onChange])
-//   return <></>
-// }
 
 /**
  * @description 查询路由参数
@@ -182,8 +179,10 @@ export const getParams = key => {
   return params[key]
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const onRouteChange = () => {
+/**
+ * @description 监听系统更新
+ */
+export const routeListener = () => {
   fetch(`/version.json?t=${Date.now()}`)
     .then(res => res.json())
     .then(res => {
@@ -194,8 +193,10 @@ const onRouteChange = () => {
         if (data.version === lastVersion) return
         window.localStorage.setItem('buildVersion', data.version)
         Modal.confirm({
-          title: '系统已更新，请刷新页面后访问！',
-          okText: '刷新页面',
+          title: '提示',
+          icon: <DynamicIcons icon="ExclamationCircleOutlined" />,
+          content: '系统已更新，请刷新页面后访问！',
+          okText: '确认',
           onOk: () => location.reload(),
           cancelButtonProps: { style: { display: 'none' } }
         })
@@ -204,8 +205,6 @@ const onRouteChange = () => {
       }
     })
 }
-
-// RouteListener(onRouteChange)
 
 /**
  * @description 筛选有权限的菜单
@@ -219,53 +218,11 @@ export const filterAuthMenuItem = routes => {
 }
 
 /**
- * 面包屑类型
+ * @description 面包屑类型
  */
 export interface BreadcrumbType {
   title: string
   path: string
-}
-
-/**
- * @description 获取面包屑对应的数组
- * @param pathname 路由地址
- * @param routes 路由数据
- * @returns
- */
-export const getBreadcrumbRoutes = (pathname: string, jsonRoutesData): BreadcrumbType[] => {
-  const route = jsonRoutesData[pathname] || {}
-  if (!route.path) {
-    return []
-  }
-
-  if (!route.meta?.breadcrumb) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const parentPath = route.meta?.parentPath || []
-    // const routes = getPathsTheRoutes(parentPath, jsonRoutesData)
-    const routes = [] as any
-    const bread: BreadcrumbType[] = []
-
-    for (let index = 0; index < routes.length; index++) {
-      const element = routes[index]
-      bread.push({
-        title: element.meta?.title || '',
-        path: element.path
-      })
-    }
-
-    if (route.meta?.breadcrumb === false) {
-      return bread
-    }
-
-    bread.push({
-      title: route.meta?.title || '',
-      path: route.path
-    })
-
-    return bread
-  }
-
-  return route.meta.breadcrumb
 }
 
 /**
@@ -301,7 +258,7 @@ export function getSingleOpenChangeKeys(menus, keys) {
 }
 
 /**
- * 过滤权限路由
+ * @description 过滤权限路由
  * @param auth
  * @param routes
  * @returns
