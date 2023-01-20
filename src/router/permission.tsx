@@ -8,23 +8,6 @@ import { getMatchRoute, filterAuthRoutes } from '@/utils/permission'
 import { addRouteMiddleware, asyncRoutes } from '@/router'
 import { useRoutes } from 'react-router-dom'
 
-// interface Route extends RouteObject {
-//   path?: string
-//   element?: ReactNode
-//   title?: string
-//   /*** for those deteil page and uncesssary for TagsBar/sideBar */
-//   hidden?: boolean
-//   icon?: ReactNode
-//   /*** for header tags,usually only dashboard is true */
-//   affix?: boolean
-//   /*** whether keepAlive, usually used in those Info Page */
-//   keepAlive?: boolean
-// }
-
-// export interface IRoute extends Route {
-//   children?: Route[]
-// }
-
 export const RouterMiddleware = () => {
   const store = getStoreState()
   const routeCodes = store.permission.routeCodes
@@ -37,7 +20,6 @@ export const RouterMiddleware = () => {
 
   console.log('authRoutes', authRoutes)
   console.log('routeMiddleware', routeMiddleware)
-
   return useRoutes(routeMiddleware) // 权限路由
 }
 

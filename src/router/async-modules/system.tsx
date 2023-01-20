@@ -3,13 +3,13 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/19 22:53:18
+ * @LastEditTime: 2023/01/20 16:25:03
  */
 import { lazy } from 'react'
 import Layout from '@/layout'
 import lazyComponent from '@/utils/lazy'
 
-const SystemRouter = [
+const SystemRouter: Router.RouteRecordRaw[] = [
   {
     path: '/system',
     element: <Layout />,
@@ -40,16 +40,6 @@ const SystemRouter = [
           }
         ]
       }
-      // {
-      //   path: '/system/user/detail',
-      //   name: 'system-user-detail',
-      //   element: lazyComponent(lazy(() => import('@/views/dashboard'))),
-      //   meta: {
-      //     title: '用户管理详情',
-      //     icon: 'HomeOutlined',
-      //     hidden: true
-      //   }
-      // }
     ]
   }
 ]

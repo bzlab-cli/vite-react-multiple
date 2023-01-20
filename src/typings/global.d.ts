@@ -3,14 +3,14 @@
  * @Description:
  * @Date: 2021/10/28 22:49:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/13 23:39:44
+ * @LastEditTime: 2023/01/20 22:14:45
  */
 
 declare interface IResponseModel<T> {
   retCode: number
   retMsg: string
   data?: T
-}
+}0
 
 declare interface IObjModel {
   [propName: string]: any
@@ -26,38 +26,25 @@ declare interface ViteEnv {
 	VITE_APP_FTP_STATIC_API: string;
 }
 
-declare namespace Menu {
-	interface MenuOptions {
-		path: string;
-		// element?: string | (() => Promise<any>);
-		name: string;
-		meta: MetaProps;
-		children?: MenuOptions[];
-	}
-	interface MetaProps {
-    title: string;
-		icon: string;
-		hidden: boolean;
-		cache: boolean;
-	}
-}
-
 declare namespace Router {
   interface MetaProps {
-    keepAlive?: boolean
-    requiresAuth?: boolean
-    title: string
-    key?: string
+    title?: string
+    icon?: string
+    cache?: boolean
+    hidden?: boolean
   }
 
   interface RouteRecordRaw {
-    caseSensitive?: boolean
-    children?: RouteRecordRaw[]
+    path: string
+    name?: string
+    redirect?: string
     element?: React.ReactNode
-    index?: any
+    meta: MetaProps
+    children?: RouteRecordRaw[]
+  }
+  interface BreadcrumbItem {
     path?: string
-    meta?: MetaProps
-    isLink?: string
+    title: string
   }
 }
 

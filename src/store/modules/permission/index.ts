@@ -1,27 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter } from '@/utils'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { filterAsyncRouter } from '@/utils/permission'
 import { getMenuGrantByRoleId } from '@/api/auth/role'
 import { message } from 'antd'
 import { getStoreState } from '@/store'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { constantRoutes, asyncRoutes } from '@/router'
-// import Layout from '@/layout/index.vue'
 
 export interface PermissionState {
   buttonCodes: string[] // 按钮权限数据
   routeCodes: string[] // 路由权限数据
-  // dynamicRoutes: Router.RouteRecordRaw[]
   cachedViews: (string | undefined)[] // 缓存路由
 }
 
 const initialState: PermissionState = {
   buttonCodes: [],
   routeCodes: [],
-  // dynamicRoutes: [],
   cachedViews: []
 }
 
@@ -47,9 +39,6 @@ export const permissionSlice = createSlice({
         return true
       })
 
-      // const filterRoutes = filter(routes, item => {
-      //   return item.menuType !== 3 && item.grantFlag
-      // })
       const routeCodes = [] as any
       filter(routes, item => {
         const route = item.menuType !== 3 && item.grantFlag
@@ -71,18 +60,6 @@ export const permissionSlice = createSlice({
       state.buttonCodes = buttonCodes // 按钮权限
       state.routeCodes = routeCodes // 路由权限
       state.cachedViews = cachedViews // 缓存路由
-
-      // const accessedRoutes = filterAsyncRouter(filterRoutes)
-      // console.log('accessedRoutes', accessedRoutes)
-
-      // state.routes = constantRoutes.concat(accessedRoutes) // 路由菜单
-      // state.dynamicRoutes = accessedRoutes // 动态路由
-      // state.buttonCodes = buttonCodes // 按钮权限
-      // state.cachedViews = cachedViews // 缓存路由
-
-      // console.log('routes', state.routes)
-      // console.log('dynamicRoutes', state.dynamicRoutes)
-      // console.log('asyncRoutes', asyncRoutes)
     },
     removeCacheView(state, { payload }: PayloadAction<boolean>) {
       if (!payload) return

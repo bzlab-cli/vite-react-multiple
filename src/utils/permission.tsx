@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/19 23:52:56
+ * @LastEditTime: 2023/01/20 16:22:46
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
@@ -29,8 +29,8 @@ export function flatRoutes(menuList) {
  * @param {Array} routes
  * @return array
  */
-export function getShowMenuList(routes: Menu.MenuOptions[]) {
-  const filterMenuList = (routes: Menu.MenuOptions[]) => {
+export function getShowMenuList(routes: Router.RouteRecordRaw[]) {
+  const filterMenuList = routes => {
     const menuList = routes.map(item => {
       if (item.meta.hidden) return
       return {
@@ -73,11 +73,6 @@ export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = 
   return result
 }
 
-interface BreadcrumbItem {
-  path?: string
-  title: string
-}
-
 /**
  * @description 根据路由地址查找面包屑
  * @param menuList 菜单数据
@@ -86,15 +81,15 @@ interface BreadcrumbItem {
  * @returns
  */
 export const getPathBreadcrumbList = (
-  menuList: Menu.MenuOptions[],
+  menuList: Router.RouteRecordRaw[],
   path: string,
-  breadcrumbs: BreadcrumbItem[] = []
+  breadcrumbs: Router.BreadcrumbItem[] = []
 ) => {
-  let breadcrumbList: BreadcrumbItem[] = []
+  let breadcrumbList: Router.BreadcrumbItem[] = []
   let end = false
   const forEach = (menuList, path, breadcrumbs) => {
     for (const menu of menuList) {
-      const list: BreadcrumbItem[] = []
+      const list: Router.BreadcrumbItem[] = []
       if (!end) {
         list.push({
           path: menu.path,
@@ -132,8 +127,8 @@ export const getMatchRoute = (path: string, routes: Router.RouteRecordRaw[] = []
  * @param {Array} routes 路由列表
  * @returns array
  */
-export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = []): Router.RouteRecordRaw => {
-  let result: Router.RouteRecordRaw = {}
+export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = []) => {
+  let result: any = null
   for (const item of routes) {
     if (item.path === path) return item
     if (item.children) {
@@ -150,8 +145,8 @@ export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = [])
  * @param routes 路由列表
  * @returns
  */
-export const getSubRoute = (path, routes) => {
-  const route = getMatchRoute(path, routes) || {}
+export const getSubRoute = (path, routes: Router.RouteRecordRaw[]) => {
+  const route = getMatchRoute(path, routes) || ({} as Router.RouteRecordRaw)
   return (
     routes.find((item: any) => {
       return item.path == route?.path || item?.children?.find(c => c.path == route?.path)
@@ -164,7 +159,7 @@ export const getSubRoute = (path, routes) => {
  * @param {string} key 键值
  * @returns any
  */
-export const getSearchParams = key => {
+export const getSearchParams = (key: string) => {
   const [searchParams] = useSearchParams()
   return searchParams.get(key)
 }
@@ -174,7 +169,7 @@ export const getSearchParams = key => {
  * @param {string} key 键值
  * @returns any
  */
-export const getParams = key => {
+export const getParams = (key: string) => {
   const params = useParams()
   return params[key]
 }
@@ -211,18 +206,10 @@ export const routeListener = () => {
  * @param routes 路由数据
  * @returns
  */
-export const filterAuthMenuItem = routes => {
+export const filterAuthMenuItem = (routes: Router.RouteRecordRaw[]) => {
   const getMenuChild = menuList =>
     menuList.reduce((total, cur) => total.concat(Array.isArray(cur.children) ? getMenuChild(cur.children) : cur), [])
   return getMenuChild(routes).find(item => item.auth)
-}
-
-/**
- * @description 面包屑类型
- */
-export interface BreadcrumbType {
-  title: string
-  path: string
 }
 
 /**
@@ -247,7 +234,7 @@ export function getOpenMenuKeys(path: string) {
  * @param keys 展开key
  * @returns string[]
  */
-export function getSingleOpenChangeKeys(menus, keys) {
+export function getSingleOpenChangeKeys(menus: Router.RouteRecordRaw[], keys: string[]) {
   const rootKeys = menus.filter(item => item.children && item.children.length > 0).map(item => item.path)
   const latestOpenKey = keys.length > 0 ? keys[keys.length - 1] : undefined
   if (latestOpenKey && rootKeys.includes(latestOpenKey)) {
@@ -259,20 +246,20 @@ export function getSingleOpenChangeKeys(menus, keys) {
 
 /**
  * @description 过滤权限路由
- * @param auth
- * @param routes
+ * @param auth 权限数据
+ * @param routes 路由数据
  * @returns
  */
-export const filterAuthRoutes = (auth: string[], routes) => {
+export const filterAuthRoutes = (auth: string[], routes: Router.RouteRecordRaw[]) => {
   return routes.reduce((total: any, cur) => {
     if (cur.children) {
-      const children = cur.children?.filter(i => auth.includes(i.name))
+      const children = cur.children?.filter(i => auth.includes(i.name!))
       if (children.length) {
         total.push({ ...cur, children })
       }
       return total
     }
-    if (!auth.includes(cur.name)) return total
+    if (!auth.includes(cur.name!)) return total
     total.push(cur)
     return total
   }, [])

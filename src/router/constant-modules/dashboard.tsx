@@ -3,13 +3,13 @@
  * @Author: jrucker
  * @Date: 2023/01/12 17:00:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/19 22:16:44
+ * @LastEditTime: 2023/01/20 16:25:48
  */
 import { lazy } from 'react'
 import Layout from '@/layout'
 import lazyComponent from '@/utils/lazy'
 
-const DashboardRouter = [
+const DashboardRouter: Router.RouteRecordRaw[] = [
   {
     path: '/dashboard',
     element: <Layout />,

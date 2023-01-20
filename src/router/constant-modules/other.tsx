@@ -3,11 +3,11 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/19 22:17:05
+ * @LastEditTime: 2023/01/20 16:26:38
  */
 import { Navigate } from 'react-router-dom'
 
-const OtherRouter = [
+const OtherRouter: Router.RouteRecordRaw[] = [
   {
     path: '/',
     element: <Navigate to="/dashboard/index" replace />,

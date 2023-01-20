@@ -3,12 +3,12 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/19 22:17:00
+ * @LastEditTime: 2023/01/20 16:26:10
  */
 import { lazy } from 'react'
 const Login = lazy(() => import('@/views/login'))
 
-const LoginRouter = [
+const LoginRouter: Router.RouteRecordRaw[] = [
   {
     path: '/login',
     element: <Login />,
