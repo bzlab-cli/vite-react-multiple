@@ -10,28 +10,25 @@ import { getUserList, resetPassword, deleteUser, updateUserForbiddenStatus } fro
 import { getRoleSelect2 } from '@/api/auth/role'
 import { getOrgList } from '@/api/auth/org'
 import { useConfirm } from '@/hooks/handle/use-confirm'
-import AddUser from './components/add-user'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import ModalService from '@/components/modal/modal'
+// import AddUser from './components/add-user'
 
 import dynamic from '@/components/dynamic'
-import TestModal from '@/components/modal/test'
+import AddUser from '@/components/modal/test'
 
 type TableListItem = {
   forbiddenStatus: number
 }
 
-type ModalProps = {
-  visible: (params: { title: string; record: any; isAdd: boolean; callback: () => void }) => void
-}
+// type ModalProps = {
+//   visible: (params: { title: string; record: any; isAdd: boolean; callback: () => void }) => void
+// }
 
 const User = () => {
   const actionRef = useRef<ActionType>()
-  const addUserRef = useRef<ModalProps>(null)
+  // const addUserRef = useRef<ModalProps>(null)
 
   const [roleList, setRoleList] = useState<{ [key: string]: { text: string } }>()
   const [orgList, setOrgList] = useState<{ [key: string]: { text: string } }>()
-  // const [addUserVisible, setAddUserVisible] = useState(false)
 
   const requestRoleSelect2 = async () => {
     const { data } = await getRoleSelect2(undefined)
@@ -76,52 +73,13 @@ const User = () => {
     actionRef.current?.reload()
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleAddUser = async (title, record?) => {
-    // const showTestModal = (data, options = {}) => create(TestModal, data, { unmountDelay: 300, ...options })
-
-    const res = await dynamic.show({
-      data: {
-        title: '34343',
-        record: record || {}
-      },
-      render: TestModal
+    await dynamic.show({
+      data: { title, record: record || null },
+      render: AddUser
     })
 
-    console.log('777', res)
-    // const data = {
-    //   title: 'Test Modal1',
-    //   record
-    // }
-    // dynamic(TestModal, data)
-    //   .then(response => {
-    //     console.log('response: ', response)
-    //   })
-    //   .catch(error => {
-    //     console.log('error: ', error)
-    //   })
-    // showTestModal({
-    //   title: 'Test Modal',
-    //   record
-    // })
-    //   .then(response => {
-    //     console.log('response: ', response)
-    //   })
-    //   .catch(error => {
-    //     console.log('error: ', error)
-    //   })
-
-    // setAddUserVisible(true)
-    // ModalService.open({
-    //   title: '期待返回promise进行链式调用',
-    //   children: '这是期待的promise返回的格式，这样更好用感觉'
-    // })
-    // .then(() => {
-    //   console.log('modal 点击了确定✅, and close')
-    // })
-    // .catch(() => {
-    //   console.log('modal 点击了取消🈲️, and close')
-    // })
+    actionRef.current?.reload()
 
     // addUserRef.current?.visible({
     //   title,
@@ -244,7 +202,7 @@ const User = () => {
           </Button>
         }
       />
-      <AddUser innerRef={addUserRef} />
+      {/* <AddUser innerRef={addUserRef} /> */}
       {/* <Modal visible={addUserVisible}>1111</Modal> */}
     </>
   )
