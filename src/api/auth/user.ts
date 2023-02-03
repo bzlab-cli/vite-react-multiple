@@ -3,15 +3,14 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/12/08 11:41:39
+ * @LastEditTime: 2023/02/01 17:12:41
  */
 
-import { UserInfoModel } from '@/interface/user'
+import { ILoginInfo, IUserInfo } from '@/interface/user'
 import axios from '@/utils/axios'
-import { LoginModel } from '@/interface/login'
 
 export const login = (userInfo: any) => {
-  return axios.request<IResponseModel<LoginModel>>({
+  return axios.request<IResponseModel<ILoginInfo>>({
     baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: 'user/login',
     method: 'post',
@@ -20,7 +19,7 @@ export const login = (userInfo: any) => {
 }
 
 export const userInfo = () => {
-  return axios.request<IResponseModel<UserInfoModel>>({
+  return axios.request<IResponseModel<IUserInfo>>({
     baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: 'user/getUserByToken',
     method: 'get'
@@ -66,6 +65,7 @@ export const resetPassword = (data: any) => {
 // 查询权限
 export const getCompetence = (data: any) => {
   return axios.request<IResponseModel<any>>({
+    baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: `competence`,
     method: 'get',
     params: data
@@ -75,6 +75,7 @@ export const getCompetence = (data: any) => {
 // 获取用户
 export const getUser = (data: any) => {
   return axios.request<IResponseModel<any>>({
+    baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: `user/getUser`,
     method: 'get',
     params: data

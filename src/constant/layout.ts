@@ -1,14 +1,36 @@
+import type { SearchConfig } from '@ant-design/pro-table/es/components/Form/FormRender'
+import type { OptionConfig } from '@ant-design/pro-table/es/components/ToolBar'
+import type { TablePaginationConfig } from 'antd/es/table/Table'
+
 export const editCanvasConfig = {
   width: 1920,
   height: 1080,
   previewScaleType: 'full'
 }
 
-export const paginationParams = {
-  pageNum: 1,
+export const searchConfig: SearchConfig = {
+  defaultCollapsed: false,
+  labelWidth: 'auto',
+  span: {
+    xs: 24,
+    sm: 12,
+    md: 12,
+    lg: 12,
+    xl: 8,
+    xxl: 6
+  }
+}
+
+export const tableOptions: OptionConfig = {
+  density: false,
+  setting: {
+    listsHeight: 400
+  }
+}
+
+export const tablePagination: TablePaginationConfig = {
+  size: 'default',
+  showQuickJumper: true,
   pageSize: 10,
-  total: 0,
-  pageSizes: [10, 25, 50, 100],
-  background: true,
-  layout: 'total, prev, pager, next, jumper'
+  showTotal: total => `共 ${total} 条`
 }

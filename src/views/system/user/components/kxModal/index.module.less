@@ -1,0 +1,45 @@
+.modalWrap {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  z-index: 9;
+  width: 945px;
+  height: 1323px;
+  padding: 92px 40px 42px;
+  overflow: hidden;
+  color: #fff;
+  font-size: 38px;
+  background-image: url(../../assets/images/rightwrap-bg2.png);
+  background-size: 100% 100%;
+  transform: translate(-50%, -40%) scale(0);
+  transition: ease-in-out 0.5s;
+  .titleWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 15px;
+    font-size: 48px;
+
+    .close {
+      width: 60px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+  }
+  &.visible {
+    transform: translate(-50%, -50%) scale(1);
+    // animation: blockModal 0.5s;
+  }
+}
+
+// @keyframes blockModal {
+//   0% {
+//     transform: translate(-50%, -50%) scale(0);
+//   }
+//   100% {
+//     transform: translate(-50%, -50%) scale(1);
+//   }
+// }

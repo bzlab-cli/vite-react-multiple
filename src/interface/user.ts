@@ -3,10 +3,22 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2021/12/02 14:33:04
+ * @LastEditTime: 2023/01/30 10:23:53
  */
 
-export interface UserInfoModel {
+export interface ILoginInfo {
+  competenceList?: Array<string>
+  headUrl: string
+  token: string
+  roleId: string
+  userName: string
+  account: number
+  password: string
+  userId: string
+  orgId: number
+}
+
+export interface IUserInfo {
   id: number
   account: string
   password: string

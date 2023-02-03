@@ -1,15 +1,4 @@
-interface IStatus {
-  name: string
-  id: number
+export const statusList = {
+  0: { text: '禁用' },
+  1: { text: '启用' }
 }
-
-export const statusList: IStatus[] = [
-  {
-    name: '启用',
-    id: 1
-  },
-  {
-    name: '禁用',
-    id: 0
-  }
-]

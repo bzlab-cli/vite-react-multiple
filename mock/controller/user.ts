@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/29 15:57:11
+ * @LastEditTime: 2023/02/01 17:15:01
  */
 
 import { Random } from 'mockjs'
@@ -98,22 +98,68 @@ export default class User {
     // return ctx.throw(401)
   }
 
+  @get('/user/getUser')
+  async getUser() {
+    return {
+      userId: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
+      userName: 'admin',
+      roleId: 'ad',
+      roleName: '系统管理员',
+      orgId: '1001',
+      orgName: null,
+      headUrl: null,
+      phone: '13575356945',
+      account: null,
+      email: '',
+      state: null,
+      userType: null,
+      rtcAttributes: null,
+      jobNumber: null,
+      entryDate: null,
+      professional: null,
+      dateOfBirth: null,
+      education: null,
+      createTime: '2021-11-18 10:24:05',
+      remarks: 'admin',
+      competenceIds: null,
+      forbiddenStatus: 1
+    } as any
+  }
+
   @get('/user/getUserByToken')
   async getUserInfo() {
     return user
   }
 
+  @get('/competence')
+  async competence() {
+    return [
+      {
+          "id": 1,
+          "competenceName": "绩效评审组长",
+          "competenceCode": "202",
+          "describe": null
+      },
+      {
+          "id": 2,
+          "competenceName": "绩效主席",
+          "competenceCode": null,
+          "describe": null
+      }
+    ] as any
+  }
+
   @get('/user/user')
   async getUserList() {
     return {
-      total: 15,
+      total: 2,
       list: [
         {
           userId: '1ee3d49b-aa78-4846-a1b7-76044d097c8e',
           userName: 'admin',
           roleId: 'ad',
           roleName: '系统管理员',
-          orgId: 0,
+          orgId: '1001',
           orgName: null,
           headUrl: null,
           phone: '13575356945',
@@ -125,6 +171,30 @@ export default class User {
           jobNumber: null,
           entryDate: null,
           professional: null,
+          dateOfBirth: null,
+          education: null,
+          createTime: '2021-11-18 10:24:05',
+          remarks: 'admin',
+          competenceIds: null,
+          forbiddenStatus: 1
+        },
+        {
+          userId: '1ee3d49b-aa78-4846-a1b7-76044d097c81',
+          userName: 'admin2',
+          roleId: 'sub_ad',
+          roleName: '子管理员',
+          orgId: '1003',
+          orgName: '组织2',
+          headUrl: null,
+          phone: '13575356945',
+          account: null,
+          email: '',
+          state: null,
+          userType: null,
+          rtcAttributes: null,
+          jobNumber: null,
+          entryDate: null,
+          professional: '',
           dateOfBirth: null,
           education: null,
           createTime: '2021-11-18 10:24:05',

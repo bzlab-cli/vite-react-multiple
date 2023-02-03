@@ -1,6 +1,6 @@
 @import './transition.scss';
 @import './layout.scss';
-@import './element.scss';
+@import './antd.scss';
 @import './scrollbar.scss';
 
 body {
@@ -25,26 +25,6 @@ html {
   box-sizing: border-box;
 }
 
-a,
-a:focus,
-a:hover {
-  color: inherit;
-  outline: none;
-  text-decoration: none;
-}
-
-div:focus {
-  outline: none;
-}
-
 .clearfix {
   @include clearfix;
-}
-
-.card {
-  box-sizing: border-box;
-  padding: 15px;
-  background-color: #ffffff;
-  border-radius: 4px;
-  height: 100%;
 }

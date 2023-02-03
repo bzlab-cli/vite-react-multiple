@@ -1,5 +1,6 @@
-import { dynamic } from '@bzlab/bz-core'
+import dynamic from '@/components/dynamic'
+import ReactDOM from 'react-dom/client'
 
-export default function loadComponent(app: any) {
-  dynamic.mount(app)
+export default function loadComponent() {
+  dynamic.mount(ReactDOM)
 }

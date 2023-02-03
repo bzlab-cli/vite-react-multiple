@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/19 23:14:30
+ * @LastEditTime: 2023/02/01 14:26:18
  */
 interface TreeHelperConfig {
   id: string
@@ -97,6 +97,27 @@ export const isBlank = varValue => {
     return false
   }
   return true
+}
+
+/**
+ * 过滤对象空值（'', null, undefined）
+ * @param data
+ * @returns
+ */
+export function filterObjectEmpty(data) {
+  const keys = Object.keys(data)
+  if (!keys.length) return
+  keys.forEach(currentKey => {
+    const currentVal = data[currentKey]
+    if (!Array.isArray(currentVal) && currentVal instanceof Object) {
+      data[currentKey] = filterObjectEmpty(currentVal)
+    } else {
+      if (['', null, undefined].includes(currentVal)) {
+        delete data[currentKey]
+      }
+    }
+  })
+  return data
 }
 
 /**
