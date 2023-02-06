@@ -10,23 +10,15 @@ import { getUserList, resetPassword, deleteUser, updateUserForbiddenStatus } fro
 import { getRoleSelect2 } from '@/api/auth/role'
 import { getOrgList } from '@/api/auth/org'
 import { useConfirm } from '@/hooks/handle/use-confirm'
-// import AddUser from './components/add-user'
-
 import dynamic from '@/components/dynamic'
-import AddUser from '@/components/modal/test'
+import AddUser from './components/add-user'
 
 type TableListItem = {
   forbiddenStatus: number
 }
 
-// type ModalProps = {
-//   visible: (params: { title: string; record: any; isAdd: boolean; callback: () => void }) => void
-// }
-
 const User = () => {
   const actionRef = useRef<ActionType>()
-  // const addUserRef = useRef<ModalProps>(null)
-
   const [roleList, setRoleList] = useState<{ [key: string]: { text: string } }>()
   const [orgList, setOrgList] = useState<{ [key: string]: { text: string } }>()
 
@@ -49,7 +41,6 @@ const User = () => {
   }
 
   const requestUserList = async ({ current, ...params }: { current?: number }) => {
-    console.log('params', params)
     const { retCode, data, retMsg } = await getUserList(filterObjectEmpty({ pageNum: current, ...params }))
     if (retCode !== 200) message.warning(retMsg)
     return { ...data, data: data?.list }
@@ -80,13 +71,6 @@ const User = () => {
     })
 
     actionRef.current?.reload()
-
-    // addUserRef.current?.visible({
-    //   title,
-    //   record,
-    //   isAdd: title === '新增用户',
-    //   callback: () => actionRef.current?.reload()
-    // })
   }
 
   useEffect(() => {
@@ -202,8 +186,6 @@ const User = () => {
           </Button>
         }
       />
-      {/* <AddUser innerRef={addUserRef} /> */}
-      {/* <Modal visible={addUserVisible}>1111</Modal> */}
     </>
   )
 }

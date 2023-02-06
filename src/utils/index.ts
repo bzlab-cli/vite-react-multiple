@@ -3,8 +3,9 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/02/01 14:26:18
+ * @LastEditTime: 2023/02/06 09:54:04
  */
+import { FormRules } from '@/interface/form'
 interface TreeHelperConfig {
   id: string
   children: string
@@ -139,6 +140,20 @@ export function filter<T = any>(tree: T[], func: (n: T) => boolean, config: Part
       })
   }
   return listFilter(tree)
+}
+
+/**
+ * 表单属性
+ * @param items
+ * @returns
+ */
+export function getFormRules<TFormData>(items: { [key in keyof TFormData]: FormRules<keyof TFormData> }): {
+  [key in keyof TFormData]: FormRules<keyof TFormData> & { name: string }
+} {
+  Object.entries(items).forEach(([key, item]: [string, any]) => {
+    item.name = key
+  })
+  return items
 }
 
 /**
