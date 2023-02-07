@@ -3,7 +3,7 @@
  * @Description: 数据
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/09 17:42:22
+ * @LastEditTime: 2023/02/07 16:36:44
  */
 
 export const menuGrantByRole = [
@@ -49,7 +49,7 @@ export const menuGrantByRole = [
         updateUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
         updateTime: '2021-11-15 18:28:13',
         hasChild: true,
-        grantFlag: true,
+        grantFlag: false,
         childTreeList: [
           {
             id: 10010401,
@@ -71,7 +71,7 @@ export const menuGrantByRole = [
             updateUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
             updateTime: '2021-11-15 18:35:40',
             hasChild: false,
-            grantFlag: true,
+            grantFlag: false,
             childTreeList: []
           }
         ]

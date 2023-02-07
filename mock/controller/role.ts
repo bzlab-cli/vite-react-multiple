@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2021/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/29 16:04:00
+ * @LastEditTime: 2023/02/07 14:07:35
  */
 
 import { prefix, get } from '../decorator/request'
@@ -41,8 +41,8 @@ export default class User {
         {
           id: 'sub_ad',
           roleName: '大区管理员',
-          orgId: 0,
-          orgName: null,
+          orgId: 1001,
+          orgName: '华东区',
           remarks: '大区管理员',
           editFlag: 0,
           status: 0,

@@ -5,3 +5,8 @@
 .ant-modal .ant-modal-header {
   margin-bottom: 15px;
 }
+
+.add-auth-modal .ant-card-body {
+  height: 300px;
+  overflow-y: auto;
+}

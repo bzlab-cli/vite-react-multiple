@@ -3,41 +3,32 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message } from 'antd'
 import { useRef } from 'react'
-import { searchConfig, tableOptions, tablePagination } from '@/constant/layout'
+import { searchConfig, tableOptions } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
-import { getRoleList } from '@/api/auth/role'
+import { getOrgList } from '@/api/auth/org'
 import dynamic from '@/components/dynamic'
-import AddRole from './components/add-role'
-import AddAuth from './components/add-auth'
+import AddOrg from './components/add-org'
 
 type TableListItem = {
-  orgId: number
   orgName: string
+  orgSort: number
   status: number
+  orgId: number
 }
 
-const Role = () => {
+const Org = () => {
   const actionRef = useRef<ActionType>()
 
-  const requestRoleList = async ({ current, ...params }: { current?: number }) => {
-    const { retCode, data, retMsg } = await getRoleList(filterObjectEmpty({ pageNum: current, ...params }))
+  const requestOrgList = async ({ current, ...params }: { current?: number }) => {
+    const { retCode, data, retMsg } = await getOrgList(filterObjectEmpty({ pageNum: current, ...params }))
     if (retCode !== 200) message.warning(retMsg)
-    return { ...data, data: data?.list }
+    return { data }
   }
 
   const handleAddRole = async (title, record?) => {
     await dynamic.show({
-      data: { title, record, isAdd: title === '新增角色' },
-      render: AddRole
-    })
-
-    actionRef.current?.reload()
-  }
-
-  const handleAddAuth = async (title, record?) => {
-    await dynamic.show({
-      data: { title, record },
-      render: AddAuth
+      data: { title, record, isAdd: title === '新增组织' },
+      render: AddOrg
     })
 
     actionRef.current?.reload()
@@ -45,15 +36,23 @@ const Role = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '角色名称',
-      dataIndex: 'roleName',
-      key: 'roleName',
+      title: '组织名称',
+      dataIndex: 'orgName',
+      key: 'orgName',
       align: 'center',
       ellipsis: true
     },
     {
+      title: '排序',
+      dataIndex: 'orgSort',
+      key: 'orgSort',
+      align: 'center',
+      ellipsis: true,
+      hideInSearch: true
+    },
+    {
       title: '状态',
-      dataIndex: 'forbiddenStatus',
+      dataIndex: 'status',
       align: 'center',
       ellipsis: true,
       hideInSearch: true,
@@ -62,17 +61,16 @@ const Role = () => {
       )
     },
     {
-      title: '组织',
-      dataIndex: 'orgName',
-      key: 'orgName',
-      align: 'center',
-      ellipsis: true,
-      hideInSearch: true,
-      render: (_, record) => <span>{record.orgId === 0 ? '全部' : record.orgName}</span>
-    },
-    {
       title: '创建时间',
       dataIndex: 'createTime',
+      align: 'center',
+      ellipsis: true,
+      hideInSearch: true
+    },
+    {
+      title: '备注',
+      dataIndex: 'remarks',
+      key: 'remarks',
       align: 'center',
       ellipsis: true,
       hideInSearch: true
@@ -85,10 +83,7 @@ const Role = () => {
       width: 200,
       key: 'option',
       render: (_, record) => [
-        <a key="auth" onClick={() => handleAddAuth('授权', record)}>
-          授权
-        </a>,
-        <a key="edit" onClick={() => handleAddRole('修改角色', record)}>
+        <a key="edit" onClick={() => handleAddRole('修改组织', record)}>
           修改
         </a>
       ]
@@ -99,15 +94,15 @@ const Role = () => {
       <ProTable<TableListItem>
         columns={columns}
         actionRef={actionRef}
-        request={requestRoleList}
+        request={requestOrgList}
         rowKey="id"
         search={searchConfig}
         options={tableOptions}
-        pagination={tablePagination}
+        pagination={false}
         dateFormatter="string"
         headerTitle={
-          <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => handleAddRole('新增角色')}>
-            新增角色
+          <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => handleAddRole('新增组织')}>
+            新增组织
           </Button>
         }
       />
@@ -115,4 +110,4 @@ const Role = () => {
   )
 }
 
-export default Role
+export default Org

@@ -66,7 +66,7 @@ const User = () => {
 
   const handleAddUser = async (title, record?) => {
     await dynamic.show({
-      data: { title, record: record || null },
+      data: { title, record, isAdd: title === '新增用户' },
       render: AddUser
     })
 

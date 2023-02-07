@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description:
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/02/06 09:54:04
+ * @LastEditTime: 2023/02/07 16:04:58
  */
 import { FormRules } from '@/interface/form'
 interface TreeHelperConfig {
@@ -153,7 +153,7 @@ export function getFormRules<TFormData>(items: { [key in keyof TFormData]: FormR
   Object.entries(items).forEach(([key, item]: [string, any]) => {
     item.name = key
   })
-  return items
+  return items as any
 }
 
 /**
@@ -348,12 +348,12 @@ export function formatValue(callValue: any) {
 }
 
 /**
- * 扁平化为数组
+ * 扁平化数组
  * @param data
  * @param nodeKey
  * @returns
  */
-export function flatArrTree(data: object[] = [], nodeKey: string) {
+export function flatArrTree(data: object[] = [], nodeKey: string = 'children') {
   const newData = JSON.parse(JSON.stringify(data))
   if (!newData.length) {
     return []

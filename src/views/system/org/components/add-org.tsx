@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Modal, message, Form, Input, Radio } from 'antd'
 import { addRole, updateRole } from '@/api/auth/role'
-import { getOrgSelect2 } from '@/api/auth/org'
-import { forEachTree, getFormRules } from '@/utils'
-import BzTreeSelect from '@/components/bz-tree-select'
+import { getFormRules } from '@/utils'
+
 interface ModalProps {
   title: string
   record: { [key: string]: any }
@@ -24,48 +23,31 @@ const statusRadio = [
 ]
 
 const AntModal = (props: ModalProps) => {
-  const { title, record = { status: 0 }, isAdd, callback } = props
+  const defaultProps = { status: 0, parentId: 0, orgLevel: 1 }
+  const { title, record = defaultProps, isAdd, callback } = props
   const [modalVisible, setModalVisible] = useState(true)
   const [form] = Form.useForm()
   const formLayout = { labelCol: { span: 4 } }
   const [statusList] = useState(statusRadio)
-  const [treeSelectList, setTreeSelectList] = useState([])
   const formRules = getFormRules({
-    roleName: { label: '角色名称', rules: [{ required: true, message: '请输入角色名称' }] },
-    orgId: { label: '组织' },
-    status: { label: '状态', rules: [{ required: true, message: '请选择状态' }] }
+    orgName: { label: '组织名称', rules: [{ required: true, message: '请输入组织名称' }] },
+    orgSort: { label: '排序', rules: [{ required: true, message: '请输入排序' }] },
+    status: { label: '状态', rules: [{ required: true, message: '请选择状态' }] },
+    remarks: { label: '备注' }
   })
 
   record.orgId = record.orgId == 0 ? undefined : record.orgId
-
-  const fetchOrgList = async () => {
-    const reqBody = { orgLevel: 1, parentId: 0 }
-    const { data, retCode, retMsg } = await getOrgSelect2(reqBody)
-    if (retCode !== 200) return message.warning(retMsg)
-    forEachTree(data || [], item => {
-      item.title = item.orgName
-      item.value = item.id
-    })
-
-    setTreeSelectList(data)
-  }
-
-  const onMounted = async () => {
-    await fetchOrgList()
-  }
-
-  useEffect(() => {
-    onMounted()
-  }, [])
 
   const handleSubmit = async () => {
     const fields = form.getFieldsValue()
     const reqBody = {
       id: isAdd ? undefined : record.id,
-      orgId: fields.orgId,
+      parentId: fields.parentId,
+      orgLevel: fields.orgLevel,
+      orgName: fields.orgName,
       status: fields.status,
-      remarks: fields.remarks,
-      roleName: fields.roleName
+      orgSort: fields.orgSort,
+      remarks: fields.remarks
     }
 
     await form.validateFields()
@@ -81,14 +63,17 @@ const AntModal = (props: ModalProps) => {
       <Form form={form} {...formLayout} initialValues={record}>
         {
           <>
-            <Form.Item {...formRules.roleName}>
+            <Form.Item {...formRules.orgName}>
               <Input placeholder="请输入" />
             </Form.Item>
-            <Form.Item {...formRules.orgId}>
-              <BzTreeSelect selectValue={record?.orgId} treeData={treeSelectList} />
+            <Form.Item {...formRules.orgSort}>
+              <Input placeholder="请输入" />
             </Form.Item>
             <Form.Item {...formRules.status}>
               <Radio.Group options={statusList} optionType="button" />
+            </Form.Item>
+            <Form.Item {...formRules.remarks}>
+              <Input placeholder="请输入" />
             </Form.Item>
           </>
         }

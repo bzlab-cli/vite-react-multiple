@@ -7,21 +7,22 @@ import { forEachTree, getFormRules } from '@/utils'
 import { IProfessSchema, professList } from '@/constant/professional'
 import BzTreeSelect from '@/components/bz-tree-select'
 
-interface ModelProps {
+interface ModalProps {
   title: string
   record: { [key: string]: any }
+  isAdd: boolean
   callback: (val?) => void
   destroy: (val?) => void
 }
 
-const AddUser = (props: ModelProps) => {
-  const { title, record, callback } = props
+const AntModal = (props: ModalProps) => {
+  const { title, record, isAdd, callback } = props
   const [modalVisible, setModalVisible] = useState(true)
   const [form] = Form.useForm()
   const formLayout = { labelCol: { span: 4 } }
-  const [roleList, setRoleList] = useState<any[]>([])
+  const [roleList, setRoleList] = useState<{ label: string; value: number }[]>([])
   const [treeSelectList, setTreeSelectList] = useState([])
-  const [competenceList, setCompetenceList] = useState<any[]>([])
+  const [competenceList, setCompetenceList] = useState<{ label: string; value: number }[]>([])
   const [professSelectList] = useState<IProfessSchema[]>(professList)
 
   const formRules = getFormRules({
@@ -76,7 +77,7 @@ const AddUser = (props: ModelProps) => {
   const handleSubmit = async () => {
     const fields = form.getFieldsValue()
     const reqBody = {
-      userId: !record ? undefined : record.userId,
+      userId: isAdd ? undefined : record.userId,
       account: fields.phone,
       userName: fields.userName,
       headUrl: fields.headUrl,
@@ -91,7 +92,7 @@ const AddUser = (props: ModelProps) => {
     }
 
     await form.validateFields()
-    const { retCode, retMsg } = !record ? await addUser(reqBody) : await updateUser(reqBody)
+    const { retCode, retMsg } = isAdd ? await addUser(reqBody) : await updateUser(reqBody)
     if (retCode !== 200) return message.warning(retMsg)
     message.success('操作成功')
     setModalVisible(false)
@@ -137,4 +138,4 @@ const AddUser = (props: ModelProps) => {
   )
 }
 
-export default AddUser
+export default AntModal

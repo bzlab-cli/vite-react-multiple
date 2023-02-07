@@ -8,14 +8,8 @@
 
 import axios from '@/utils/axios'
 
-interface ICreateRole {
-  orgId: number | string
-  remarks: string
-  roleName: string
-}
-
 // 创建角色
-export const addRole = (data: ICreateRole) => {
+export const addRole = (data: any) => {
   return axios.request<IResponseModel<any>>({
     baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: 'role/createRole',
