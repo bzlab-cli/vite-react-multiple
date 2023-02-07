@@ -1,4 +1,3 @@
-import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message } from 'antd'
@@ -106,7 +105,7 @@ const Role = () => {
         pagination={tablePagination}
         dateFormatter="string"
         headerTitle={
-          <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => handleAddRole('新增角色')}>
+          <Button key="button" type="primary" onClick={() => handleAddRole('新增角色')}>
             新增角色
           </Button>
         }

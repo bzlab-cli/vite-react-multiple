@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/02/07 16:42:57
+ * @LastEditTime: 2023/02/07 17:00:01
  */
 import { lazy } from 'react'
 import Layout from '@/layout'
@@ -46,6 +46,15 @@ const SystemRouter: Router.RouteRecordRaw[] = [
         element: lazyComponent(lazy(() => import('@/views/system/role'))),
         meta: {
           title: '角色管理',
+          icon: 'HomeOutlined'
+        }
+      },
+      {
+        path: '/system/menu',
+        name: 'system-menu',
+        element: lazyComponent(lazy(() => import('@/views/system/menu'))),
+        meta: {
+          title: '菜单管理',
           icon: 'HomeOutlined'
         }
       },

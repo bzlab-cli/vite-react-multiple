@@ -1,4 +1,3 @@
-import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message } from 'antd'
@@ -25,7 +24,7 @@ const Org = () => {
     return { data }
   }
 
-  const handleAddRole = async (title, record?) => {
+  const handleAddOrg = async (title, record?) => {
     await dynamic.show({
       data: { title, record, isAdd: title === '新增组织' },
       render: AddOrg
@@ -83,7 +82,7 @@ const Org = () => {
       width: 200,
       key: 'option',
       render: (_, record) => [
-        <a key="edit" onClick={() => handleAddRole('修改组织', record)}>
+        <a key="edit" onClick={() => handleAddOrg('修改组织', record)}>
           修改
         </a>
       ]
@@ -101,7 +100,7 @@ const Org = () => {
         pagination={false}
         dateFormatter="string"
         headerTitle={
-          <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => handleAddRole('新增组织')}>
+          <Button key="button" type="primary" onClick={() => handleAddOrg('新增组织')}>
             新增组织
           </Button>
         }
