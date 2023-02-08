@@ -1,9 +1,7 @@
 import './index.scss'
-import { useStoreSelector } from '@/store'
 
 const Dashboard = () => {
-  const { token } = useStoreSelector(state => state.user)
-  return <div className="dashboard">dashboard-{token}</div>
+  return <div className="dashboard">首页</div>
 }
 
 export default Dashboard
