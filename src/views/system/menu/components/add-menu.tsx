@@ -1,9 +1,10 @@
-import { useState } from 'react'
-import { Modal, message, Form, Input, Radio } from 'antd'
+import { useState, useEffect } from 'react'
+import { Modal, message, Form, Input, Radio, Select, Col, Row } from 'antd'
 import { addMenu, updateMenu } from '@/api/auth/menu'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { getMenuList } from '@/api/auth/menu'
 import { getFormRules, filter, forEachTree } from '@/utils'
-
+import BzTreeSelect from '@/components/bz-tree-select'
+import { menuTypeList, statusList, hiddenFlagList, cacheList } from '@/constant/menu'
 interface ModalProps {
   title: string
   record: { [key: string]: any }
@@ -12,24 +13,23 @@ interface ModalProps {
   destroy: (val?) => void
 }
 
-const statusRadio = [
-  {
-    label: '启用',
-    value: 0
-  },
-  {
-    label: '禁用',
-    value: 1
-  }
-]
-
 const AntModal = (props: ModalProps) => {
-  const defaultProps = { status: 0, parentId: 0, orgLevel: 1 }
+  const defaultProps = {
+    menuType: 1,
+    parentId: 0,
+    menuSort: 0,
+    menuIcon: 'HomeOutlined',
+    hiddenFlag: 1,
+    status: 0,
+    cache: 0
+  }
   const { title, record = defaultProps, isAdd, callback } = props
   const [modalVisible, setModalVisible] = useState(true)
   const [form] = Form.useForm()
-  const formLayout = { labelCol: { span: 4 } }
-  const [statusList] = useState(statusRadio)
+  const formLayout = { labelCol: { span: 6 } }
+  const [menuType, setMenuType] = useState<number>(record.menuType)
+  const [treeSelectList, setTreeSelectList] = useState<any>([])
+
   const formRules = getFormRules({
     menuType: { label: '菜单类型', rules: [{ required: true, message: '请输入组织名称' }] },
     menuName: { label: '菜单名称', rules: [{ required: true, message: '请输入菜单名称' }] },
@@ -45,7 +45,29 @@ const AntModal = (props: ModalProps) => {
     cache: { label: '缓存' }
   })
 
-  record.orgId = record.orgId == 0 ? undefined : record.orgId
+  record.parentId = record.parentId == 0 ? undefined : record.parentId
+
+  const fetchMenuList = async () => {
+    const { retCode, data, retMsg } = await getMenuList(undefined)
+    if (retCode !== 200) message.warning(retMsg)
+    const childrenName = 'childTreeList'
+    const fMenu = filter(data, item => item.menuType !== 3)
+    forEachTree(fMenu, item => {
+      item.title = item.menuName
+      item.value = item.id
+      item.children = item[childrenName] || []
+    })
+
+    setTreeSelectList(fMenu)
+  }
+
+  const onMounted = async () => {
+    await fetchMenuList()
+  }
+
+  useEffect(() => {
+    onMounted()
+  }, [])
 
   const handleSubmit = async () => {
     const fields = form.getFieldsValue()
@@ -76,31 +98,93 @@ const AntModal = (props: ModalProps) => {
   }
 
   return (
-    <Modal title={title} open={modalVisible} onOk={handleSubmit} onCancel={() => setModalVisible(false)} destroyOnClose>
+    <Modal
+      title={title}
+      width={769}
+      open={modalVisible}
+      onOk={handleSubmit}
+      onCancel={() => setModalVisible(false)}
+      destroyOnClose
+    >
       <Form form={form} {...formLayout} initialValues={record}>
         {
           <>
-            <Form.Item {...formRules.menuName}>
-              <Input placeholder="请输入" />
-            </Form.Item>
-            <Form.Item {...formRules.menuSort}>
-              <Input placeholder="请输入" />
-            </Form.Item>
-            <Form.Item {...formRules.menuRoute}>
-              <Input placeholder="请输入" />
-            </Form.Item>
-            <Form.Item {...formRules.menuComponents}>
-              <Input placeholder="请输入" />
-            </Form.Item>
-            <Form.Item {...formRules.menuUrl}>
-              <Input placeholder="请输入" />
-            </Form.Item>
-            <Form.Item {...formRules.menuCode}>
-              <Input placeholder="请输入" />
-            </Form.Item>
-            <Form.Item {...formRules.cache}>
-              <Radio.Group options={statusList} optionType="button" />
-            </Form.Item>
+            <Row gutter={[8, 8]}>
+              <Col span={12}>
+                <Form.Item {...formRules.menuType}>
+                  <Radio.Group options={menuTypeList} optionType="button" onChange={e => setMenuType(e.target.value)} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={[8, 0]}>
+              <Col span={12}>
+                <Form.Item {...formRules.menuName}>
+                  <Input placeholder="请输入" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item {...formRules.parentId}>
+                  <BzTreeSelect selectValue={record?.parentId} treeData={treeSelectList} />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item {...formRules.menuSort}>
+                  <Input placeholder="请输入" />
+                </Form.Item>
+              </Col>
+              {(menuType === 1 || menuType === 2) && (
+                <Col span={12}>
+                  <Form.Item {...formRules.menuIcon}>
+                    <Input placeholder="请输入" />
+                  </Form.Item>
+                </Col>
+              )}
+              {(menuType === 1 || menuType === 2) && (
+                <Col span={12}>
+                  <Form.Item {...formRules.menuRoute}>
+                    <Input placeholder="请输入" />
+                  </Form.Item>
+                </Col>
+              )}
+              {(menuType === 1 || menuType === 2) && (
+                <Col span={12}>
+                  <Form.Item {...formRules.menuComponents}>
+                    <Input placeholder="请输入" />
+                  </Form.Item>
+                </Col>
+              )}
+              {(menuType === 1 || menuType === 2) && (
+                <Col span={12}>
+                  <Form.Item {...formRules.menuUrl}>
+                    <Input placeholder="请输入" />
+                  </Form.Item>
+                </Col>
+              )}
+              <Col span={12}>
+                <Form.Item {...formRules.hiddenFlag}>
+                  <Select placeholder="请选择" options={hiddenFlagList} />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item {...formRules.status}>
+                  <Select placeholder="请选择" options={statusList} />
+                </Form.Item>
+              </Col>
+              {(menuType === 2 || menuType === 3) && (
+                <Col span={12}>
+                  <Form.Item {...formRules.menuCode}>
+                    <Input placeholder="请输入" />
+                  </Form.Item>
+                </Col>
+              )}
+              {(menuType === 2 || menuType === 3) && (
+                <Col span={12}>
+                  <Form.Item {...formRules.cache}>
+                    <Select placeholder="请选择" options={cacheList} />
+                  </Form.Item>
+                </Col>
+              )}
+            </Row>
           </>
         }
       </Form>

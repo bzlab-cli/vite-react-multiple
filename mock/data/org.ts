@@ -1,7 +1,7 @@
 /*
  * @Author: jrucker
  * @Description: 数据
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
  * @LastEditTime: 2022/01/29 16:03:15
  */
@@ -16,9 +16,9 @@ export const getOrgList = [
     editFlag: 0,
     status: 0,
     createUser: '',
-    createTime: '2021-11-05 14:38:08',
+    createTime: '2022-11-05 14:38:08',
     updateUser: '',
-    updateTime: '2021-11-05 14:38:08',
+    updateTime: '2022-11-05 14:38:08',
     hasChild: false,
     childTreeList: [] as any
   },
@@ -31,9 +31,9 @@ export const getOrgList = [
     editFlag: 1,
     status: 0,
     createUser: '1',
-    createTime: '2021-11-12 10:29:49',
+    createTime: '2022-11-12 10:29:49',
     updateUser: '85df4b6d-9ffb-469a-b366-37cdcfe6e656',
-    updateTime: '2021-11-18 11:02:09',
+    updateTime: '2022-11-18 11:02:09',
     hasChild: false,
     childTreeList: []
   }

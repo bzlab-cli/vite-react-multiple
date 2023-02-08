@@ -4,6 +4,7 @@ import { addRole, updateRole } from '@/api/auth/role'
 import { getOrgSelect2 } from '@/api/auth/org'
 import { forEachTree, getFormRules } from '@/utils'
 import BzTreeSelect from '@/components/bz-tree-select'
+import { statusList } from '@/constant/role'
 interface ModalProps {
   title: string
   record: { [key: string]: any }
@@ -12,23 +13,11 @@ interface ModalProps {
   destroy: (val?) => void
 }
 
-const statusRadio = [
-  {
-    label: '启用',
-    value: 0
-  },
-  {
-    label: '禁用',
-    value: 1
-  }
-]
-
 const AntModal = (props: ModalProps) => {
   const { title, record = { status: 0 }, isAdd, callback } = props
   const [modalVisible, setModalVisible] = useState(true)
   const [form] = Form.useForm()
   const formLayout = { labelCol: { span: 4 } }
-  const [statusList] = useState(statusRadio)
   const [treeSelectList, setTreeSelectList] = useState([])
   const formRules = getFormRules({
     roleName: { label: '角色名称', rules: [{ required: true, message: '请输入角色名称' }] },

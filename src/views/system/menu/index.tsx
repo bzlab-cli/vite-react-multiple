@@ -28,7 +28,6 @@ const Menu = () => {
       item.name = item.menuName
       item.children = item[childrenName] || []
     })
-
     return { data }
   }
 
@@ -102,7 +101,13 @@ const Menu = () => {
       ellipsis: true,
       hideInSearch: true,
       render: (_, record) => (
-        <Tag color={record.cache == 0 ? 'error' : 'processing'}>{record.cache == 0 ? '禁用' : '启用'}</Tag>
+        <>
+          {record.menuType === 2 ? (
+            <Tag color={record.cache == 0 ? 'error' : 'processing'}>{record.cache == 0 ? '禁用' : '启用'}</Tag>
+          ) : (
+            '-'
+          )}
+        </>
       )
     },
     {
@@ -163,13 +168,23 @@ const Menu = () => {
             新增菜单
           </Button>
         }
-        // expandedRowKeys={this.state.expandedRowKeys}
         expandIcon={({ expanded, onExpand, record }) => {
           if (record.menuType === 3) return null
           if (expanded) {
-            return <DownOutlined style={{ marginRight: '5px', color: '#999' }} onClick={e => onExpand(record, e)} />
+            return (
+              <DownOutlined
+                width={22}
+                style={{ marginRight: '5px', color: '#999', fontSize: '12px' }}
+                onClick={e => onExpand(record, e)}
+              />
+            )
           } else {
-            return <RightOutlined style={{ marginRight: '5px', color: '#999' }} onClick={e => onExpand(record, e)} />
+            return (
+              <RightOutlined
+                style={{ marginRight: '5px', color: '#999', fontSize: '12px' }}
+                onClick={e => onExpand(record, e)}
+              />
+            )
           }
         }}
       />

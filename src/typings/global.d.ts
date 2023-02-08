@@ -1,9 +1,9 @@
 /*
  * @Author: jrucker
  * @Description:
- * @Date: 2021/10/28 22:49:45
+ * @Date: 2022/10/28 22:49:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/20 22:14:45
+ * @LastEditTime: 2023/02/08 15:05:10
  */
 
 declare interface IResponseModel<T> {

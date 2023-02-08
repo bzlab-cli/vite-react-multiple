@@ -45,21 +45,21 @@ const User = () => {
     return { ...data, data: data?.list }
   }
 
-  const handleEnableChange = async (row, flag) => {
+  const handleEnableChange = async (record, flag) => {
     const message = `确认${flag === 0 ? '禁用' : '启用'}?`
-    await useConfirm(updateUserForbiddenStatus, { userId: row.userId, forbiddenStatus: flag }, message)
+    await useConfirm(updateUserForbiddenStatus, { userId: record.userId, forbiddenStatus: flag }, message)
     actionRef.current?.reload()
   }
 
-  const handleResetPwd = async row => {
-    const { retCode, retMsg } = await resetPassword({ userId: row.userId })
+  const handleResetPwd = async record => {
+    const { retCode, retMsg } = await resetPassword({ userId: record.userId })
     if (retCode !== 200) return message.warning(retMsg)
     message.success('重置成功')
   }
 
-  const handleDelete = async row => {
+  const handleDelete = async record => {
     const message = `确认删除?`
-    await useConfirm(deleteUser, { userId: row.userId }, message)
+    await useConfirm(deleteUser, { userId: record.userId }, message)
     actionRef.current?.reload()
   }
 

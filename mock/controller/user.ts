@@ -1,7 +1,7 @@
 /*
  * @Author: jrucker
  * @Description:
- * @Date: 2021/10/25 18:56:51
+ * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
  * @LastEditTime: 2023/02/01 17:15:01
  */
@@ -119,7 +119,7 @@ export default class User {
       professional: null,
       dateOfBirth: null,
       education: null,
-      createTime: '2021-11-18 10:24:05',
+      createTime: '2022-11-18 10:24:05',
       remarks: 'admin',
       competenceIds: null,
       forbiddenStatus: 1
@@ -173,7 +173,7 @@ export default class User {
           professional: null,
           dateOfBirth: null,
           education: null,
-          createTime: '2021-11-18 10:24:05',
+          createTime: '2022-11-18 10:24:05',
           remarks: 'admin',
           competenceIds: null,
           forbiddenStatus: 1
@@ -197,7 +197,7 @@ export default class User {
           professional: '',
           dateOfBirth: null,
           education: null,
-          createTime: '2021-11-18 10:24:05',
+          createTime: '2022-11-18 10:24:05',
           remarks: '',
           competenceIds: null,
           forbiddenStatus: 1

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Modal, message, Form, Input, Radio } from 'antd'
 import { addRole, updateRole } from '@/api/auth/role'
 import { getFormRules } from '@/utils'
-
+import { statusList } from '@/constant/org'
 interface ModalProps {
   title: string
   record: { [key: string]: any }
@@ -11,24 +11,12 @@ interface ModalProps {
   destroy: (val?) => void
 }
 
-const statusRadio = [
-  {
-    label: '启用',
-    value: 0
-  },
-  {
-    label: '禁用',
-    value: 1
-  }
-]
-
 const AntModal = (props: ModalProps) => {
   const defaultProps = { status: 0, parentId: 0, orgLevel: 1 }
   const { title, record = defaultProps, isAdd, callback } = props
   const [modalVisible, setModalVisible] = useState(true)
   const [form] = Form.useForm()
   const formLayout = { labelCol: { span: 4 } }
-  const [statusList] = useState(statusRadio)
   const formRules = getFormRules({
     orgName: { label: '组织名称', rules: [{ required: true, message: '请输入组织名称' }] },
     orgSort: { label: '排序', rules: [{ required: true, message: '请输入排序' }] },

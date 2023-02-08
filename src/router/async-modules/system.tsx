@@ -26,19 +26,7 @@ const SystemRouter: Router.RouteRecordRaw[] = [
         meta: {
           title: '用户管理',
           icon: 'HomeOutlined'
-        },
-        children: [
-          {
-            path: '/system/user/detail',
-            name: 'system-user-detail',
-            element: lazyComponent(lazy(() => import('@/views/dashboard'))),
-            meta: {
-              title: '用户管理详情',
-              icon: 'HomeOutlined',
-              hidden: true
-            }
-          }
-        ]
+        }
       },
       {
         path: '/system/role',

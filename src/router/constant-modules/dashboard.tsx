@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2023/01/12 17:00:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/20 16:25:48
+ * @LastEditTime: 2023/02/08 14:59:10
  */
 import { lazy } from 'react'
 import Layout from '@/layout'
@@ -16,7 +16,8 @@ const DashboardRouter: Router.RouteRecordRaw[] = [
     redirect: 'noredirect',
     meta: {
       title: '首页',
-      icon: 'HomeOutlined'
+      icon: 'HomeOutlined',
+      hidden: true
     },
     children: [
       {
