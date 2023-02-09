@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import { searchConfig, tableOptions } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
 import { getOrgList } from '@/api/auth/org'
-import dynamic from '@/components/dynamic'
+import { dynamic } from '@bzlab/bz-react-core'
 import AddOrg from './components/add-org'
 
 type TableListItem = {

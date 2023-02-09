@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import { searchConfig, tableOptions, tablePagination } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
 import { getRoleList } from '@/api/auth/role'
-import dynamic from '@/components/dynamic'
+import { dynamic } from '@bzlab/bz-react-core'
 import AddRole from './components/add-role'
 import AddAuth from './components/add-auth'
 

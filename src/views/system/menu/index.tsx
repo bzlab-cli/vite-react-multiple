@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import { searchConfig, tableOptions } from '@/constant/layout'
 import { forEachTree, filterObjectEmpty } from '@/utils'
 import { getMenuList } from '@/api/auth/menu'
-import dynamic from '@/components/dynamic'
+import { dynamic } from '@bzlab/bz-react-core'
 import AddMenu from './components/add-menu'
 import { RightOutlined, DownOutlined } from '@ant-design/icons'
 

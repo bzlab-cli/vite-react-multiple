@@ -9,7 +9,7 @@ import { getUserList, resetPassword, deleteUser, updateUserForbiddenStatus } fro
 import { getRoleSelect2 } from '@/api/auth/role'
 import { getOrgList } from '@/api/auth/org'
 import { useConfirm } from '@/hooks/handle/use-confirm'
-import dynamic from '@/components/dynamic'
+import { dynamic } from '@bzlab/bz-react-core'
 import AddUser from './components/add-user'
 
 type TableListItem = {
