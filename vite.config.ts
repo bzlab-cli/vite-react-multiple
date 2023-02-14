@@ -43,10 +43,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     plugins: [
       react(),
-      createSvgIconsPlugin({
-        iconDirs: [resolve('./src/assets/icons')],
-        symbolId: 'icon-[dir]-[name]'
-      }),
       eslintPlugin({
         cache: false
       }),
@@ -56,6 +52,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         threshold: 102400,
         algorithm: 'gzip',
         ext: '.gz'
+      }),
+      createSvgIconsPlugin({
+        iconDirs: [resolve('src/assets/svg')],
+        symbolId: 'icon-[name]'
       })
     ],
     css: {
