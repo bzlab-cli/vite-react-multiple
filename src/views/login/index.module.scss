@@ -1,4 +1,4 @@
-.login-container {
+.container {
   background-image: url('/images/login/bg.svg');
   background-repeat: no-repeat;
   background-position: center 110px;
@@ -39,10 +39,10 @@
       .login-btn {
         width: 100%;
         white-space: nowrap;
-        .ant-form-item-control-input-content {
+        :global(.ant-form-item-control-input-content) {
           display: flex;
           justify-content: space-between;
-          .ant-btn {
+          :global(.ant-btn) {
             width: 100%;
             span {
               font-size: 14px;
@@ -57,15 +57,19 @@
         transition-delay: 5000s;
         transition: color 5000s ease-out, background-color 5000s ease-out;
       }
+      input:-internal-autofill-selected {
+        transition: background-color 5000s ease-in-out 0s !important;
+      }
     }
   }
-  .ant-layout-footer {
+  :global(.ant-layout-footer) {
     text-align: center;
     color: rgba(0, 0, 0, 0.85);
     position: fixed;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
+    width: 100%;
     .icon {
       width: 30px;
       margin-right: 3px;

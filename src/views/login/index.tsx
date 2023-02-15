@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useStoreDispatch } from '@/store'
 import { login } from '@/store/modules/user'
 import { getFormRules } from '@/utils'
-import './index.scss'
+import styles from './index.module.scss'
 
 const { Footer } = Layout
 
@@ -32,16 +32,16 @@ const Login = () => {
   }
 
   return (
-    <div className="login-container">
-      <div className="content">
-        <div className="login-top">
-          <div className="login-title">
-            <img className="logo-img" src="/src/assets/images/logo/logo.png" />
+    <div className={styles['container']}>
+      <div className={styles['content']}>
+        <div className={styles['login-top']}>
+          <div className={styles['login-title']}>
+            <img className={styles['logo-img']} src="/src/assets/images/logo/logo.png" />
             管理系统
           </div>
-          <div className="login-desc">诚信卓越服务，创新超越自我</div>
+          <div className={styles['login-desc']}>诚信卓越服务，创新超越自我</div>
         </div>
-        <div className="login-main">
+        <div className={styles['login-main']}>
           <Form
             form={form}
             name="basic"
@@ -57,7 +57,7 @@ const Login = () => {
             <Form.Item {...formRules.password}>
               <Input.Password autoComplete="new-password" placeholder="请输入密码" prefix={<LockOutlined />} />
             </Form.Item>
-            <Form.Item className="login-btn">
+            <Form.Item className={styles['login-btn']}>
               <Button type="primary" htmlType="submit" loading={loading}>
                 登录
               </Button>
@@ -66,11 +66,17 @@ const Login = () => {
         </div>
       </div>
       <Footer>
-        <div className="desc">
-          <img className="icon" src="/images/login/logo.png" />
+        <div className={styles['desc']}>
+          <img className={styles['icon']} src="/images/login/logo.png" />
           <span>Technology provided by Frog Cloud Technology</span>
-          <a className="beian" href="https://beian.miit.gov.cn" target="_blank" data-v-cfc305de="" rel="noreferrer">
-            浙ICP备xxx号
+          <a
+            className={styles['beian']}
+            href="https://beian.miit.gov.cn"
+            target="_blank"
+            data-v-cfc305de=""
+            rel="noreferrer"
+          >
+            浙ICP备16007368号-3
           </a>
         </div>
       </Footer>
