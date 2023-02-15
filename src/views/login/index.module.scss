@@ -54,10 +54,12 @@
       input:-webkit-autofill:hover,
       input:-webkit-autofill:focus,
       input:-webkit-autofill:active {
+        font-size: 14px;
         transition-delay: 5000s;
         transition: color 5000s ease-out, background-color 5000s ease-out;
       }
       input:-internal-autofill-selected {
+        font-size: 14px;
         transition: background-color 5000s ease-in-out 0s !important;
       }
     }
