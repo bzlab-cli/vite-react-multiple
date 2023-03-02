@@ -2,16 +2,17 @@ import { useMemo } from 'react'
 
 interface SvgIconProps {
   prefix?: string
-  name: string
+  icon: string
+  name?: string
   color?: string
   size?: number | string
 }
 
 const SvgIcon = (props: SvgIconProps) => {
-  const { prefix = 'icon', name, color, size = 16 } = props
-  const symbolId = useMemo(() => `#${prefix}-${name}`, [prefix, name])
+  const { prefix = 'icon', icon, name, color, size = 16 } = props
+  const symbolId = useMemo(() => `#${prefix}-${icon}`, [prefix, icon])
   return (
-    <svg aria-hidden="true" width={size} height={size} fill={color}>
+    <svg className={name} aria-hidden="true" width={size} height={size} fill={color}>
       <use href={symbolId} fill={color} />
     </svg>
   )
