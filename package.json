@@ -23,7 +23,7 @@
 		"@bzlab/bz-react-core": "0.0.4",
 		"@reduxjs/toolkit": "^1.9.1",
 		"ahooks": "^3.7.4",
-		"antd": "^5.1.2",
+		"antd": "^5.4.7",
 		"axios": "^0.27.2",
 		"dayjs": "^1.10.7",
 		"immer": "^9.0.15",

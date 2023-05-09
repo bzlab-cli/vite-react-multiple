@@ -1,6 +1,6 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
-import { Button, Tag, message } from 'antd'
+import { Button, Tag, message, Typography } from 'antd'
 import { useRef } from 'react'
 import { searchConfig, tableOptions, tablePagination } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
@@ -84,12 +84,12 @@ const Role = () => {
       width: 200,
       key: 'option',
       render: (_, record) => [
-        <a key="auth" onClick={() => handleAddAuth('授权', record)}>
+        <Typography.Link key="auth" onClick={() => handleAddAuth('授权', record)}>
           授权
-        </a>,
-        <a key="edit" onClick={() => handleAddRole('修改角色', record)}>
+        </Typography.Link>,
+        <Typography.Link key="edit" onClick={() => handleAddRole('修改角色', record)}>
           修改
-        </a>
+        </Typography.Link>
       ]
     }
   ]

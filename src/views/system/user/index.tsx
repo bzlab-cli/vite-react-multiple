@@ -1,6 +1,6 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
-import { Button, Tag, message } from 'antd'
+import { Button, Tag, message, Typography } from 'antd'
 import { useRef, useEffect, useState } from 'react'
 import { statusList } from '@/constant/user'
 import { searchConfig, tableOptions, tablePagination } from '@/constant/layout'
@@ -148,23 +148,23 @@ const User = () => {
       width: 200,
       key: 'option',
       render: (_, record) => [
-        <a key="edit" onClick={() => handleAddUser('修改用户', record)}>
+        <Typography.Link key="edit" onClick={() => handleAddUser('修改用户', record)}>
           修改
-        </a>,
-        <a
+        </Typography.Link>,
+        <Typography.Link
           key="status"
           onClick={() => {
             handleEnableChange(record, record.forbiddenStatus == 1 ? 0 : 1)
           }}
         >
           {record.forbiddenStatus == 1 ? '禁用' : '启用'}
-        </a>,
-        <a key="reset" onClick={() => handleResetPwd(record)}>
+        </Typography.Link>,
+        <Typography.Link key="reset" onClick={() => handleResetPwd(record)}>
           重置密码
-        </a>,
-        <a key="delete" onClick={() => handleDelete(record)}>
+        </Typography.Link>,
+        <Typography.Link key="delete" onClick={() => handleDelete(record)}>
           删除
-        </a>
+        </Typography.Link>
       ]
     }
   ]

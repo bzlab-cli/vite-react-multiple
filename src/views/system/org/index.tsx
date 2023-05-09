@@ -1,6 +1,6 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
-import { Button, Tag, message } from 'antd'
+import { Button, Tag, message, Typography } from 'antd'
 import { useRef } from 'react'
 import { searchConfig, tableOptions } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
@@ -82,9 +82,9 @@ const Org = () => {
       width: 200,
       key: 'option',
       render: (_, record) => [
-        <a key="edit" onClick={() => handleAddOrg('修改组织', record)}>
+        <Typography.Link key="edit" onClick={() => handleAddOrg('修改组织', record)}>
           修改
-        </a>
+        </Typography.Link>
       ]
     }
   ]
