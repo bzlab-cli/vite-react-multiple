@@ -37,7 +37,8 @@
 		"redux-persist": "^6.0.0",
 		"redux-promise": "^0.6.0",
 		"redux-thunk": "^2.4.1",
-		"screenfull": "^6.0.2"
+		"screenfull": "^6.0.2",
+		"styled-jsx": "^5.1.2"
 	},
 	"devDependencies": {
 		"@bzlab/bz-react-proxy": "0.0.2",

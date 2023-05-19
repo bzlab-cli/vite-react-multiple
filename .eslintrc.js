@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/02/07 15:49:49
+ * @LastEditTime: 2023/05/19 16:33:50
  */
 
 module.exports = {
@@ -71,6 +71,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'no-case-declarations': 'off',
-    'react/self-closing-comp': ['error']
+    'react/self-closing-comp': ['error'],
+    'react/no-unknown-property': [2, { ignore: ['jsx'] }]
   }
 }
