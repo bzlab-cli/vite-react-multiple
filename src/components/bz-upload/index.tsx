@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { getEnv } from '@/config/settings'
 import { getToken } from '@/utils/auth'
 import { message } from 'antd'
-import { loginOut } from '@/store/modules/user'
+import { loginOut } from '@/views/admin/store/modules/user'
 
 const env = getEnv(import.meta.env.VITE_APP_ENV)
 

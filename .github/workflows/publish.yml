@@ -1,4 +1,4 @@
-name: 发布vite-react-single
+name: 发布vite-react-multiple
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    name: 发布vite-react-single
+    name: 发布vite-react-multiple
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -47,4 +47,4 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            请点击查看 [更新日志](https://github.com/bzlab-cli/vite-react-single/blob/master/README.md).
+            请点击查看 [更新日志](https://github.com/bzlab-cli/vite-react-multiple/blob/master/README.md).

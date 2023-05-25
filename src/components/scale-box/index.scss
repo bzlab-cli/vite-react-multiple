@@ -1,0 +1,17 @@
+.screen-box {
+  overflow: hidden;
+}
+.scale-box {
+  position: relative;
+  height: 100vh;
+  transition: all 0.3s linear;
+  background-color: #070e27;
+}
+.scale-box.fit,
+.scale-box.full {
+  overflow: hidden;
+}
+.scale-box.fit .preview-scale,
+.scale-box.full .preview-scale {
+  transform-origin: 0 0;
+}

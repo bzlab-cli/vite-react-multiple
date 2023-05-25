@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/11/15 21:54:50
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/09 11:49:34
+ * @LastEditTime: 2023/05/25 13:55:10
  */
 
 export const menuList = [
@@ -36,7 +36,7 @@ export const menuList = [
         menuName: '用户管理',
         menuType: 2,
         menuSort: 0,
-        menuComponents: 'admin/system/user/index.vue',
+        menuComponents: 'admin/system/user/index.tsx',
         menuCode: '',
         menuUrl: '/system/user',
         menuRoute: 'system-user',
@@ -85,7 +85,7 @@ export const menuList = [
         menuName: '菜单管理',
         menuType: 2,
         menuSort: 1,
-        menuComponents: 'admin/system/menu/index.vue',
+        menuComponents: 'admin/system/menu/index.tsx',
         menuCode: '',
         menuUrl: '/system/menu',
         menuRoute: 'system-menu',
@@ -134,7 +134,7 @@ export const menuList = [
         menuName: '角色管理',
         menuType: 2,
         menuSort: 2,
-        menuComponents: 'admin/system/role/index.vue',
+        menuComponents: 'admin/system/role/index.tsx',
         menuCode: '',
         menuUrl: '/system/role',
         menuRoute: 'system-role',
@@ -183,7 +183,7 @@ export const menuList = [
         menuName: '组织管理',
         menuType: 2,
         menuSort: 3,
-        menuComponents: 'admin/system/org/index.vue',
+        menuComponents: 'admin/system/org/index.tsx',
         menuCode: '',
         menuUrl: '/system/org',
         menuRoute: 'system-org',

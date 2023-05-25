@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted } from 'vue'
+import { useRef, useEffect } from 'react'
 import { usePreviewFitScale, usePreviewFullScale } from '@/hooks/scale/use-preview-scale'
 import { editCanvasConfig } from '@/constant/layout'
 
@@ -8,45 +8,47 @@ const PreviewScaleEnum = {
 }
 
 export const useScale = () => {
-  const screenRef = ref()
-  const previewRef = ref()
-  const width = ref(editCanvasConfig.width)
-  const height = ref(editCanvasConfig.height)
+  const screenRef = useRef() as any
+  const previewRef = useRef() as any
+  const width = useRef(editCanvasConfig.width)
+  const height = useRef(editCanvasConfig.height)
 
   // 屏幕适配
-  onMounted(() => {
+  useEffect(() => {
     switch (editCanvasConfig.previewScaleType) {
       case PreviewScaleEnum.FIT:
         ;(() => {
           const { calcRate, windowResize, unWindowResize } = usePreviewFitScale(
-            width.value,
-            height.value,
-            screenRef.value,
-            previewRef.value
+            width.current,
+            height.current,
+            screenRef.current,
+            previewRef.current
           )
           calcRate()
           windowResize()
-          onUnmounted(() => {
+          return () => {
             unWindowResize()
-          })
+          }
         })()
         break
       case PreviewScaleEnum.FULL:
         ;(() => {
           const { calcRate, windowResize, unWindowResize } = usePreviewFullScale(
-            width.value,
-            height.value,
-            previewRef.value
+            width.current,
+            height.current,
+            previewRef.current
           )
           calcRate()
           windowResize()
-          onUnmounted(() => {
+          return () => {
             unWindowResize()
-          })
+          }
         })()
         break
+      default:
+        break
     }
-  })
+  }, [])
 
   return {
     screenRef,

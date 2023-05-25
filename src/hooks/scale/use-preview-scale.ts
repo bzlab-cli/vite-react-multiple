@@ -1,4 +1,4 @@
-import { throttle } from '@bzlab/bz-core'
+import { throttle } from '@bzlab/bz-react-core'
 
 // 屏幕缩放适配（两边留白）
 export const usePreviewFitScale = (width, height, screenDom, scaleDom, callback?) => {

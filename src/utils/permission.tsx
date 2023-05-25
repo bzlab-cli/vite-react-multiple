@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/02/08 15:04:25
+ * @LastEditTime: 2023/05/25 17:38:56
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
@@ -37,7 +37,8 @@ export function getShowMenuList(routes: Router.RouteRecordRaw[]) {
         key: item?.path,
         icon: <DynamicIcons icon={item?.meta?.icon} />,
         children: item?.children?.length ? filterMenuList(item.children) : null,
-        label: item?.meta?.title
+        label: item?.meta?.title ?? '',
+        subLabel: item?.meta?.subTitle ?? ''
       }
     })
     return menuList.filter(item => item)
@@ -115,7 +116,7 @@ export const getPathBreadcrumbList = (
  * @param {Array} routes 路由列表
  * @returns array
  */
-export const getMatchRoute = (path: string, routes: Router.RouteRecordRaw[] = []) => {
+export const getMatchRoute = (path: string, routes: Router.RouteRecordRaw[] = []): any => {
   const match = matchRoutes(routes, path)
   if (!match) return null
   return match.at(-1)?.route

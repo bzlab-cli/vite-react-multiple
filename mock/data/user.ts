@@ -3,7 +3,7 @@
  * @Description: 数据
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2022/01/29 14:47:23
+ * @LastEditTime: 2023/05/25 13:46:58
  */
 
 interface IUser {
@@ -26,7 +26,7 @@ const user: IUser = {
   roleName: '系统管理员',
   orgId: 0,
   orgName: null,
-  headUrl: 'https://v3.vuejs.org/logo.png',
+  headUrl: null,
   phone: '13575356945',
   account: '13575356945',
   email: ''

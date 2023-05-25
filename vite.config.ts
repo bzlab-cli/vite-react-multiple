@@ -6,8 +6,33 @@ import eslintPlugin from 'vite-plugin-eslint'
 import viteCompression from 'vite-plugin-compression'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // import { loadEnv } from 'vite'
+import shell from 'shelljs'
+import mpa from '@bzlab/bz-react-vite-mpa'
+
 const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
+const mpaOptions = {
+  open: false,
+  openFirstPage: '/',
+  scanPub: 'public',
+  scanDir: 'src/views',
+  scanFile: 'main.{js,ts,jsx,tsx}',
+  defaultEntries: '',
+  defaultPage: 'admin',
+  filename: 'index.html'
+}
+
+function mpaPlugin(mode) {
+  return ({ pages, dest, options }) => {
+    if (mode !== 'development') {
+      Object.keys(pages).map(key => {
+        shell.rm('-rf', resolve(`${dest}/${key}`))
+        shell.mv(resolve(`${dest}/${options.scanPub}/${key}`), resolve(dest))
+      })
+      shell.rm('-rf', resolve(`${dest}/public`))
+    }
+  }
+}
 
 if (process.env.NODE_ENV == 'production') {
   fs.writeFileSync(path.join(__dirname, './public/version.json'), JSON.stringify({ version: `${Date.now()}` }))
@@ -45,6 +70,9 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       react(),
       eslintPlugin({
         cache: false
+      }),
+      mpa(mpaOptions, options => {
+        mpaPlugin(mode)(options)
       }),
       viteCompression({
         verbose: true,

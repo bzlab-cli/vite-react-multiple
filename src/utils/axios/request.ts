@@ -9,8 +9,8 @@
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import axios from 'axios'
 import { message } from 'antd'
-import { getStoreState } from '@/store'
-import { loginOut } from '@/store/modules/user'
+import { getStoreState } from '@/views/admin/store'
+import { loginOut } from '@/views/admin/store/modules/user'
 
 declare module 'axios' {
   export interface AxiosRequestConfig {

@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/28 22:49:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/02/08 15:05:10
+ * @LastEditTime: 2023/05/25 17:41:34
  */
 
 declare interface IResponseModel<T> {
@@ -29,12 +29,16 @@ declare interface ViteEnv {
 declare namespace Router {
   interface MetaProps {
     title?: string
+    subTitle?: string
     icon?: string
     cache?: boolean
     hidden?: boolean
   }
 
   interface RouteRecordRaw {
+    key?: string
+    label?: string
+    subLabel?: string
     path: string
     name?: string
     redirect?: string

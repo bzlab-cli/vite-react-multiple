@@ -93,7 +93,7 @@ export default class User {
       token: 'e9579a38-5585-46f7-9036-d3d5c95b1d94',
       roleId: 'ad',
       orgId: 0,
-      headUrl: ''
+      headUrl: '/images/avatar/default.png'
     }
     // return ctx.throw(401)
   }
@@ -107,7 +107,7 @@ export default class User {
       roleName: '系统管理员',
       orgId: '1001',
       orgName: null,
-      headUrl: null,
+      headUrl: '/images/avatar/default.png',
       phone: '13575356945',
       account: null,
       email: '',
@@ -161,7 +161,7 @@ export default class User {
           roleName: '系统管理员',
           orgId: '1001',
           orgName: null,
-          headUrl: null,
+          headUrl: '/images/avatar/default.png',
           phone: '13575356945',
           account: null,
           email: '',
@@ -185,7 +185,7 @@ export default class User {
           roleName: '子管理员',
           orgId: '1003',
           orgName: '组织2',
-          headUrl: null,
+          headUrl: '/images/avatar/default.png',
           phone: '13575356945',
           account: null,
           email: '',

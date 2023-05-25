@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin, Row, Col } from 'antd'
-import { useStoreSelector } from '@/store'
+import { useStoreSelector } from '@/views/admin/store'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
