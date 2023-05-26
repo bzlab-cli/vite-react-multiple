@@ -9,7 +9,7 @@ const LayoutIndex = () => {
 
   return (
     <ScaleBox>
-      <Layout className="container">
+      <Layout className="screen-container">
         <LayoutHeader />
         <Content className="site-content">
           <Outlet />

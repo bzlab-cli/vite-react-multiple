@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getShowMenuList } from '@/utils/permission'
+import { getScreenShowMenuList } from '@/utils/permission'
 import { routes } from '@/views/screen/router'
 import splitLine from '@/assets/images/screen/header/split-line.png'
 import selectLine from '@/assets/images/screen/header/select-line.png'
@@ -11,55 +11,47 @@ const Menu = () => {
   const [menuList, setMenuList] = useState<Router.RouteRecordRaw[]>([])
 
   useEffect(() => {
-    const showMenus = getShowMenuList(routes) || []
-    console.log('showMenus', showMenus)
-
+    const showMenus = getScreenShowMenuList(routes) || []
     setMenuList(showMenus)
   }, [pathname])
 
   const onMenuClick = item => {
-    if (pathname === item.path) return
-    navigate(item.path)
+    let path = item.key
+    if (item?.children?.length) {
+      path = item?.children?.[0].key
+    }
+    if (pathname === path) return
+    navigate(path)
   }
 
-  function isCurrent(item) {
-    return item.path === pathname || (item.children && item.children.some(item => item.path === pathname))
+  function isActive(item) {
+    return item.key === pathname || (item.children && item.children.some(item => item.key === pathname))
   }
 
   function isShowNoneLine(item) {
-    return pathname !== item.path
+    return pathname !== item.key
   }
 
   return (
     <div className="menu-container">
       {menuList.map((item, index) => (
         <div key={index} className="title-item">
-          <div className={`group-radio ${isCurrent(item) ? 'active' : ''}`} onClick={() => onMenuClick(item)}>
+          <div className={`group-radio ${isActive(item) ? 'active' : ''}`} onClick={() => onMenuClick(item)}>
             <div className="title">{item.label}</div>
             {item.subLabel && (
-              <div className={`subtitle ${isCurrent(item) ? 'subtitle-active' : ''}`}>{item.subLabel}</div>
+              <div className={`subtitle ${isActive(item) ? 'subtitle-active' : ''}`}>{item.subLabel}</div>
             )}
-            {(!item.children || (item.children && item.children.length === 0)) && pathname === item.path && (
-              <img className="menu-select" src={selectLine} alt="" />
-            )}
+            {pathname === item.key && !item.children && <img className="menu-select" src={selectLine} alt="" />}
             {isShowNoneLine(item) && <img className="menu-select-none" src={selectLine} alt="" />}
-            {item.children && isCurrent(item) && (
+            {item.children && isActive(item) && (
               <div className="child-content">
                 {item.children.map((it, i) => (
-                  <div
-                    key={i}
-                    className={`child-item ${isCurrent(it) ? 'active' : ''}`}
-                    onClick={() => onMenuClick(it)}
-                  >
+                  <div key={i} className={`child-item ${isActive(it) ? 'active' : ''}`} onClick={() => onMenuClick(it)}>
                     <div className="title">{it.label}</div>
                     {it.subLabel && (
-                      <div className={`subtitle ${isCurrent(it) ? 'subtitle-active' : ''}`}>{it.subLabel}</div>
+                      <div className={`subtitle ${isActive(it) ? 'subtitle-active' : ''}`}>{it.subLabel}</div>
                     )}
-                    <img
-                      className={pathname === it.path ? 'menu-select' : 'menu-select-none'}
-                      src={selectLine}
-                      alt=""
-                    />
+                    <img className={pathname === it.key ? 'menu-select' : 'menu-select-none'} src={selectLine} alt="" />
                   </div>
                 ))}
               </div>

@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/28 22:49:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/25 17:41:34
+ * @LastEditTime: 2023/05/26 16:12:10
  */
 
 declare interface IResponseModel<T> {
@@ -39,11 +39,11 @@ declare namespace Router {
     key?: string
     label?: string
     subLabel?: string
-    path: string
+    path?: string
     name?: string
     redirect?: string
     element?: React.ReactNode
-    meta: MetaProps
+    meta?: MetaProps
     children?: RouteRecordRaw[]
   }
   interface BreadcrumbItem {

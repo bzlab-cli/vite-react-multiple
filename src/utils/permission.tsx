@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/25 17:38:56
+ * @LastEditTime: 2023/05/26 18:09:04
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
@@ -57,6 +57,36 @@ export function getShowMenuList(routes: Router.RouteRecordRaw[]) {
   }
   const tree = treeDone(list)
   return tree
+}
+
+/**
+ * @description 大屏过滤渲染在顶部菜单的列表
+ * @param {Array} routes
+ * @return array
+ */
+export function getScreenShowMenuList(routes: Router.RouteRecordRaw[]) {
+  const flatIRoutes = flatRoutes(routes)
+  const firstPaths = routes => {
+    return routes.reduce((result, item) => (item.children ? result.concat(item.children.map(c => c.path)) : result), [])
+  }
+
+  const getFirstPaths = firstPaths(routes)
+  const filterMenuList = routes => {
+    const menuList = routes.map(item => {
+      if (item?.meta?.hidden) return
+      if (item?.redirect === 'noredirect') return
+      return {
+        key: item?.path,
+        icon: <DynamicIcons icon={item?.meta?.icon} />,
+        children: item?.children?.length ? filterMenuList(item.children) : null,
+        label: item?.meta?.title ?? '',
+        subLabel: item?.meta?.subTitle ?? ''
+      }
+    })
+    return menuList.filter(item => item)
+  }
+  const list = filterMenuList(flatIRoutes).filter(item => getFirstPaths.includes(item.key))
+  return list
 }
 
 /**

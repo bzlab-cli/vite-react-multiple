@@ -64,7 +64,7 @@ const Time = () => {
         <div className="date">{date}</div>
       </div>
       <div className="split-line" />
-      <div>
+      <div className="weather-box">
         <img src={weatherIcon} className="weather-icon" />
         <img src={tempIcon} className="temp-icon" />
         <span className="temp-number">{temp}°C</span>
