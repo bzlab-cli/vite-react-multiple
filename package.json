@@ -8,7 +8,7 @@
 		"build:deploy": "cross-env NODE_ENV=production dotenv -e .env.deploy vite build",
 		"build:release": "cross-env NODE_ENV=production dotenv -e .env.release vite build",
 		"build": "cross-env NODE_ENV=production dotenv -e .env.prod vite build",
-		"preview": "vite preview --port 8442",
+		"preview": "node build/index.js --preview",
 		"lint:eslint": "eslint --cache --max-warnings 0 \"src/**/*.{js,ts,tsx}\" --fix",
 		"lint:prettier": "prettier --write  \"src/**/*.{js,ts,json,tsx,css,less,scss,html,md}\"",
 		"lint": "npm-run-all lint:eslint lint:prettier",
