@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/26 18:09:04
+ * @LastEditTime: 2023/05/29 10:14:51
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Modal } from 'antd'
@@ -37,8 +37,7 @@ export function getShowMenuList(routes: Router.RouteRecordRaw[]) {
         key: item?.path,
         icon: <DynamicIcons icon={item?.meta?.icon} />,
         children: item?.children?.length ? filterMenuList(item.children) : null,
-        label: item?.meta?.title ?? '',
-        subLabel: item?.meta?.subTitle ?? ''
+        label: item?.meta?.title ?? ''
       }
     })
     return menuList.filter(item => item)
