@@ -104,89 +104,86 @@ const AntModal = (props: ModalProps) => {
       open={modalVisible}
       onOk={handleSubmit}
       onCancel={() => setModalVisible(false)}
+      maskClosable={false}
       destroyOnClose
     >
       <Form form={form} {...formLayout} initialValues={record}>
-        {
-          <>
-            <Row gutter={[8, 8]}>
-              <Col span={12}>
-                <Form.Item {...formRules.menuType}>
-                  <Radio.Group options={menuTypeList} optionType="button" onChange={e => setMenuType(e.target.value)} />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={[8, 0]}>
-              <Col span={12}>
-                <Form.Item {...formRules.menuName}>
-                  <Input placeholder="请输入" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item {...formRules.parentId}>
-                  <BzTreeSelect selectValue={record?.parentId} treeData={treeSelectList} />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item {...formRules.menuSort}>
-                  <Input placeholder="请输入" />
-                </Form.Item>
-              </Col>
-              {(menuType === 1 || menuType === 2) && (
-                <Col span={12}>
-                  <Form.Item {...formRules.menuIcon}>
-                    <Input placeholder="请输入" />
-                  </Form.Item>
-                </Col>
-              )}
-              {(menuType === 1 || menuType === 2) && (
-                <Col span={12}>
-                  <Form.Item {...formRules.menuRoute}>
-                    <Input placeholder="请输入" />
-                  </Form.Item>
-                </Col>
-              )}
-              {(menuType === 1 || menuType === 2) && (
-                <Col span={12}>
-                  <Form.Item {...formRules.menuComponents}>
-                    <Input placeholder="请输入" />
-                  </Form.Item>
-                </Col>
-              )}
-              {(menuType === 1 || menuType === 2) && (
-                <Col span={12}>
-                  <Form.Item {...formRules.menuUrl}>
-                    <Input placeholder="请输入" />
-                  </Form.Item>
-                </Col>
-              )}
-              <Col span={12}>
-                <Form.Item {...formRules.hiddenFlag}>
-                  <Select placeholder="请选择" options={hiddenFlagList} />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item {...formRules.status}>
-                  <Select placeholder="请选择" options={statusList} />
-                </Form.Item>
-              </Col>
-              {(menuType === 2 || menuType === 3) && (
-                <Col span={12}>
-                  <Form.Item {...formRules.menuCode}>
-                    <Input placeholder="请输入" />
-                  </Form.Item>
-                </Col>
-              )}
-              {(menuType === 2 || menuType === 3) && (
-                <Col span={12}>
-                  <Form.Item {...formRules.cache}>
-                    <Select placeholder="请选择" options={cacheList} />
-                  </Form.Item>
-                </Col>
-              )}
-            </Row>
-          </>
-        }
+        <Row gutter={[8, 8]}>
+          <Col span={12}>
+            <Form.Item {...formRules.menuType}>
+              <Radio.Group options={menuTypeList} optionType="button" onChange={e => setMenuType(e.target.value)} />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={[8, 0]}>
+          <Col span={12}>
+            <Form.Item {...formRules.menuName}>
+              <Input placeholder="请输入" />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item {...formRules.parentId}>
+              <BzTreeSelect selectValue={record?.parentId} treeData={treeSelectList} />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item {...formRules.menuSort}>
+              <Input placeholder="请输入" />
+            </Form.Item>
+          </Col>
+          {(menuType === 1 || menuType === 2) && (
+            <Col span={12}>
+              <Form.Item {...formRules.menuIcon}>
+                <Input placeholder="请输入" />
+              </Form.Item>
+            </Col>
+          )}
+          {(menuType === 1 || menuType === 2) && (
+            <Col span={12}>
+              <Form.Item {...formRules.menuRoute}>
+                <Input placeholder="请输入" />
+              </Form.Item>
+            </Col>
+          )}
+          {(menuType === 1 || menuType === 2) && (
+            <Col span={12}>
+              <Form.Item {...formRules.menuComponents}>
+                <Input placeholder="请输入" />
+              </Form.Item>
+            </Col>
+          )}
+          {(menuType === 1 || menuType === 2) && (
+            <Col span={12}>
+              <Form.Item {...formRules.menuUrl}>
+                <Input placeholder="请输入" />
+              </Form.Item>
+            </Col>
+          )}
+          <Col span={12}>
+            <Form.Item {...formRules.hiddenFlag}>
+              <Select placeholder="请选择" options={hiddenFlagList} />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item {...formRules.status}>
+              <Select placeholder="请选择" options={statusList} />
+            </Form.Item>
+          </Col>
+          {(menuType === 2 || menuType === 3) && (
+            <Col span={12}>
+              <Form.Item {...formRules.menuCode}>
+                <Input placeholder="请输入" />
+              </Form.Item>
+            </Col>
+          )}
+          {(menuType === 2 || menuType === 3) && (
+            <Col span={12}>
+              <Form.Item {...formRules.cache}>
+                <Select placeholder="请选择" options={cacheList} />
+              </Form.Item>
+            </Col>
+          )}
+        </Row>
       </Form>
     </Modal>
   )

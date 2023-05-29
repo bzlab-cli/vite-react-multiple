@@ -66,21 +66,24 @@ const AntModal = (props: ModalProps) => {
   }
 
   return (
-    <Modal title={title} open={modalVisible} onOk={handleSubmit} onCancel={() => setModalVisible(false)} destroyOnClose>
+    <Modal
+      title={title}
+      open={modalVisible}
+      onOk={handleSubmit}
+      onCancel={() => setModalVisible(false)}
+      maskClosable={false}
+      destroyOnClose
+    >
       <Form form={form} {...formLayout} initialValues={record}>
-        {
-          <>
-            <Form.Item {...formRules.roleName}>
-              <Input placeholder="请输入" />
-            </Form.Item>
-            <Form.Item {...formRules.orgId}>
-              <BzTreeSelect selectValue={record?.orgId} treeData={treeSelectList} />
-            </Form.Item>
-            <Form.Item {...formRules.status}>
-              <Radio.Group options={statusList} optionType="button" />
-            </Form.Item>
-          </>
-        }
+        <Form.Item {...formRules.roleName}>
+          <Input placeholder="请输入" />
+        </Form.Item>
+        <Form.Item {...formRules.orgId}>
+          <BzTreeSelect selectValue={record?.orgId} treeData={treeSelectList} />
+        </Form.Item>
+        <Form.Item {...formRules.status}>
+          <Radio.Group options={statusList} optionType="button" />
+        </Form.Item>
       </Form>
     </Modal>
   )

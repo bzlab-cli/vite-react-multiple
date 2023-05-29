@@ -85,26 +85,23 @@ const AntModal = (props: ModalProps) => {
       open={modalVisible}
       onOk={handleSubmit}
       onCancel={() => setModalVisible(false)}
+      maskClosable={false}
       destroyOnClose
     >
       <Form form={form} {...formLayout} initialValues={record}>
-        {
-          <>
-            <Form.Item {...formRules.auth}>
-              <Card>
-                <Tree
-                  checkable
-                  expandedKeys={expandedKeys}
-                  treeData={menuList}
-                  fieldNames={{ title: 'name', key: 'id' }}
-                  checkedKeys={checkedKeys}
-                  onExpand={onExpand}
-                  onCheck={onCheck}
-                />
-              </Card>
-            </Form.Item>
-          </>
-        }
+        <Form.Item {...formRules.auth}>
+          <Card>
+            <Tree
+              checkable
+              expandedKeys={expandedKeys}
+              treeData={menuList}
+              fieldNames={{ title: 'name', key: 'id' }}
+              checkedKeys={checkedKeys}
+              onExpand={onExpand}
+              onCheck={onCheck}
+            />
+          </Card>
+        </Form.Item>
       </Form>
     </Modal>
   )
