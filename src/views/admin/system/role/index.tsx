@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message, Space, Divider, Typography } from 'antd'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { searchConfig, tableOptions, tablePagination } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
 import { getRoleList } from '@/api/auth/role'
@@ -15,7 +16,19 @@ type TableListItem = {
   status: number
 }
 
-const Role = () => {
+const Role = (props: any) => {
+  console.log('role props', props)
+
+  useEffect(() => {
+    props.onActived(() => {
+      console.log('' + props.cacheId + ' 组件激活了')
+    }, props.cacheId)
+
+    props.onUnActived(() => {
+      console.log('' + props.cacheId + ' 组件休眠了')
+    }, props.cacheId)
+  }, [])
+
   const actionRef = useRef<ActionType>()
 
   const requestRoleList = async ({ current, ...params }: { current?: number }) => {

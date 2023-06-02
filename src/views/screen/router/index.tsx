@@ -1,6 +1,8 @@
 import { flatRoutes } from '@/utils/permission'
 import { sort } from '@/utils'
 import Layout from '@/layout/screen'
+import { lazy } from 'react'
+import { LazyComponent } from '@/utils/lazy'
 
 const constantFiles = import.meta.globEager('./constant-modules/*.tsx')
 let constantModules = []
@@ -17,9 +19,7 @@ Object.keys(asyncFiles).forEach(key => {
 })
 
 export const constantRoutes = [...constantModules]
-
 export const asyncRoutes = [...asyncModules]
-
 export const routes = [...constantModules, ...asyncModules]
 
 export const addRouteMiddleware = (routes?) => {
@@ -29,6 +29,9 @@ export const addRouteMiddleware = (routes?) => {
   const noLayoutRoutes = allRoutes.filter(item => item.redirect !== redirect)
   const flatAllRoutes = flatRoutes(layoutRoutes).filter(item => {
     item.length = item?.path?.length
+    if (item.redirect !== redirect) {
+      item.element = <LazyComponent element={lazy(item.element)} />
+    }
     return item.redirect !== redirect
   })
   flatAllRoutes.sort(sort('length'))

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message, Space, Divider, Typography } from 'antd'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { searchConfig, tableOptions } from '@/constant/layout'
 import { forEachTree, filterObjectEmpty } from '@/utils'
 import { getMenuList } from '@/api/auth/menu'
@@ -17,7 +18,18 @@ type TableListItem = {
   status: number
 }
 
-const Menu = () => {
+const Menu = (props: any) => {
+  console.log('menu props', props)
+
+  useEffect(() => {
+    props?.onActived(() => {
+      console.log('' + props.cacheId + ' 组件激活了')
+    }, props.cacheId)
+    props?.onUnActived(() => {
+      console.log('' + props.cacheId + ' 组件休眠了')
+    }, props.cacheId)
+  }, [])
+
   const actionRef = useRef<ActionType>()
 
   const requestMenuList = async ({ current, ...params }: { current?: number }) => {
@@ -154,43 +166,45 @@ const Menu = () => {
       )
     }
   ]
+  console.log('333444', searchConfig)
+
+  // setChange(Date.now())
+
   return (
-    <>
-      <ProTable<TableListItem>
-        columns={columns}
-        actionRef={actionRef}
-        request={requestMenuList}
-        rowKey="id"
-        search={searchConfig}
-        options={tableOptions}
-        pagination={false}
-        dateFormatter="string"
-        headerTitle={
-          <Button key="button" type="primary" onClick={() => handleAddMenu('新增菜单')}>
-            新增菜单
-          </Button>
+    <ProTable<TableListItem>
+      columns={columns}
+      actionRef={actionRef}
+      request={requestMenuList}
+      rowKey="id"
+      search={searchConfig}
+      options={tableOptions}
+      pagination={false}
+      dateFormatter="string"
+      headerTitle={
+        <Button key="button" type="primary" onClick={() => handleAddMenu('新增菜单')}>
+          新增菜单
+        </Button>
+      }
+      expandIcon={({ expanded, onExpand, record }) => {
+        if (record.menuType === 3) return null
+        if (expanded) {
+          return (
+            <DownOutlined
+              width={22}
+              style={{ marginRight: '5px', color: '#999', fontSize: '12px' }}
+              onClick={e => onExpand(record, e)}
+            />
+          )
+        } else {
+          return (
+            <RightOutlined
+              style={{ marginRight: '5px', color: '#999', fontSize: '12px' }}
+              onClick={e => onExpand(record, e)}
+            />
+          )
         }
-        expandIcon={({ expanded, onExpand, record }) => {
-          if (record.menuType === 3) return null
-          if (expanded) {
-            return (
-              <DownOutlined
-                width={22}
-                style={{ marginRight: '5px', color: '#999', fontSize: '12px' }}
-                onClick={e => onExpand(record, e)}
-              />
-            )
-          } else {
-            return (
-              <RightOutlined
-                style={{ marginRight: '5px', color: '#999', fontSize: '12px' }}
-                onClick={e => onExpand(record, e)}
-              />
-            )
-          }
-        }}
-      />
-    </>
+      }}
+    />
   )
 }
 

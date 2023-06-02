@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message, Space, Divider, Typography } from 'antd'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useContext } from 'react'
 import { statusList } from '@/constant/user'
 import { searchConfig, tableOptions, tablePagination } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
@@ -9,14 +10,25 @@ import { getUserList, resetPassword, deleteUser, updateUserForbiddenStatus } fro
 import { getRoleSelect2 } from '@/api/auth/role'
 import { getOrgList } from '@/api/auth/org'
 import { useConfirm } from '@/hooks/handle/use-confirm'
-import { dynamic } from '@bzlab/bz-react-core'
-import AddUser from './components/add-user'
+// import { dynamic } from '@bzlab/bz-react-core'
+// import AddUser from './components/add-user'
+import { useNavigate } from 'react-router-dom'
 
 type TableListItem = {
   forbiddenStatus: number
 }
 
-const User = () => {
+const User = props => {
+  console.log('props', props)
+
+  // useActivate(() => {
+  //   console.log('system/user/active12')
+  // })
+  // useUnactivate(() => {
+  //   console.log('system/user/unactive')
+  // })
+
+  const navigate = useNavigate()
   const actionRef = useRef<ActionType>()
   const [roleList, setRoleList] = useState<{ [key: string]: { text: string } }>()
   const [orgList, setOrgList] = useState<{ [key: string]: { text: string } }>()
@@ -63,13 +75,15 @@ const User = () => {
     actionRef.current?.reload()
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleAddUser = async (title, record?) => {
-    await dynamic.show({
-      data: { title, record, isAdd: title === '新增用户' },
-      render: AddUser
-    })
+    navigate('/system/user/detail')
+    // await dynamic.show({
+    //   data: { title, record, isAdd: title === '新增用户' },
+    //   render: AddUser
+    // })
 
-    actionRef.current?.reload()
+    // actionRef.current?.reload()
   }
 
   useEffect(() => {
@@ -171,23 +185,21 @@ const User = () => {
     }
   ]
   return (
-    <>
-      <ProTable<TableListItem>
-        columns={columns}
-        actionRef={actionRef}
-        request={requestUserList}
-        rowKey="userId"
-        search={searchConfig}
-        options={tableOptions}
-        pagination={tablePagination}
-        dateFormatter="string"
-        headerTitle={
-          <Button key="button" type="primary" onClick={() => handleAddUser('新增用户')}>
-            新增用户
-          </Button>
-        }
-      />
-    </>
+    <ProTable<TableListItem>
+      columns={columns}
+      actionRef={actionRef}
+      request={requestUserList}
+      rowKey="userId"
+      search={searchConfig}
+      options={tableOptions}
+      pagination={tablePagination}
+      dateFormatter="string"
+      headerTitle={
+        <Button key="button" type="primary" onClick={() => handleAddUser('新增用户')}>
+          新增用户
+        </Button>
+      }
+    />
   )
 }
 

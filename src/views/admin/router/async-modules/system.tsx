@@ -3,11 +3,9 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/25 14:09:13
+ * @LastEditTime: 2023/06/01 23:29:26
  */
-import { lazy } from 'react'
 import Layout from '@/layout/admin'
-import lazyComponent from '@/utils/lazy'
 
 const SystemRouter: Router.RouteRecordRaw[] = [
   {
@@ -22,16 +20,28 @@ const SystemRouter: Router.RouteRecordRaw[] = [
       {
         path: '/system/user',
         name: 'system-user',
-        element: lazyComponent(lazy(() => import('@/views/admin/system/user'))),
+        element: () => import('@/views/admin/system/user'),
         meta: {
           title: '用户管理',
           icon: 'HomeOutlined'
-        }
+        },
+        children: [
+          {
+            path: '/system/user/detail',
+            name: 'system-user-detail',
+            element: () => import('@/views/admin/system/user/detail'),
+            meta: {
+              title: '用户管理11',
+              icon: 'HomeOutlined',
+              hidden: true
+            }
+          }
+        ]
       },
       {
         path: '/system/role',
         name: 'system-role',
-        element: lazyComponent(lazy(() => import('@/views/admin/system/role'))),
+        element: () => import('@/views/admin/system/role'),
         meta: {
           title: '角色管理',
           icon: 'HomeOutlined'
@@ -40,7 +50,7 @@ const SystemRouter: Router.RouteRecordRaw[] = [
       {
         path: '/system/menu',
         name: 'system-menu',
-        element: lazyComponent(lazy(() => import('@/views/admin/system/menu'))),
+        element: () => import('@/views/admin/system/menu'),
         meta: {
           title: '菜单管理',
           icon: 'HomeOutlined'
@@ -49,7 +59,7 @@ const SystemRouter: Router.RouteRecordRaw[] = [
       {
         path: '/system/org',
         name: 'system-org',
-        element: lazyComponent(lazy(() => import('@/views/admin/system/org'))),
+        element: () => import('@/views/admin/system/org'),
         meta: {
           title: '组织管理',
           icon: 'HomeOutlined'

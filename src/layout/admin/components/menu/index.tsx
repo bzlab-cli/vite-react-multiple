@@ -13,10 +13,12 @@ import {
   routeListener
 } from '@/utils/permission'
 import type { MenuProps } from 'antd'
+import { useCacheDestroy } from '@williamyi74/react-keepalive/es'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
 const LayoutMenu = () => {
+  const cacheDestroy = useCacheDestroy()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const dispatch = useStoreDispatch()
@@ -58,6 +60,8 @@ const LayoutMenu = () => {
 
   const onMenuClick = ({ key }: { key: string }) => {
     if (pathname === key) return
+    console.log('cacheDestroy', cacheDestroy, key)
+    cacheDestroy(key)
     navigate(key)
   }
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useOutlet } from 'react-router-dom'
 import { Layout } from 'antd'
 import LayoutMenu from './components/menu'
 import LayoutHeader from './components/header'
@@ -8,6 +8,7 @@ import resize from './resize'
 import './index.scss'
 
 const LayoutIndex = () => {
+  const outlet = useOutlet()
   const { collapsed, theme } = useStoreSelector(state => state.app)
   const { addEventListenerOnResize, resizeMounted, removeEventListenerResize } = resize()
   const { Sider, Content } = Layout
@@ -27,9 +28,7 @@ const LayoutIndex = () => {
       </Sider>
       <Layout className="site-layout">
         <LayoutHeader />
-        <Content className="site-content">
-          <Outlet />
-        </Content>
+        <Content className="site-content">{outlet}</Content>
       </Layout>
     </Layout>
   )

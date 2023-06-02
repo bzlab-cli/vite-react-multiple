@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/28 22:49:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/26 16:12:10
+ * @LastEditTime: 2023/06/01 23:27:38
  */
 
 declare interface IResponseModel<T> {
@@ -42,7 +42,7 @@ declare namespace Router {
     path?: string
     name?: string
     redirect?: string
-    element?: React.ReactNode
+    element?: React.ReactNode | (() => Promise<any>)
     meta?: MetaProps
     children?: RouteRecordRaw[]
   }

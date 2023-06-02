@@ -24,6 +24,8 @@ function Layout() {
   const [getToken] = useToken()
   const { pathname, search } = useLocation()
   const uri = pathname + search
+  console.log('uri', uri)
+
   const token = getToken()
   const outlet = useOutlet()
   const [isLoading, setLoading] = useState(true)
@@ -47,18 +49,24 @@ function Layout() {
       setLoading(true)
       const { data } = await getPermissions({ refresh_cache: false })
       if (data) {
-        const { data: { user, permissions } } = data
+        const {
+          data: { user, permissions }
+        } = data
+
+        console.log('permissions', permissions)
+        console.log('isRefresh', isRefresh)
+
         const newPermissions = permissionsToArray(permissions)
         dispatch(setUserInfo(user))
         dispatch(setPermissions(newPermissions))
       }
-    } catch(err) {
+    } catch (err) {
       console.error('获取用户数据失败:', err)
       setPermissions([])
     } finally {
       setLoading(false)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -74,12 +82,15 @@ function Layout() {
   }, [getUserInfo, navigate, token, userId])
 
   /** 判断是否是手机端 */
-  const handleIsPhone = useDebounceFn(() => {
-    const isPhone = window.innerWidth <= 768
-    // 手机首次进来收缩菜单
-    if (isPhone) dispatch(toggleCollapsed(true))
-    dispatch(togglePhone(isPhone))
-  }, { wait: 500 })
+  const handleIsPhone = useDebounceFn(
+    () => {
+      const isPhone = window.innerWidth <= 768
+      // 手机首次进来收缩菜单
+      if (isPhone) dispatch(toggleCollapsed(true))
+      dispatch(togglePhone(isPhone))
+    },
+    { wait: 500 }
+  )
 
   // 监听是否是手机端
   useEffect(() => {
@@ -88,7 +99,7 @@ function Layout() {
     return () => {
       window.removeEventListener('resize', handleIsPhone.run())
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -96,7 +107,7 @@ function Layout() {
       <Menu />
       <div className={styles.layout_right}>
         <div
-          id='header'
+          id="header"
           className={`
             border-bottom
             transition-all
@@ -120,42 +131,26 @@ function Layout() {
             ${isPhone ? `!left-0` : ''}
           `}
         >
-          {
-            isLoading &&
-            permissions.length === 0 &&
-            <Skeleton
-              active
-              className='p-30px'
-              paragraph={{ rows: 10 }}
-            />
-          }
-          {
-            !isLoading &&
-            permissions.length === 0 &&
-            <Forbidden />
-          }
-          {
-            isRefresh &&
-            <div className={`
+          {isLoading && permissions.length === 0 && <Skeleton active className="p-30px" paragraph={{ rows: 10 }} />}
+          {!isLoading && permissions.length === 0 && <Forbidden />}
+          {isRefresh && (
+            <div
+              className={`
               absolute
               left-50%
               top-50%
               -rotate-x-50%
               -rotate-y-50%
-            `}>
-              <Icon
-                className='text-40px animate-spin'
-                icon='ri:loader-2-fill'
-              />
+            `}
+            >
+              <Icon className="text-40px animate-spin" icon="ri:loader-2-fill" />
             </div>
-          }
-          {
-            permissions.length > 0 &&
-            !isRefresh &&
+          )}
+          {permissions.length > 0 && !isRefresh && (
             <KeepAlive id={uri} name={uri}>
-              { outlet }
+              {outlet}
             </KeepAlive>
-          }
+          )}
         </div>
       </div>
     </div>

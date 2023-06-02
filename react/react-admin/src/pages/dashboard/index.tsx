@@ -8,6 +8,7 @@ import BasicContent from '@/components/Content/BasicContent'
 import Line from './components/Line'
 import Bar from './components/Bar'
 import Block from './components/Block'
+import { useAliveController } from 'react-activation'
 
 // 初始化搜索
 const initSearch = {
@@ -17,6 +18,8 @@ const initSearch = {
 function Dashboard() {
   useTitle('数据展览')
   const [isLoading, setLoading] = useState(false)
+  const { getCachingNodes } = useAliveController()
+  ;(window as any).cachingNodes = getCachingNodes
 
   /**
    * 搜索提交
@@ -50,11 +53,11 @@ function Dashboard() {
           handleFinish={handleSearch}
         />
 
-        <div className='py-10px'>
+        <div className="py-10px">
           <Block />
         </div>
 
-        <div className='flex justify-between w-full'>
+        <div className="flex justify-between w-full">
           <Line />
           <Bar />
         </div>

@@ -3,7 +3,7 @@
  * @Description: 数据
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/25 14:16:44
+ * @LastEditTime: 2023/06/01 23:50:01
  */
 
 export const menuGrantByRole = [
@@ -22,6 +22,7 @@ export const menuGrantByRole = [
     hiddenFlag: 1,
     remarks: '',
     status: 0,
+    cache: 0,
     createUser: '',
     createTime: '2022-11-04 14:23:01',
     updateUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
@@ -44,6 +45,7 @@ export const menuGrantByRole = [
         hiddenFlag: 1,
         remarks: '',
         status: 0,
+        cache: 0,
         createUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
         createTime: '2022-11-15 18:22:53',
         updateUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
@@ -91,6 +93,7 @@ export const menuGrantByRole = [
         hiddenFlag: 1,
         remarks: '',
         status: 0,
+        cache: 1,
         createUser: '',
         createTime: '2022-11-04 14:24:51',
         updateUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
@@ -138,6 +141,7 @@ export const menuGrantByRole = [
         hiddenFlag: 1,
         remarks: '',
         status: 0,
+        cache: 1,
         createUser: '',
         createTime: '2022-11-04 14:26:21',
         updateUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
@@ -185,6 +189,7 @@ export const menuGrantByRole = [
         hiddenFlag: 1,
         remarks: '',
         status: 0,
+        cache: 0,
         createUser: '',
         createTime: '2022-11-04 14:26:21',
         updateUser: '96f3eddc-4396-11ec-87ee-0242ac110002',

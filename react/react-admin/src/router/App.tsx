@@ -10,6 +10,7 @@ console.log('routes11', routes)
 
 // 自动生成路径转换为layout嵌套路径
 const layouts = layoutRoutes(routes)
+console.log('layouts', layouts)
 
 const newRoutes: RouteObject[] = [
   {

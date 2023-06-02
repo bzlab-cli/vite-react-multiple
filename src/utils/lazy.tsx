@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { Suspense } from 'react'
 import { Spin } from 'antd'
 
@@ -6,7 +7,7 @@ import { Spin } from 'antd'
  * @param {Element} Component 组件
  * @returns element
  */
-const LazyComponent = (Component: React.LazyExoticComponent<any>): React.ReactNode => {
+export const LazyComponent = ({ element: Component, ...props }: any) => {
   return (
     <Suspense
       fallback={
@@ -21,9 +22,16 @@ const LazyComponent = (Component: React.LazyExoticComponent<any>): React.ReactNo
         />
       }
     >
-      <Component />
+      <Spin
+        size="large"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%'
+        }}
+      />
+      {/* <Component {...props} /> */}
     </Suspense>
   )
 }
-
-export default LazyComponent

@@ -3,11 +3,9 @@
  * @Author: jrucker
  * @Date: 2023/01/12 17:00:45
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/24 17:41:00
+ * @LastEditTime: 2023/06/01 22:41:22
  */
-import { lazy } from 'react'
 import Layout from '@/layout/admin'
-import lazyComponent from '@/utils/lazy'
 
 const DashboardRouter: Router.RouteRecordRaw[] = [
   {
@@ -23,7 +21,7 @@ const DashboardRouter: Router.RouteRecordRaw[] = [
       {
         path: '/dashboard/index',
         name: 'dashboard-index',
-        element: lazyComponent(lazy(() => import('@/views/admin/dashboard'))),
+        element: () => import('@/views/admin/dashboard'),
         meta: {
           title: '首页',
           icon: 'HomeOutlined'

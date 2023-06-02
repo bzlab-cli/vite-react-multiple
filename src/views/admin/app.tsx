@@ -1,21 +1,20 @@
 import { ConfigProvider } from 'antd'
-import { Suspense } from 'react'
-import Loading from '@/components/loading'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Permission, { RouterMiddleware } from '@/views/admin/router/permission'
 import zhCN from 'antd/lib/locale/zh_CN'
+import { KeepAliveScope } from '@williamyi74/react-keepalive/es'
 
 function App() {
   return (
-    <Router>
-      <ConfigProvider locale={zhCN}>
-        <Suspense fallback={<Loading />}>
-          <Permission>
+    <ConfigProvider locale={zhCN}>
+      <Router>
+        <Permission>
+          <KeepAliveScope>
             <RouterMiddleware />
-          </Permission>
-        </Suspense>
-      </ConfigProvider>
-    </Router>
+          </KeepAliveScope>
+        </Permission>
+      </Router>
+    </ConfigProvider>
   )
 }
 
