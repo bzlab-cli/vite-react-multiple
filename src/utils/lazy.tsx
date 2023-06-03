@@ -22,16 +22,7 @@ export const LazyComponent = ({ element: Component, ...props }: any) => {
         />
       }
     >
-      <Spin
-        size="large"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%'
-        }}
-      />
-      {/* <Component {...props} /> */}
+      <Component {...props} />
     </Suspense>
   )
 }

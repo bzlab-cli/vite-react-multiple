@@ -3,7 +3,7 @@
  * @Author: jrucker
  * @Date: 2022-10-21 18:04:55
  * @LastEditors: jrucker
- * @LastEditTime: 2023/06/01 23:29:26
+ * @LastEditTime: 2023/06/04 00:42:02
  */
 import Layout from '@/layout/admin'
 
@@ -24,19 +24,7 @@ const SystemRouter: Router.RouteRecordRaw[] = [
         meta: {
           title: '用户管理',
           icon: 'HomeOutlined'
-        },
-        children: [
-          {
-            path: '/system/user/detail',
-            name: 'system-user-detail',
-            element: () => import('@/views/admin/system/user/detail'),
-            meta: {
-              title: '用户管理11',
-              icon: 'HomeOutlined',
-              hidden: true
-            }
-          }
-        ]
+        }
       },
       {
         path: '/system/role',

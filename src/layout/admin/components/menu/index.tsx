@@ -13,12 +13,12 @@ import {
   routeListener
 } from '@/utils/permission'
 import type { MenuProps } from 'antd'
-import { useCacheDestroy } from '@williamyi74/react-keepalive/es'
+import { useCache } from '@bzlab/react-keep-alive'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
 const LayoutMenu = () => {
-  const cacheDestroy = useCacheDestroy()
+  const { removeCaches } = useCache()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const dispatch = useStoreDispatch()
@@ -60,9 +60,10 @@ const LayoutMenu = () => {
 
   const onMenuClick = ({ key }: { key: string }) => {
     if (pathname === key) return
-    console.log('cacheDestroy', cacheDestroy, key)
-    cacheDestroy(key)
+    const route = getMatchRoute(pathname, routes) || {}
     navigate(key)
+    if (route.meta.hidden) return
+    removeCaches()
   }
 
   const onOpenChange = (keys: string[]) => {

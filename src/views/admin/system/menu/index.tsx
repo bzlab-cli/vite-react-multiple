@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message, Space, Divider, Typography } from 'antd'
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { searchConfig, tableOptions } from '@/constant/layout'
 import { forEachTree, filterObjectEmpty } from '@/utils'
 import { getMenuList } from '@/api/auth/menu'
@@ -18,18 +17,7 @@ type TableListItem = {
   status: number
 }
 
-const Menu = (props: any) => {
-  console.log('menu props', props)
-
-  useEffect(() => {
-    props?.onActived(() => {
-      console.log('' + props.cacheId + ' 组件激活了')
-    }, props.cacheId)
-    props?.onUnActived(() => {
-      console.log('' + props.cacheId + ' 组件休眠了')
-    }, props.cacheId)
-  }, [])
-
+const Menu = () => {
   const actionRef = useRef<ActionType>()
 
   const requestMenuList = async ({ current, ...params }: { current?: number }) => {
@@ -166,9 +154,6 @@ const Menu = (props: any) => {
       )
     }
   ]
-  console.log('333444', searchConfig)
-
-  // setChange(Date.now())
 
   return (
     <ProTable<TableListItem>

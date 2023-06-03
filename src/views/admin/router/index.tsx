@@ -3,7 +3,7 @@ import { sort } from '@/utils'
 import Layout from '@/layout/admin'
 import { lazy } from 'react'
 import { LazyComponent } from '@/utils/lazy'
-import { KeepAliveItem } from '@williamyi74/react-keepalive/es'
+import { KeepAliveItem } from '@bzlab/react-keep-alive'
 import { useLocation } from 'react-router-dom'
 import { useStoreSelector } from '@/views/admin/store'
 import { getMatchRoute } from '@/utils/permission'
@@ -28,7 +28,6 @@ export const routes = [...constantModules, ...asyncModules]
 
 export const addRouteMiddleware = routes => {
   const { cachedViews } = useStoreSelector(state => state.permission)
-  console.log('cachedViews', cachedViews)
   const { pathname } = useLocation()
   const route = getMatchRoute(pathname, routes) || {}
   const name = route?.name ?? ''
@@ -41,7 +40,7 @@ export const addRouteMiddleware = routes => {
     if (item.redirect !== redirect) {
       if (cachedViews.includes(name)) {
         item.element = (
-          <KeepAliveItem cacheId={item?.name} key={item?.name} style={{ height: '100%' }}>
+          <KeepAliveItem cacheId={item?.name} key={item?.name}>
             <LazyComponent element={lazy(item.element)} />
           </KeepAliveItem>
         )

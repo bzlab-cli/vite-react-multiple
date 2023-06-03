@@ -28,3 +28,10 @@ html {
 .clearfix {
   @include clearfix;
 }
+
+.keep-alive {
+  height: 100%;
+  .keep-alive-scope-item {
+    height: 100%;
+  }
+}
