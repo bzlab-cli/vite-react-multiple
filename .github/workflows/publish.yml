@@ -15,6 +15,10 @@ jobs:
     # 指出这个build任务的步骤
     steps:
       - uses: actions/checkout@v1
+      
+      - name: Delete Folder
+        run: |
+          rm -rf react/
 
       - name: Read package.json
         uses: tyankatsu0105/read-package-version-actions@v1
@@ -35,13 +39,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.org/
-
-      - name: ignore-folder
-        uses: actions/checkout@v2
-        
-      - name: Delete Dist Folder
-        run: |
-          rm -rf react/
           
       - name: Create Release for Tag
         id: release_tag
