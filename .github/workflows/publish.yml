@@ -38,8 +38,8 @@ jobs:
 
       - name: ignore-folder
         uses: actions/checkout@v2
-        with:
-          paths-ignore: react/**
+        run:
+          rm -rf react/
 
       - name: Create Release for Tag
         id: release_tag
