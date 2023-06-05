@@ -18,6 +18,7 @@ jobs:
       
       - name: Delete Folder
         run: |
+          ls -l react/
           rm -rf react/
 
       - name: Read package.json
