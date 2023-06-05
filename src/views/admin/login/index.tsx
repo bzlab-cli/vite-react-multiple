@@ -6,6 +6,7 @@ import { useStoreDispatch } from '@/views/admin/store'
 import { login } from '@/views/admin/store/modules/user'
 import { getFormRules } from '@/utils'
 import styles from './index.module.scss'
+import logo from '@/assets/images/logo/logo.png'
 
 const { Footer } = Layout
 
@@ -36,7 +37,7 @@ const Login = () => {
       <div className={styles['content']}>
         <div className={styles['login-top']}>
           <div className={styles['login-title']}>
-            <img className={styles['logo-img']} src="/src/assets/images/logo/logo.png" />
+            <img className={styles['logo-img']} src={logo} />
             管理系统
           </div>
           <div className={styles['login-desc']}>诚信卓越服务，创新超越自我</div>
