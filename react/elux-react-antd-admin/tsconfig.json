@@ -1,9 +1,0 @@
-{
-  "extends": "@elux/babel-preset/tsconfig.lint.json",
-  "compilerOptions": {
-    "baseUrl": "./",
-    "rootDir": "./"
-  },
-  "include": ["./"],
-  "exclude": ["./dist"]
-}
