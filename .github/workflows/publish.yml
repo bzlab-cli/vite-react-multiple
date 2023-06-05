@@ -38,9 +38,11 @@ jobs:
 
       - name: ignore-folder
         uses: actions/checkout@v2
+        
+      - name: Delete Dist Folder
         run: |
           rm -rf react/
-
+          
       - name: Create Release for Tag
         id: release_tag
         uses: actions/create-release@v1
