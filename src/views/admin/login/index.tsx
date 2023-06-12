@@ -70,13 +70,7 @@ const Login = () => {
         <div className={styles['desc']}>
           <img className={styles['icon']} src="/images/login/logo.png" />
           <span>Technology provided by Frog Cloud Technology</span>
-          <a
-            className={styles['beian']}
-            href="https://beian.miit.gov.cn"
-            target="_blank"
-            data-v-cfc305de=""
-            rel="noreferrer"
-          >
+          <a className={styles['beian']} href="https://beian.miit.gov.cn" target="_blank" rel="noreferrer">
             浙ICP备16007368号-3
           </a>
         </div>
