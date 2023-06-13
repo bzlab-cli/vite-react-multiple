@@ -8,6 +8,7 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // import { loadEnv } from 'vite'
 import shell from 'shelljs'
 import mpa from '@bzlab/bz-react-vite-mpa'
+import { Vite } from './src/config/settings'
 
 const dynamicProxy = require('./build/proxy/index.ts')
 const resolve = (p: string) => path.resolve(__dirname, p)
@@ -95,7 +96,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       host: '0.0.0.0',
-      port: 8445,
+      port: Vite.port,
       open: false,
       https: false,
       cors: true,

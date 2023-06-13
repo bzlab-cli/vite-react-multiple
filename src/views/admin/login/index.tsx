@@ -5,8 +5,8 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useStoreDispatch } from '@/views/admin/store'
 import { login } from '@/views/admin/store/modules/user'
 import { getFormRules } from '@/utils'
+import { Settings } from '@/config/settings'
 import styles from './index.module.scss'
-import logo from '@/assets/images/logo/logo.png'
 
 const { Footer } = Layout
 
@@ -37,10 +37,10 @@ const Login = () => {
       <div className={styles['content']}>
         <div className={styles['login-top']}>
           <div className={styles['login-title']}>
-            <img className={styles['logo-img']} src={logo} />
-            管理系统
+            <img className={styles['logo-img']} src={Settings.logo} />
+            <span className={styles['logo-name']}>{Settings.title}</span>
           </div>
-          <div className={styles['login-desc']}>诚信卓越服务，创新超越自我</div>
+          <div className={styles['login-desc']}>{Settings.desc}</div>
         </div>
         <div className={styles['login-main']}>
           <Form
@@ -68,10 +68,10 @@ const Login = () => {
       </div>
       <Footer>
         <div className={styles['desc']}>
-          <img className={styles['icon']} src="/images/login/logo.png" />
-          <span>Technology provided by Frog Cloud Technology</span>
+          <img className={styles['icon']} src={Settings.logo} />
+          <span>{Settings.footer}</span>
           <a className={styles['beian']} href="https://beian.miit.gov.cn" target="_blank" rel="noreferrer">
-            浙ICP备16007368号-3
+            {Settings.beian}
           </a>
         </div>
       </Footer>

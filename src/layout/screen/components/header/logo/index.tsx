@@ -1,4 +1,4 @@
-import logo from '@/assets/images/logo/logo.png'
+import { Settings } from '@/config/settings'
 
 const Logo = () => {
   const goHome = () => {
@@ -7,7 +7,7 @@ const Logo = () => {
 
   return (
     <div className="logo-container">
-      <img src={logo} className="logo-img" onClick={goHome} />
+      <img src={Settings.logo} className="logo-img" onClick={goHome} />
     </div>
   )
 }

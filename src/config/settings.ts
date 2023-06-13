@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/14 11:44:58
+ * @LastEditTime: 2023/06/13 15:21:02
  */
 
 export enum RouterMode {
@@ -18,8 +18,15 @@ export class Keys {
 }
 
 export enum Settings {
-  title = '后台管理',
-  logo = '/assets/images/home/logo.png'
+  title = '管理系统',
+  desc = '诚信卓越服务，创新超越自我',
+  logo = '/images/logo/logo.png',
+  footer = 'Technology provided by Frog Cloud Technology',
+  beian = '浙ICP备16007368号-3'
+}
+
+export enum Vite {
+  port = 8445
 }
 
 export function getEnv(val) {
