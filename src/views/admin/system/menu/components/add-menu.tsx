@@ -37,7 +37,6 @@ const AntModal = (props: ModalProps) => {
     menuSort: { label: '菜单排序', rules: [{ required: true, message: '请输入排序' }] },
     menuIcon: { label: '菜单图标' },
     menuRoute: { label: '组件名称', rules: [{ required: true, message: '请输入组件名称' }] },
-    menuComponents: { label: '组件', rules: [{ required: true, message: '请输入组件' }] },
     menuUrl: { label: '组件路径', rules: [{ required: true, message: '请输入组件路径' }] },
     hiddenFlag: { label: '是否显示' },
     status: { label: '状态', rules: [{ required: true, message: '请选择状态' }] },
@@ -84,7 +83,6 @@ const AntModal = (props: ModalProps) => {
       menuUrl: fields.menuUrl,
       hiddenFlag: fields.hiddenFlag,
       status: fields.status,
-      menuComponents: fields.menuComponents,
       remarks: fields.remarks,
       cache: fields.cache
     }
@@ -141,13 +139,6 @@ const AntModal = (props: ModalProps) => {
           {(menuType === 1 || menuType === 2) && (
             <Col span={12}>
               <Form.Item {...formRules.menuRoute}>
-                <Input placeholder="请输入" />
-              </Form.Item>
-            </Col>
-          )}
-          {(menuType === 1 || menuType === 2) && (
-            <Col span={12}>
-              <Form.Item {...formRules.menuComponents}>
                 <Input placeholder="请输入" />
               </Form.Item>
             </Col>

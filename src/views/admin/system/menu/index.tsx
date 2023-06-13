@@ -70,14 +70,6 @@ const Menu = () => {
       hideInSearch: true
     },
     {
-      title: '组件地址',
-      dataIndex: 'menuComponents',
-      key: 'menuComponents',
-      align: 'center',
-      ellipsis: true,
-      hideInSearch: true
-    },
-    {
       title: '组件名称',
       dataIndex: 'menuRoute',
       key: 'menuRoute',
