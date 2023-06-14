@@ -8,7 +8,7 @@ export interface AppState {
   collapsed: boolean
   selectedKeys: string[]
   openKeys: string[]
-  breadcrumb: string[]
+  breadcrumb: Router.RouteRecordRaw[]
   size: string
   theme: Theme
   language: string
@@ -38,7 +38,7 @@ export const appSlice = createSlice({
     setOpenKeys: (state, { payload }: PayloadAction<string[]>) => {
       state.openKeys = payload
     },
-    setBreadcrumb: (state, { payload }: PayloadAction<string[]>) => {
+    setBreadcrumb: (state, { payload }: PayloadAction<Router.RouteRecordRaw[]>) => {
       state.breadcrumb = payload
     }
   }

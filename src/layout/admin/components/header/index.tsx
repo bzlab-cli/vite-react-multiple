@@ -2,6 +2,7 @@ import { Layout, Row, Col, Space } from 'antd'
 import Breadcrumb from './components/breadcrumb'
 import Avatar from './components/avatar'
 import Collapse from './components/collapse'
+import Back from './components/back'
 import { useStoreSelector } from '@/views/admin/store'
 import './index.scss'
 
@@ -23,6 +24,7 @@ const LayoutHeader = () => {
           <Space>
             <Collapse />
             <Breadcrumb />
+            <Back />
           </Space>
         </Col>
         <Col>

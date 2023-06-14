@@ -51,6 +51,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     build: {
       minify: 'terser',
+      sourcemap: false,
       chunkSizeWarningLimit: 1500,
       terserOptions: {
         compress: {

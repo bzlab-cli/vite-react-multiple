@@ -1,7 +1,7 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message, Space, Divider, Typography } from 'antd'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useLayoutEffect, useState } from 'react'
 import { statusList } from '@/constant/user'
 import { searchConfig, tableOptions, tablePagination } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
@@ -16,7 +16,7 @@ type TableListItem = {
   forbiddenStatus: number
 }
 
-const User = ({ onActivate, cacheId }: any) => {
+const User = (props: any) => {
   const actionRef = useRef<ActionType>()
   const [roleList, setRoleList] = useState<{ [key: string]: { text: string } }>()
   const [orgList, setOrgList] = useState<{ [key: string]: { text: string } }>()
@@ -75,8 +75,11 @@ const User = ({ onActivate, cacheId }: any) => {
   useEffect(() => {
     requestRoleSelect2()
     requestOrgList()
-    onActivate(() => actionRef.current?.reload(), cacheId)
   }, [])
+
+  useLayoutEffect(() => {
+    props?.onActivate(() => actionRef.current?.reload(), props?.cacheId)
+  })
 
   const columns: ProColumns<TableListItem>[] = [
     {
