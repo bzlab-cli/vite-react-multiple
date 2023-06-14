@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/06/14 10:34:34
+ * @LastEditTime: 2023/06/14 14:09:32
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
@@ -338,9 +338,7 @@ export function addRedirectRoute(middleRoutes, routes): any {
   const obj = {
     path: '/',
     element: <Navigate to={path} replace />,
-    meta: {
-      hidden: true
-    }
+    meta: { hidden: true }
   }
   return middleRoutes.concat(obj)
 }

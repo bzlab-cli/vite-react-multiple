@@ -6,9 +6,16 @@ import { useStoreDispatch } from '@/views/admin/store'
 import { login } from '@/views/admin/store/modules/user'
 import { getFormRules } from '@/utils'
 import { Settings } from '@/config/settings'
+import { mobileReg } from '@/utils/rules'
 import styles from './index.module.scss'
 
 const { Footer } = Layout
+
+const validateAccount = (_, value: string) => {
+  if (!value) return Promise.reject(new Error('请输入手机号'))
+  if (!mobileReg.test(value)) return Promise.reject(new Error('请输入正确的手机号'))
+  return Promise.resolve()
+}
 
 const Login = () => {
   const navigate = useNavigate()
@@ -17,7 +24,7 @@ const Login = () => {
   const dispatch = useStoreDispatch()
 
   const formRules = getFormRules({
-    username: { rules: [{ required: true, message: '请输入账号' }] },
+    username: { rules: [{ validator: validateAccount }] },
     password: { rules: [{ required: true, message: '请输入密码' }] }
   })
 
@@ -53,7 +60,7 @@ const Login = () => {
             autoComplete="off"
           >
             <Form.Item {...formRules.username}>
-              <Input placeholder="请输入账号" prefix={<UserOutlined />} />
+              <Input placeholder="请输入手机号" maxLength={11} prefix={<UserOutlined />} />
             </Form.Item>
             <Form.Item {...formRules.password}>
               <Input.Password autoComplete="new-password" placeholder="请输入密码" prefix={<LockOutlined />} />
