@@ -4,8 +4,8 @@ import { getStoreState, useStoreDispatch } from '@/views/admin/store'
 import { getUserInfo } from '@/views/admin/store/modules/user'
 import { getMenu } from '@/views/admin/store/modules/permission'
 import { whitePathList, whiteNameList } from '@/config/whitelist'
-import { getMatchRoute, filterAuthRoutes } from '@/utils/permission'
-import { addRouteMiddleware, asyncRoutes } from '@/views/admin/router'
+import { getMatchRoute, filterAuthRoutes, addRedirectRoute } from '@/utils/permission'
+import { addRouteMiddleware, asyncRoutes, routes } from '@/views/admin/router'
 import { useRoutes } from 'react-router-dom'
 
 export const RouterMiddleware = () => {
@@ -13,10 +13,10 @@ export const RouterMiddleware = () => {
   const routeCodes = store.permission.routeCodes
   const authRoutes = filterAuthRoutes(routeCodes, asyncRoutes)
   // 权限路由
-  // const routeMiddleware = addRouteMiddleware(authRoutes)
+  // const routeMiddleware = addRedirectRoute(addRouteMiddleware(authRoutes), routes)
 
   // 本地路由
-  const routeMiddleware = addRouteMiddleware(asyncRoutes)
+  const routeMiddleware = addRedirectRoute(addRouteMiddleware(asyncRoutes), routes)
 
   console.log('authRoutes', authRoutes)
   console.log('routeMiddleware', routeMiddleware)

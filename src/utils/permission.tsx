@@ -3,9 +3,10 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/05/29 10:14:51
+ * @LastEditTime: 2023/06/14 10:34:34
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { Modal } from 'antd'
 import DynamicIcons from '@/components/icons'
 import { deepClone } from '@/utils'
@@ -95,7 +96,7 @@ export function getScreenShowMenuList(routes: Router.RouteRecordRaw[]) {
  * @param {String} path
  * @returns object
  */
-export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = {}, path = []) => {
+export function getAllBreadcrumbList(menuList, result: { [key: string]: any } = {}, path = []) {
   for (const item of menuList) {
     result[item.path] = [...path, item]
     if (item.children) getAllBreadcrumbList(item.children, result, result[item.path])
@@ -110,11 +111,11 @@ export const getAllBreadcrumbList = (menuList, result: { [key: string]: any } = 
  * @param breadcrumbs 面包屑
  * @returns
  */
-export const getPathBreadcrumbList = (
+export function getPathBreadcrumbList(
   menuList: Router.RouteRecordRaw[],
   path: string,
   breadcrumbs: Router.BreadcrumbItem[] = []
-) => {
+) {
   let breadcrumbList: Router.BreadcrumbItem[] = []
   let end = false
   const forEach = (menuList, path, breadcrumbs) => {
@@ -145,7 +146,7 @@ export const getPathBreadcrumbList = (
  * @param {Array} routes 路由列表
  * @returns array
  */
-export const getMatchRoute = (path: string, routes: Router.RouteRecordRaw[] = []): any => {
+export function getMatchRoute(path: string, routes: Router.RouteRecordRaw[] = []): any {
   const match = matchRoutes(routes, path)
   if (!match) return null
   return match.at(-1)?.route
@@ -157,7 +158,7 @@ export const getMatchRoute = (path: string, routes: Router.RouteRecordRaw[] = []
  * @param {Array} routes 路由列表
  * @returns array
  */
-export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = []) => {
+export function getPathRoute(path: string, routes: Router.RouteRecordRaw[] = []) {
   let result: any = null
   for (const item of routes) {
     if (item.path === path) return item
@@ -175,7 +176,7 @@ export const getPathRoute = (path: string, routes: Router.RouteRecordRaw[] = [])
  * @param routes 路由列表
  * @returns
  */
-export const getSubRoute = (path, routes: Router.RouteRecordRaw[]) => {
+export function getSubRoute(path, routes: Router.RouteRecordRaw[]) {
   const route = getMatchRoute(path, routes) || ({} as Router.RouteRecordRaw)
   return (
     routes.find((item: any) => {
@@ -189,7 +190,7 @@ export const getSubRoute = (path, routes: Router.RouteRecordRaw[]) => {
  * @param {string} key 键值
  * @returns any
  */
-export const getSearchParams = (key: string) => {
+export function getSearchParams(key: string) {
   const [searchParams] = useSearchParams()
   return searchParams.get(key)
 }
@@ -199,7 +200,7 @@ export const getSearchParams = (key: string) => {
  * @param {string} key 键值
  * @returns any
  */
-export const getParams = (key: string) => {
+export function getParams(key: string) {
   const params = useParams()
   return params[key]
 }
@@ -207,7 +208,7 @@ export const getParams = (key: string) => {
 /**
  * @description 监听系统更新
  */
-export const routeListener = () => {
+export function routeListener() {
   fetch(`/version.json?t=${Date.now()}`)
     .then(res => res.json())
     .then(res => {
@@ -236,7 +237,7 @@ export const routeListener = () => {
  * @param routes 路由数据
  * @returns
  */
-export const filterAuthMenuItem = (routes: Router.RouteRecordRaw[]) => {
+export function filterAuthMenuItem(routes: Router.RouteRecordRaw[]) {
   const getMenuChild = menuList =>
     menuList.reduce((total, cur) => total.concat(Array.isArray(cur.children) ? getMenuChild(cur.children) : cur), [])
   return getMenuChild(routes).find(item => item.auth)
@@ -280,7 +281,7 @@ export function getSingleOpenChangeKeys(menus: Router.RouteRecordRaw[], keys: st
  * @param routes 路由数据
  * @returns
  */
-export const filterAuthRoutes = (auth: string[], routes: Router.RouteRecordRaw[]) => {
+export function filterAuthRoutes(auth: string[], routes: Router.RouteRecordRaw[]) {
   return routes.reduce((total: any, cur) => {
     if (cur.children) {
       const children = cur.children?.filter(i => auth.includes(i.name!))
@@ -293,4 +294,53 @@ export const filterAuthRoutes = (auth: string[], routes: Router.RouteRecordRaw[]
     total.push(cur)
     return total
   }, [])
+}
+
+/**
+ * @description 过滤出最底层子路由第一条数据
+ * @param routes 路由数据
+ * @returns
+ */
+export function getDeepChildNode(routes): any {
+  let deepNode = null
+  let maxDepth = 0
+
+  function dfs(node, depth) {
+    if (!node.children || !node.children.length) {
+      if (depth > maxDepth) {
+        maxDepth = depth
+        deepNode = node
+      }
+      return
+    }
+    for (const child of node.children) {
+      dfs(child, depth + 1)
+    }
+  }
+  for (const node of routes) {
+    dfs(node, 1)
+  }
+
+  return deepNode
+}
+
+/**
+ * @description 添加重定向路由
+ * @param routes 路由数据
+ * @returns
+ */
+export function addRedirectRoute(middleRoutes, routes): any {
+  const route = middleRoutes.find(item => item.path === '/')
+  const showMenus = getShowMenuList(routes) || []
+  const node = getDeepChildNode(showMenus)
+  if (route) return
+  const path = node?.key ?? ''
+  const obj = {
+    path: '/',
+    element: <Navigate to={path} replace />,
+    meta: {
+      hidden: true
+    }
+  }
+  return middleRoutes.concat(obj)
 }
