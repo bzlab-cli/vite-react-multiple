@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/01/04 17:22:26
+ * @LastEditTime: 2023/07/06 10:44:34
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
@@ -72,8 +72,7 @@ export class Request {
         }
       },
       (e: AxiosError) => {
-        const { response } = e
-        const { status } = response as AxiosResponse
+        const status = e?.response?.status
         if (status === 500) {
           message.error('登录已失效，请重新登录')
           loginOut()
