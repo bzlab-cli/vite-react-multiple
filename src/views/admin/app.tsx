@@ -1,8 +1,11 @@
 import { ConfigProvider } from 'antd'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Permission, { RouterMiddleware } from '@/views/admin/router/permission'
-import zhCN from 'antd/lib/locale/zh_CN'
 import { KeepAliveScope } from '@bzlab/react-keep-alive'
+import zhCN from 'antd/lib/locale/zh_CN'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')
 
 function App() {
   return (
