@@ -81,7 +81,7 @@ const User = (props: any) => {
     props?.onActivate(() => actionRef.current?.reload(), props?.cacheId)
   })
 
-  const columns: ProColumns<TableListItem>[] = [
+  const [columns] = useState<ProColumns<TableListItem>[]>([
     {
       title: '用户名',
       dataIndex: 'userName',
@@ -173,7 +173,7 @@ const User = (props: any) => {
         </Space>
       )
     }
-  ]
+  ])
   return (
     <ProTable<TableListItem>
       columns={columns}

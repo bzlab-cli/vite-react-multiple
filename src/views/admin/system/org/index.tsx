@@ -1,7 +1,7 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message, Space, Divider, Typography } from 'antd'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { searchConfig, tableOptions } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
 import { getOrgList } from '@/api/auth/org'
@@ -33,7 +33,7 @@ const Org = () => {
     actionRef.current?.reload()
   }
 
-  const columns: ProColumns<TableListItem>[] = [
+  const [columns] = useState<ProColumns<TableListItem>[]>([
     {
       title: '组织名称',
       dataIndex: 'orgName',
@@ -89,7 +89,7 @@ const Org = () => {
         </Space>
       )
     }
-  ]
+  ])
   return (
     <>
       <ProTable<TableListItem>

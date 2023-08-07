@@ -1,7 +1,7 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message, Space, Divider, Typography } from 'antd'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { searchConfig, tableOptions } from '@/constant/layout'
 import { forEachTree, filterObjectEmpty } from '@/utils'
 import { getMenuList } from '@/api/auth/menu'
@@ -40,7 +40,7 @@ const Menu = () => {
     actionRef.current?.reload()
   }
 
-  const columns: ProColumns<TableListItem>[] = [
+  const [columns] = useState<ProColumns<TableListItem>[]>([
     {
       title: '菜单名称',
       dataIndex: 'menuName',
@@ -145,7 +145,7 @@ const Menu = () => {
         </Space>
       )
     }
-  ]
+  ])
 
   return (
     <ProTable<TableListItem>

@@ -1,7 +1,7 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Button, Tag, message, Space, Divider, Typography } from 'antd'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { searchConfig, tableOptions, tablePagination } from '@/constant/layout'
 import { filterObjectEmpty } from '@/utils'
 import { getRoleList } from '@/api/auth/role'
@@ -42,7 +42,7 @@ const Role = () => {
     actionRef.current?.reload()
   }
 
-  const columns: ProColumns<TableListItem>[] = [
+  const [columns] = useState<ProColumns<TableListItem>[]>([
     {
       title: '角色名称',
       dataIndex: 'roleName',
@@ -94,7 +94,7 @@ const Role = () => {
         </Space>
       )
     }
-  ]
+  ])
   return (
     <>
       <ProTable<TableListItem>
