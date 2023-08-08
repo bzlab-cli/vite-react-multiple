@@ -13,6 +13,7 @@ import {
   routeListener
 } from '@/utils/permission'
 import type { MenuProps } from 'antd'
+import { layoutSettings } from '@/config/settings'
 import { useCache } from '@bzlab/react-keep-alive'
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -22,6 +23,7 @@ const LayoutMenu = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const dispatch = useStoreDispatch()
+  const { authRoutes } = useStoreSelector(state => state.permission)
   const { selectedKeys, openKeys, collapsed, theme } = useStoreSelector(state => state.app)
   const [menuList, setMenuList] = useState<MenuItem[]>([])
   const [loading, setLoading] = useState(false)
@@ -34,7 +36,8 @@ const LayoutMenu = () => {
     }
 
     dispatch(setSelectedKeys([pathname]))
-    const showMenus = getShowMenuList(routes) || []
+    const menus = layoutSettings.showAuthMenu ? authRoutes : routes
+    const showMenus = getShowMenuList(menus) || []
     setMenuList(showMenus)
     setBreadcrumbList()
     setLoading(true)

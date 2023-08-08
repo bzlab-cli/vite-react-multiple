@@ -4,21 +4,23 @@ import { getStoreState, useStoreDispatch } from '@/views/admin/store'
 import { getUserInfo } from '@/views/admin/store/modules/user'
 import { getMenu } from '@/views/admin/store/modules/permission'
 import { whitePathList, whiteNameList } from '@/config/whitelist'
-import { getMatchRoute, filterAuthRoutes, addRedirectRoute } from '@/utils/permission'
+import { getMatchRoute, addRedirectRoute } from '@/utils/permission'
 import { addRouteMiddleware, asyncRoutes, routes } from '@/views/admin/router'
+import { layoutSettings } from '@/config/settings'
 import { useRoutes } from 'react-router-dom'
 
 export const RouterMiddleware = () => {
   const store = getStoreState()
-  const routeCodes = store.permission.routeCodes
-  const authRoutes = filterAuthRoutes(routeCodes, asyncRoutes)
-  // 权限路由
-  // const routeMiddleware = addRedirectRoute(addRouteMiddleware(authRoutes), routes)
+  const authRoutes = store.permission.authRoutes
 
-  // 本地路由
-  const routeMiddleware = addRedirectRoute(addRouteMiddleware(asyncRoutes), routes)
+  let routeMiddleware = []
+  // 判断是否显示权限路由
+  if (layoutSettings.showAuthMenu) {
+    routeMiddleware = addRedirectRoute(addRouteMiddleware(authRoutes), authRoutes)
+  } else {
+    routeMiddleware = addRedirectRoute(addRouteMiddleware(asyncRoutes), routes)
+  }
 
-  console.log('authRoutes', authRoutes)
   console.log('routeMiddleware', routeMiddleware)
   return useRoutes(routeMiddleware) // 权限路由
 }

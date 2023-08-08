@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/06/14 14:09:32
+ * @LastEditTime: 2023/08/07 17:11:53
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
@@ -333,8 +333,11 @@ export function addRedirectRoute(middleRoutes, routes): any {
   const route = middleRoutes.find(item => item.path === '/')
   const showMenus = getShowMenuList(routes) || []
   const node = getDeepChildNode(showMenus)
-  if (route) return
-  const path = node?.key ?? ''
+  if (route) return middleRoutes
+  let path = '/404'
+  if (node?.key) {
+    path = node?.key
+  }
   const obj = {
     path: '/',
     element: <Navigate to={path} replace />,

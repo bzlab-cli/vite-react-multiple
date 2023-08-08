@@ -1,10 +1,16 @@
 import { Button, Result } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { useStoreSelector } from '@/views/admin/store'
+import { layoutSettings } from '@/config/settings'
 import './index.scss'
 
 const NotFound = () => {
+  const { authRoutes } = useStoreSelector(state => state.permission)
   const navigate = useNavigate()
   const goHome = () => {
+    if (layoutSettings.showAuthMenu && !authRoutes.length) {
+      return navigate('/login')
+    }
     navigate('/')
   }
   return (

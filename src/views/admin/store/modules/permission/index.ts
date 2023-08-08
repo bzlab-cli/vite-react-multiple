@@ -4,14 +4,18 @@ import { filter } from '@/utils'
 import { getMenuGrantByRoleId } from '@/api/auth/role'
 import { message } from 'antd'
 import { getStoreState } from '@/views/admin/store'
+import { filterAuthRoutes } from '@/utils/permission'
+import { asyncRoutes } from '@/views/admin/router'
 
 export interface PermissionState {
+  authRoutes: any[] // 权限路由数据
   buttonCodes: string[] // 按钮权限数据
   routeCodes: string[] // 路由权限数据
   cachedViews: (string | undefined)[] // 缓存路由
 }
 
 const initialState: PermissionState = {
+  authRoutes: [],
   buttonCodes: [],
   routeCodes: [],
   cachedViews: []
@@ -57,6 +61,7 @@ export const permissionSlice = createSlice({
         return cache
       })
 
+      state.authRoutes = filterAuthRoutes(routeCodes, asyncRoutes)
       state.buttonCodes = buttonCodes // 按钮权限
       state.routeCodes = routeCodes // 路由权限
       state.cachedViews = cachedViews // 缓存路由

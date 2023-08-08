@@ -3,8 +3,12 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/06/13 15:21:02
+ * @LastEditTime: 2023/08/08 09:50:34
  */
+interface LayoutSettings {
+  // 是否显示权限路由菜单,默认false本地路由
+  showAuthMenu: boolean
+}
 
 export enum RouterMode {
   Hash = 'hash',
@@ -37,4 +41,9 @@ export function getEnv(val) {
     production: 'nzf-prod'
   }
   return obj[val]
+}
+
+export const layoutSettings: LayoutSettings = {
+  // 是否显示权限路由菜单,默认false本地路由
+  showAuthMenu: true
 }
