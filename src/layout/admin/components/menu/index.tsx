@@ -36,7 +36,7 @@ const LayoutMenu = () => {
     }
 
     dispatch(setSelectedKeys([pathname]))
-    const menus = layoutSettings.showAuthMenu ? authRoutes : routes
+    const menus = layoutSettings.showAdminAuthMenu ? authRoutes : routes
     const showMenus = getShowMenuList(menus) || []
     setMenuList(showMenus)
     setBreadcrumbList()

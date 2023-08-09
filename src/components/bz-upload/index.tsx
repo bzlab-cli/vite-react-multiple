@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { getEnv } from '@/config/settings'
 import { getToken } from '@/utils/auth'
 import { message } from 'antd'
+import { useStoreDispatch } from '@/views/admin/store'
 import { loginOut } from '@/views/admin/store/modules/user'
 
 const env = getEnv(import.meta.env.VITE_APP_ENV)
@@ -13,11 +14,12 @@ function NOOP() {}
 
 const BzUpload = forwardRef<any, any>((props, ref) => {
   const bzUploadRef = useRef(null)
+  const dispatch = useStoreDispatch()
 
   const onError = res => {
     if (res.status === 500) {
       message.error('登录已失效，请重新登录')
-      loginOut()
+      dispatch(loginOut())
       window.location.href = '/'
     }
     if (res.status === 502) {

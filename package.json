@@ -41,7 +41,7 @@
 	},
 	"devDependencies": {
 		"@bzlab/bz-react-proxy": "0.0.2",
-		"@bzlab/bz-react-vite-mpa": "0.0.2",
+		"@bzlab/bz-react-vite-mpa": "0.0.3",
 		"@types/koa": "^2.11.6",
 		"@types/koa-logger": "^3.1.1",
 		"@types/koa-router": "^7.4.1",

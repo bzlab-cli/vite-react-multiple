@@ -3,7 +3,7 @@
  * @Description: 数据
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/06/04 00:40:46
+ * @LastEditTime: 2023/08/08 16:16:50
  */
 
 export const menuGrantByRole = [

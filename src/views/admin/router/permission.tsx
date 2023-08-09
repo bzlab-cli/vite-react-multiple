@@ -15,14 +15,13 @@ export const RouterMiddleware = () => {
 
   let routeMiddleware = []
   // 判断是否显示权限路由
-  if (layoutSettings.showAuthMenu) {
-    routeMiddleware = addRedirectRoute(addRouteMiddleware(authRoutes), authRoutes)
+  if (layoutSettings.showAdminAuthMenu) {
+    routeMiddleware = addRedirectRoute('admin', addRouteMiddleware(authRoutes), authRoutes)
   } else {
-    routeMiddleware = addRedirectRoute(addRouteMiddleware(asyncRoutes), routes)
+    routeMiddleware = addRedirectRoute('admin', addRouteMiddleware(asyncRoutes), routes)
   }
 
-  console.log('routeMiddleware', routeMiddleware)
-  return useRoutes(routeMiddleware) // 权限路由
+  return useRoutes(routeMiddleware)
 }
 
 const Permission = (props: { children: JSX.Element }) => {

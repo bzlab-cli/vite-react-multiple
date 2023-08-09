@@ -3,14 +3,14 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/07/06 10:44:34
+ * @LastEditTime: 2023/08/08 16:28:53
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import axios from 'axios'
 import { message } from 'antd'
 import { getStoreState } from '@/views/admin/store'
-import { loginOut } from '@/views/admin/store/modules/user'
+import { removeToken } from '@/utils/auth'
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
@@ -75,7 +75,7 @@ export class Request {
         const status = e?.response?.status
         if (status === 500) {
           message.error('登录已失效，请重新登录')
-          loginOut()
+          removeToken()
           window.location.href = '/'
         }
         if (status === 502) {

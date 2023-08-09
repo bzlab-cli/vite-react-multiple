@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/07 17:11:53
+ * @LastEditTime: 2023/08/09 10:13:16
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
@@ -329,19 +329,35 @@ export function getDeepChildNode(routes): any {
  * @param routes 路由数据
  * @returns
  */
-export function addRedirectRoute(middleRoutes, routes): any {
+export function addRedirectRoute(mode, middleRoutes, routes): any {
   const route = middleRoutes.find(item => item.path === '/')
-  const showMenus = getShowMenuList(routes) || []
+  const notFound = middleRoutes.find(item => item.path === '/404')
+  let showMenus = []
+  if (mode === 'admin') {
+    showMenus = getShowMenuList(routes) || []
+  } else if (mode === 'screen') {
+    showMenus = getScreenShowMenuList(routes) || []
+  }
   const node = getDeepChildNode(showMenus)
   if (route) return middleRoutes
-  let path = '/404'
-  if (node?.key) {
-    path = node?.key
+  if (routes.length) {
+    const path = node?.key ?? '/404'
+    const obj = [
+      {
+        path: '/',
+        element: <Navigate to={path} replace />,
+        meta: { hidden: true }
+      },
+      {
+        path: '*',
+        element: notFound.element,
+        meta: {
+          title: '404',
+          hidden: true
+        }
+      }
+    ]
+    return middleRoutes.concat(obj)
   }
-  const obj = {
-    path: '/',
-    element: <Navigate to={path} replace />,
-    meta: { hidden: true }
-  }
-  return middleRoutes.concat(obj)
+  return middleRoutes
 }

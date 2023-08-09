@@ -2,16 +2,20 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getScreenShowMenuList } from '@/utils/permission'
 import { routes } from '@/views/screen/router'
+import { useStoreSelector } from '@/views/screen/store'
+import { layoutSettings } from '@/config/settings'
 import splitLine from '@/assets/images/screen/header/split-line.png'
 import selectLine from '@/assets/images/screen/header/select-line.png'
 
 const Menu = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const { authRoutes } = useStoreSelector(state => state.permission)
   const [menuList, setMenuList] = useState<Router.RouteRecordRaw[]>([])
 
   useEffect(() => {
-    const showMenus = getScreenShowMenuList(routes) || []
+    const menus = layoutSettings.showScreenAuthMenu ? authRoutes : routes
+    const showMenus = getScreenShowMenuList(menus) || []
     setMenuList(showMenus)
   }, [pathname])
 

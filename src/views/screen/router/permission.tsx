@@ -4,14 +4,23 @@ import { getStoreState, useStoreDispatch } from '@/views/screen/store'
 import { getUserInfo } from '@/views/screen/store/modules/user'
 import { getMenu } from '@/views/screen/store/modules/permission'
 import { whitePathList, whiteNameList } from '@/config/whitelist'
-import { getMatchRoute } from '@/utils/permission'
-import { addRouteMiddleware, asyncRoutes } from '@/views/screen/router'
+import { getMatchRoute, addRedirectRoute } from '@/utils/permission'
+import { addRouteMiddleware, asyncRoutes, routes } from '@/views/screen/router'
+import { layoutSettings } from '@/config/settings'
 import { useRoutes } from 'react-router-dom'
 
 export const RouterMiddleware = () => {
-  // 本地路由
-  const routeMiddleware = addRouteMiddleware(asyncRoutes)
-  console.log('routeMiddleware', routeMiddleware)
+  const store = getStoreState()
+  const authRoutes = store.permission.authRoutes
+
+  let routeMiddleware = []
+  // 判断是否显示权限路由
+  if (layoutSettings.showScreenAuthMenu) {
+    routeMiddleware = addRedirectRoute('screen', addRouteMiddleware(authRoutes), authRoutes)
+  } else {
+    routeMiddleware = addRedirectRoute('screen', addRouteMiddleware(asyncRoutes), routes)
+  }
+
   return useRoutes(routeMiddleware)
 }
 

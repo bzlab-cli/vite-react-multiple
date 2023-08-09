@@ -16,14 +16,6 @@ const ErrorRouter: Router.RouteRecordRaw[] = [
       title: '404',
       hidden: true
     }
-  },
-  {
-    path: '*',
-    element: <NotFound />,
-    meta: {
-      title: '404',
-      hidden: true
-    }
   }
 ]
 export default ErrorRouter

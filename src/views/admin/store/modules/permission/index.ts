@@ -6,7 +6,8 @@ import { message } from 'antd'
 import { getStoreState } from '@/views/admin/store'
 import { filterAuthRoutes } from '@/utils/permission'
 import { asyncRoutes } from '@/views/admin/router'
-
+import { layoutSettings } from '@/config/settings'
+import { removeToken } from '@/utils/auth'
 export interface PermissionState {
   authRoutes: any[] // 权限路由数据
   buttonCodes: string[] // 按钮权限数据
@@ -65,6 +66,10 @@ export const permissionSlice = createSlice({
       state.buttonCodes = buttonCodes // 按钮权限
       state.routeCodes = routeCodes // 路由权限
       state.cachedViews = cachedViews // 缓存路由
+      if (layoutSettings.showAdminAuthMenu && !state.authRoutes.length) {
+        message.warning('当前用户没有菜单权限，请先配置')
+        removeToken()
+      }
     },
     removeCacheView(state, { payload }: PayloadAction<boolean>) {
       if (!payload) return

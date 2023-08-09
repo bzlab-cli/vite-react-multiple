@@ -3,11 +3,13 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/08 09:50:34
+ * @LastEditTime: 2023/08/09 13:59:40
  */
 interface LayoutSettings {
-  // 是否显示权限路由菜单,默认false本地路由
-  showAuthMenu: boolean
+  // 后台是否显示权限路由菜单,默认false本地路由
+  showAdminAuthMenu: boolean
+  // 大屏是否显示权限路由菜单,默认false本地路由
+  showScreenAuthMenu: boolean
 }
 
 export enum RouterMode {
@@ -44,6 +46,8 @@ export function getEnv(val) {
 }
 
 export const layoutSettings: LayoutSettings = {
-  // 是否显示权限路由菜单,默认false本地路由
-  showAuthMenu: true
+  // 后台是否显示权限路由菜单,默认false本地路由
+  showAdminAuthMenu: false,
+  // 大屏是否显示权限路由菜单,默认false本地路由
+  showScreenAuthMenu: false
 }

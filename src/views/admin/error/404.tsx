@@ -8,7 +8,7 @@ const NotFound = () => {
   const { authRoutes } = useStoreSelector(state => state.permission)
   const navigate = useNavigate()
   const goHome = () => {
-    if (layoutSettings.showAuthMenu && !authRoutes.length) {
+    if (layoutSettings.showAdminAuthMenu && !authRoutes.length) {
       return navigate('/login')
     }
     navigate('/')
