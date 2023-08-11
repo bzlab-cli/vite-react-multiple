@@ -17,7 +17,7 @@ declare interface IObjModel {
 }
 
 declare type Recordable<T = any> = Record<string, T>
-
+declare const bz: any
 declare interface ViteEnv {
 	VITE_APP_ENV: string;
 	VITE_APP_MOCK_API: string;

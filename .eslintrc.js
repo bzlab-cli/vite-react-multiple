@@ -25,7 +25,8 @@ module.exports = {
     window: true,
     IObjModel: true,
     IResponseModel: true,
-    Recordable: true
+    Recordable: true,
+    bz: true
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {

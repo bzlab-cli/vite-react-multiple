@@ -3,13 +3,12 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/08 16:28:53
+ * @LastEditTime: 2023/08/11 13:42:11
  */
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import axios from 'axios'
 import { message } from 'antd'
-import { getStoreState } from '@/views/admin/store'
 import { removeToken } from '@/utils/auth'
 
 declare module 'axios' {
@@ -44,7 +43,7 @@ export class Request {
     // 请求拦截器配置处理
     this.axiosInstance.interceptors.request.use(
       (request: AxiosRequestConfig) => {
-        const store = getStoreState()
+        const store = bz.store
         const token = store.user.token
         const hasReqToken = typeof request.token !== 'undefined'
         if (!hasReqToken) {

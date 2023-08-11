@@ -371,3 +371,26 @@ export function flatArrTree(data: object[] = [], nodeKey: string = 'children') {
   }
   return arr
 }
+
+/**
+ * 创建命名空间
+ * @param s
+ * @returns
+ */
+export function createNamespace(s) {
+  const getGlobal = () => {
+    return typeof window !== 'undefined' && window !== null
+      ? window
+      : typeof self !== 'undefined' && self !== null
+      ? self
+      : global
+  }
+  let ns = getGlobal()
+  const parts = s.split('.')
+  for (let i = 0; i < parts.length; ++i) {
+    ns[parts[i]] = ns[parts[i]] || {}
+    ns = ns[parts[i]]
+  }
+
+  return ns
+}

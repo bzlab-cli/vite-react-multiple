@@ -5,6 +5,7 @@ import { AppThunk } from '@/views/screen/store'
 
 export type Theme = 'dark' | 'light'
 export interface AppState {
+  pageType: string
   collapsed: boolean
   selectedKeys: string[]
   openKeys: string[]
@@ -15,6 +16,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
+  pageType: 'screen',
   collapsed: getCollapsed() === 'collapsed',
   selectedKeys: [],
   openKeys: [],
