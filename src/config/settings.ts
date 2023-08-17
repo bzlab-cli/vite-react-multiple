@@ -37,10 +37,10 @@ export enum Vite {
 
 export function getEnv(val) {
   const obj = {
-    development: 'nzf-dev',
-    deployment: 'nzf-dev',
-    release: 'nzf-test',
-    production: 'nzf-prod'
+    development: 'mock-dev',
+    deployment: 'mock-dev',
+    test: 'mock-test',
+    production: 'mock-prod'
   }
   return obj[val]
 }
