@@ -14,7 +14,8 @@ export const login = (userInfo: any) => {
     baseURL: import.meta.env.VITE_APP_MOCK_API,
     url: 'user/login',
     method: 'post',
-    data: userInfo
+    data: userInfo,
+    token: false
   })
 }
 
