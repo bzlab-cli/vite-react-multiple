@@ -3,7 +3,7 @@
  * @Description: 数据
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/08 16:16:50
+ * @LastEditTime: 2024/06/06 17:09:57
  */
 
 export const menuGrantByRole = [
@@ -13,7 +13,7 @@ export const menuGrantByRole = [
     menuName: '系统管理',
     menuType: 1,
     menuSort: 2,
-    menuComponents: '',
+    menuComponents: 'Layout',
     menuCode: '',
     menuUrl: '/system',
     menuRoute: 'Layout',
@@ -36,7 +36,7 @@ export const menuGrantByRole = [
         menuName: '用户管理',
         menuType: 2,
         menuSort: 0,
-        menuComponents: '',
+        menuComponents: 'admin/system/user/index.tsx',
         menuCode: '',
         menuUrl: '/system/user',
         menuRoute: 'system-user',
@@ -65,7 +65,7 @@ export const menuGrantByRole = [
             menuRoute: '',
             menuIcon: 'Menu',
             menuSource: 1,
-            hiddenFlag: 1,
+            hiddenFlag: 0,
             remarks: '',
             status: 0,
             createUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
@@ -84,7 +84,7 @@ export const menuGrantByRole = [
         menuName: '菜单管理',
         menuType: 2,
         menuSort: 1,
-        menuComponents: '',
+        menuComponents: 'admin/system/menu/index.tsx',
         menuCode: '',
         menuUrl: '/system/menu',
         menuRoute: 'system-menu',
@@ -113,7 +113,7 @@ export const menuGrantByRole = [
             menuRoute: '',
             menuIcon: 'Menu',
             menuSource: 1,
-            hiddenFlag: 1,
+            hiddenFlag: 0,
             remarks: '',
             status: 0,
             createUser: '',
@@ -132,7 +132,7 @@ export const menuGrantByRole = [
         menuName: '角色管理',
         menuType: 2,
         menuSort: 2,
-        menuComponents: '',
+        menuComponents: 'admin/system/role/index.tsx',
         menuCode: '',
         menuUrl: '/system/role',
         menuRoute: 'system-role',
@@ -161,7 +161,7 @@ export const menuGrantByRole = [
             menuRoute: '',
             menuIcon: 'Menu',
             menuSource: 1,
-            hiddenFlag: 1,
+            hiddenFlag: 0,
             remarks: '',
             status: 0,
             createUser: '96f3eddc-4396-11ec-87ee-0242ac110002',
@@ -180,7 +180,7 @@ export const menuGrantByRole = [
         menuName: '组织管理',
         menuType: 2,
         menuSort: 3,
-        menuComponents: '',
+        menuComponents: 'admin/system/org/index.tsx',
         menuCode: '',
         menuUrl: '/system/org',
         menuRoute: 'system-org',
@@ -209,7 +209,7 @@ export const menuGrantByRole = [
             menuRoute: '',
             menuIcon: 'Menu',
             menuSource: 1,
-            hiddenFlag: 1,
+            hiddenFlag: 0,
             remarks: '',
             status: 0,
             createUser: '96f3eddc-4396-11ec-87ee-0242ac110002',

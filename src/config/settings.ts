@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/09 13:59:40
+ * @LastEditTime: 2024/06/06 17:27:00
  */
 interface LayoutSettings {
   // 后台是否显示权限路由菜单,默认false本地路由

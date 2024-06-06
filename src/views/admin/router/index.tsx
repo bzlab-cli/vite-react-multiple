@@ -35,7 +35,7 @@ export const addRouteMiddleware = routes => {
   const allRoutes = [...constantModules, ...routes]
   const layoutRoutes = allRoutes.filter(item => item.redirect === redirect)
   const noLayoutRoutes = allRoutes.filter(item => item.redirect !== redirect)
-  const flatAllRoutes = flatRoutes(layoutRoutes).filter(item => {
+  const flatLayoutRoutes = flatRoutes(layoutRoutes).filter(item => {
     item.length = item?.path?.length
     if (item.redirect !== redirect) {
       if (cachedViews.includes(name)) {
@@ -51,10 +51,10 @@ export const addRouteMiddleware = routes => {
     return item.redirect !== redirect
   })
 
-  flatAllRoutes.sort(sort('length'))
+  flatLayoutRoutes.sort(sort('length'))
   const layout = {
     element: <Layout />,
-    children: [...flatAllRoutes]
+    children: [...flatLayoutRoutes]
   }
   return [...noLayoutRoutes, layout]
 }

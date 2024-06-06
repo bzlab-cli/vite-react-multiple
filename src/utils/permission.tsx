@@ -3,13 +3,17 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/08/09 10:13:16
+ * @LastEditTime: 2024/06/06 17:02:49
  */
 import { matchRoutes, useSearchParams, useParams } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
+import { lazy } from 'react'
 import { Modal } from 'antd'
 import DynamicIcons from '@/components/icons'
 import { deepClone } from '@/utils'
+
+const Layout = lazy(() => import('@/layout/admin/index'))
+const modules = import.meta.glob('@/views/**/*.tsx')
 
 /**
  * @description 扁平化数组对象
@@ -281,19 +285,74 @@ export function getSingleOpenChangeKeys(menus: Router.RouteRecordRaw[], keys: st
  * @param routes 路由数据
  * @returns
  */
-export function filterAuthRoutes(auth: string[], routes: Router.RouteRecordRaw[]) {
-  return routes.reduce((total: any, cur) => {
-    if (cur.children) {
-      const children = cur.children?.filter(i => auth.includes(i.name!))
-      if (children.length) {
-        total.push({ ...cur, children })
-      }
-      return total
+export function filterAuthRoutes(auth: any, routes: Router.RouteRecordRaw[]) {
+  const filteredNodes = routes.filter((node: any) => {
+    node.name = node.name ?? node.menuRoute
+    node.path = node.path ?? node.menuUrl
+    node.meta = {
+      title: node.title ?? node.menuName,
+      icon: node.icon ?? node.menuIcon,
+      hidden: node.hidden ?? node.hiddenFlag === 0
     }
-    if (!auth.includes(cur.name!)) return total
-    total.push(cur)
-    return total
-  }, [])
+
+    if (node.menuComponents === 'Layout') {
+      node.element = <Layout />
+      node.redirect = 'noredirect'
+    } else if (node.menuComponents === '-') {
+      node.element = null
+    } else {
+      node.element = modules[`/src/views/${node.menuComponents}`]
+    }
+
+    if (node.childTreeList && node.childTreeList.length) {
+      node.children = filterAuthRoutes(auth, node.childTreeList)
+    }
+    return true
+  })
+
+  return filteredNodes
+}
+
+/**
+ * 递归匹配指定key返回数据
+ * @param data
+ * @param name
+ * @param options
+ * @returns
+ */
+export function findDataRecursive(data, name, options?) {
+  const defaultParams = { children: 'children', key: 'key' }
+  const { children, key } = Object.assign(defaultParams, options)
+  for (const item of data) {
+    if (item[key] === name) return item
+    if (item[children] && item[children].length) {
+      const foundInChildren = findDataRecursive(item[children], name, options)
+      if (foundInChildren) {
+        return foundInChildren
+      }
+    }
+  }
+  return null
+}
+
+/**
+ * 递归排序
+ * @param arr
+ */
+export function recursiveSort(data, options?) {
+  const defaultParams = { children: 'children', key: 'sort', type: 'up' }
+  const { children, key, type } = Object.assign(defaultParams, options)
+  data.forEach(item => {
+    if (item[children] && item[children].length) {
+      recursiveSort(item[children], options)
+    }
+  })
+
+  if (type === 'up') {
+    data.sort((a, b) => a[key] - b[key])
+  } else {
+    data.sort((a, b) => b[key] - a[key])
+  }
 }
 
 /**
@@ -301,27 +360,17 @@ export function filterAuthRoutes(auth: string[], routes: Router.RouteRecordRaw[]
  * @param routes 路由数据
  * @returns
  */
-export function getDeepChildNode(routes): any {
-  let deepNode = null
-  let maxDepth = 0
-
-  function dfs(node, depth) {
-    if (!node.children || !node.children.length) {
-      if (depth > maxDepth) {
-        maxDepth = depth
-        deepNode = node
+export function findFirstBottomChild(data) {
+  for (const node of data) {
+    if (node.children && node.children.length > 0) {
+      const firstChild = findFirstBottomChild(node.children)
+      if (firstChild) {
+        return firstChild
       }
-      return
-    }
-    for (const child of node.children) {
-      dfs(child, depth + 1)
+    } else {
+      return node
     }
   }
-  for (const node of routes) {
-    dfs(node, 1)
-  }
-
-  return deepNode
 }
 
 /**
@@ -338,7 +387,7 @@ export function addRedirectRoute(mode, middleRoutes, routes): any {
   } else if (mode === 'screen') {
     showMenus = getScreenShowMenuList(routes) || []
   }
-  const node = getDeepChildNode(showMenus)
+  const node = findFirstBottomChild(showMenus)
   if (route) return middleRoutes
   if (routes.length) {
     const path = node?.key ?? '/404'

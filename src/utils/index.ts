@@ -3,7 +3,7 @@
  * @Description:
  * @Date: 2022/10/25 18:56:51
  * @LastEditors: jrucker
- * @LastEditTime: 2023/02/07 16:04:58
+ * @LastEditTime: 2024/06/06 17:07:17
  */
 import { FormRules } from '@/interface/form'
 interface TreeHelperConfig {
@@ -393,4 +393,136 @@ export function createNamespace(s) {
   }
 
   return ns
+}
+
+/**
+ * 递归获取包括/不包括自己的所有子节点的数据
+ * @param dataSource
+ * @param targetKey
+ * @param options { key = 'key', containSelf = true }
+ * @returns
+ */
+export function findAllKeysUnderNode(dataSource, targetKey, options?) {
+  const { key = 'key', containSelf = true } = options ?? {}
+  const stack = [] as any
+  const keys = [] as any
+  function findNodeByKey(node) {
+    if (node[key] === targetKey) {
+      return true
+    }
+    if (node.children) {
+      for (const child of node.children) {
+        stack.push(child)
+      }
+    }
+    return false
+  }
+
+  for (const node of dataSource) {
+    stack.push(node)
+    while (stack.length > 0) {
+      const currentNode = stack.pop()
+      if (findNodeByKey(currentNode)) {
+        // eslint-disable-next-line no-inner-declarations
+        function traverse(node) {
+          if (containSelf) {
+            keys.push(node[key])
+          } else {
+            if (node[key] !== targetKey) {
+              keys.push(node[key])
+            }
+          }
+          if (node.children) {
+            for (const child of node.children) {
+              traverse(child)
+            }
+          }
+        }
+        traverse(currentNode)
+      }
+    }
+  }
+
+  return keys
+}
+
+/**
+ * 递归批量删除子节点的数据
+ * @param dataSource
+ * @param targetKeys
+ * @returns
+ */
+export function deleteAllKeysUnderNode(dataSource, targetKeys = []) {
+  function deleteNodeByKey(data, targetKey) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].key === targetKey) {
+        data.splice(i, 1)
+        return true
+      }
+
+      if (data[i].children) {
+        const childDeleted = deleteNodeByKey(data[i].children, targetKey)
+        if (childDeleted) {
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+  for (let i = 0; i < targetKeys.length; i++) {
+    const targetKey = targetKeys[i]
+    deleteNodeByKey(dataSource, targetKey)
+  }
+  return dataSource
+}
+
+/**
+ * 递归获取树最底层的key数据集合
+ * @param data
+ * @returns
+ */
+export function findBottomKeys(data, key?: string) {
+  const bottomKeys = [] as string[]
+  function traverse(node) {
+    if (!node.children || node.children.length === 0) {
+      bottomKeys.push(node[key || 'key'])
+    } else {
+      for (const child of node.children) {
+        traverse(child)
+      }
+    }
+  }
+
+  for (const node of data) {
+    if (node.children && node.children.length > 0) {
+      traverse(node)
+    }
+  }
+
+  return bottomKeys
+}
+
+/**
+ * 当某个子节点被选中，将其父节点标记为选中
+ * @param data
+ * @returns
+ */
+export function updateParentSelectedStatus(data, options?) {
+  const defaultParams = { children: 'children', key: 'key' }
+  const { children, key } = Object.assign(defaultParams, options)
+  const array = JSON.parse(JSON.stringify(data))
+  function traverse(data) {
+    for (const node of data) {
+      if (node[children]) {
+        const childSelected = traverse(node[children])
+        if (childSelected) {
+          node[key] = true
+        }
+      }
+    }
+    return data.some(node => node[key])
+  }
+  traverse(array)
+  return array
 }

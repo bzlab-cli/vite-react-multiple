@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { filter } from '@/utils'
+import { filter, forEachTree, updateParentSelectedStatus } from '@/utils'
 import { getMenuGrantByRoleId } from '@/api/auth/role'
 import { message } from 'antd'
 import { getStoreState } from '@/views/admin/store'
-import { filterAuthRoutes } from '@/utils/permission'
-import { asyncRoutes } from '@/views/admin/router'
+import { filterAuthRoutes, findDataRecursive } from '@/utils/permission'
 import { layoutSettings } from '@/config/settings'
 import { removeToken } from '@/utils/auth'
+
 export interface PermissionState {
   authRoutes: any[] // 权限路由数据
   buttonCodes: string[] // 按钮权限数据
@@ -35,8 +35,13 @@ export const permissionSlice = createSlice({
   initialState,
   reducers: {
     setRoutes(state, { payload }: PayloadAction<any[]>) {
-      const routes = payload
+      let routes = payload
       const buttonCodes: any[] = []
+      const menuObj = routes.find(item => item.menuRoute === 'admin')
+      if (menuObj && menuObj?.childTreeList?.length) {
+        routes = menuObj?.childTreeList
+      }
+      routes = updateParentSelectedStatus(routes, { children: 'childTreeList', key: 'grantFlag' })
       filter(routes, item => {
         if (item.menuType === 3 && item.grantFlag) {
           buttonCodes.push(item.menuCode)
@@ -56,13 +61,23 @@ export const permissionSlice = createSlice({
       const cachedViews = [] as any
       filter(routes, item => {
         const cache = item.menuType !== 3 && item.cache === 1
-        if (cache) {
-          cachedViews.push(item.menuRoute)
-        }
+        if (cache) cachedViews.push(item.menuRoute)
         return cache
       })
 
-      state.authRoutes = filterAuthRoutes(routeCodes, asyncRoutes)
+      const filterRoutes = filter(routes, item => item.grantFlag)
+      const authRoutes = filterAuthRoutes(routeCodes, filterRoutes)
+      const forEachTreeSortOptions = { id: 'id', children: 'children' }
+      const forEachTreeSort = item => {
+        const itemNode = findDataRecursive(filterRoutes, item.path, { children: 'childTreeList', key: 'menuUrl' })
+        item.sort = itemNode ? itemNode.menuSort : 0
+        if (itemNode?.menuName) {
+          item.meta.title = itemNode.menuName
+        }
+      }
+
+      forEachTree(authRoutes, forEachTreeSort, forEachTreeSortOptions)
+      state.authRoutes = authRoutes
       state.buttonCodes = buttonCodes // 按钮权限
       state.routeCodes = routeCodes // 路由权限
       state.cachedViews = cachedViews // 缓存路由

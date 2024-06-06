@@ -78,7 +78,7 @@ const User = (props: any) => {
   }, [])
 
   useLayoutEffect(() => {
-    props?.onActivate(() => actionRef.current?.reload(), props?.cacheId)
+    props.onActivate && props.onActivate(() => actionRef.current?.reload(), props?.cacheId)
   })
 
   const [columns] = useState<ProColumns<TableListItem>[]>([
