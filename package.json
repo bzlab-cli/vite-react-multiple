@@ -20,7 +20,7 @@
 		"@ant-design/icons": "^4.6.2",
 		"@ant-design/pro-components": "^2.4.16",
 		"@bz/bz-react-upload": "^0.3.0",
-		"@bzlab/bz-react-core": "^0.1.5",
+		"@bzlab/bz-react-core": "^0.1.9",
 		"@bzlab/react-keep-alive": "0.0.2",
 		"@reduxjs/toolkit": "^1.9.1",
 		"ahooks": "^3.7.4",

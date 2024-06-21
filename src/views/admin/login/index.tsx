@@ -60,7 +60,7 @@ const Login = () => {
             autoComplete="off"
           >
             <Form.Item {...formRules.username}>
-              <Input placeholder="请输入手机号" maxLength={11} prefix={<UserOutlined />} />
+              <Input placeholder="请输入手机号" autoComplete="on" maxLength={11} prefix={<UserOutlined />} />
             </Form.Item>
             <Form.Item {...formRules.password}>
               <Input.Password autoComplete="new-password" placeholder="请输入密码" prefix={<LockOutlined />} />

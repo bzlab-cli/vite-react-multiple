@@ -11,7 +11,7 @@ import 'virtual:svg-icons-register'
 
 const root = ReactDOM.createRoot(document.getElementById('app') as HTMLElement)
 // 加载所有插件
-loadAllPlugins(root)
+loadAllPlugins({ root, provider: Provider, store })
 
 root.render(
   <Provider store={store}>
